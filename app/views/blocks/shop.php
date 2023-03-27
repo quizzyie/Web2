@@ -41,7 +41,7 @@
                                             <?php foreach($dsCategories as $l): ?>
 
                                             <input type="checkbox" name="categories" value="<?php echo $l['id'] ?>">
-                                            <label><?php echo $l['name_category'] ?></label>
+                                            <label><?php echo $l['name'] ?></label>
                                             <br>
                                             <?php endforeach ?>
 
@@ -58,7 +58,7 @@
                                         <div id="BrandList" class="shop__sidebar__brand">
                                             <?php foreach($dsBrands as $th): ?>
                                             <input type="checkbox" name="brands" value="<?php echo $th['id'] ?>">
-                                            <label><?php echo $th['name_brand'] ?></label>
+                                            <label><?php echo $th['name'] ?></label>
                                             <br>
                                             <?php endforeach ?>
                                         </div>
