@@ -188,10 +188,11 @@ class Categories extends Controller {
             $create_at = getDateFormat($create_at, 'd/m/Y H:i:s');
             $linkUpdate = _WEB_HOST_ROOT_ADMIN."/categories/update/$id";
             $linkDelete = _WEB_HOST_ROOT_ADMIN."/categories/delete/$id";
+            $linkImage = HOST_ROOT . "/uploads/$image";
           $data .= "<tr>
           <td>$i</td>
             <td>$name</td>
-            <td><img src='$image' width='80' /></td>
+            <td><img src='$linkImage' width='80' /></td>
             <td>$create_at</td>
             <td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>
             <td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
