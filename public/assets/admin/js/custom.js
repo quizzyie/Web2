@@ -68,7 +68,8 @@ const openPopup = (item) => {
     onInit: function (finder) {
       finder.on("files:choose", function (evt) {
         let fileUrl = evt.data.files.first().getUrl();
-        imageRender.value = fileUrl;
+        let arr_url = fileUrl.split('/uploads/');
+        imageRender.value = arr_url[arr_url.length - 1];
         //Xử lý chèn link ảnh vào input
       });
       finder.on("file:choose:resizedImage", function (evt) {

@@ -117,6 +117,9 @@ class Database
         }
         $sql .= " $orderBy";
 
+        echo $sql;
+        die();
+
         return $this->getRaw($sql);
     }
 

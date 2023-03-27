@@ -422,12 +422,12 @@ class Products extends Controller {
         }
 
         if(!empty($condition)){
-            $condition = " and $condition";
+            $condition = " having $condition";
         }
 
-        $products = $this->__model->getRawModel("SELECT * FROM products,(SELECT id_product,SUM(quantity) AS so_luong FROM products_size GROUP BY id_product) AS so_luong,
-        (SELECT product_id,SUM(quantity) AS da_ban FROM bill_detail GROUP BY product_id) AS da_ban
-        WHERE products.id = so_luong.id_product AND products.id = da_ban.product_id $condition order by $sortBy create_at desc  limit $indexPage,$per_page");
+        $products = $this->__model->getRawModel("SELECT * FROM products LEFT JOIN (SELECT id_product,SUM(quantity) AS con_hang FROM products_size GROUP BY id_product) AS temp 
+        ON products.id = temp.id_product LEFT JOIN (SELECT product_id,SUM(quantity) AS da_ban FROM bill_detail GROUP BY product_id) AS temp2
+        ON products.id = temp2.product_id $condition order by $sortBy create_at desc  limit $indexPage,$per_page");
         
         $data = "";
         $i = 1;
@@ -437,8 +437,8 @@ class Products extends Controller {
             $img = $product['img'];
             $price = $product['price'];
             $sale = $product['sale'];
-            $so_luong = $product['so_luong'];
-            $da_ban = $product['da_ban'];
+            $so_luong = !empty($product['con_hang']) ? $product['con_hang'] : 0;
+            $da_ban = !empty($product['da_ban']) ? $product['da_ban'] : 0;
             $id_category = $product['id_category'];
             $category = $this->__model->getFirstTableData("`categories`","id = $id_category")['name'];
             $id_brand = $product['id_brand'];
@@ -447,11 +447,12 @@ class Products extends Controller {
             $create_at = getDateFormat($create_at, 'd/m/Y H:i:s');
             $linkUpdate = _WEB_HOST_ROOT_ADMIN."/products/update/$id";
             $linkDelete = _WEB_HOST_ROOT_ADMIN."/products/delete/$id";
+            $linkImage = HOST_ROOT."/uploads/$img";
 
           $data .= "<tr>
           <td>$i</td>
             <td>$name</td>
-            <td><img src='$img' width='50' /></td>
+            <td><img src='$linkImage' width='50' /></td>
             <td>$price</td>
             <td>$sale</td>
             <td>$category</td>
