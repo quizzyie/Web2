@@ -15,4 +15,7 @@ class ShopModel extends Model {
     function fieldFill(){
         return "*";
     }
+    public function getCategories(){
+        
+    }
 }

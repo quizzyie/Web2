@@ -15,4 +15,5 @@ class CategoriesModel extends Model {
     function fieldFill(){
         return "*";
     }
+    
 }
