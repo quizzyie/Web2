@@ -1,0 +1,59 @@
+<div style="max-width: 1200px;margin:0 auto; ">
+    <?php getMsg(Session::getFlashData('msg'),Session::getFlashData('msg_type')) ?>
+    <form method="POST" action="<?php echo _WEB_HOST_ROOT_ADMIN.'/users/post_user_info/' ?>">
+        <div class="row">
+            <div class="col-12 form-group">
+                <label for="">Họ tên</label>
+                <input class="form-control" type="text" name="fullname" placeholder="Nhập họ tên"
+                    value="<?php echo empty($dataForm['fullname']) ? false : $dataForm['fullname']?>">
+                <?php empty($errors['fullname']) ? false : getMsgErr($errors,'fullname') ?>
+            </div>
+
+
+            <div class="col-6 form-group">
+                <label for="">Email</label>
+                <input class="form-control" type="text" name="email" placeholder="Nhập email..."
+                    value="<?php echo empty($dataForm['email']) ? false : $dataForm['email']?>">
+                <?php empty($errors['email']) ? false : getMsgErr($errors,'email') ?>
+            </div>
+
+            <div class="col-6 form-group">
+                <label for="">Số điện thoại</label>
+                <input class="form-control" type="text" name="phone" placeholder="Nhập số điện thoại..."
+                    value="<?php echo empty($dataForm['phone']) ? false : $dataForm['phone']?>">
+                <?php empty($errors['phone']) ? false : getMsgErr($errors,'phone') ?>
+            </div>
+
+            <div class="col-6 form-group">
+                <label for="">Nhóm người dùng</label>
+                <select class="form-control" name="group_id" id="">
+                    <option value="0">Chọn nhóm người dùng</option>
+                    <?php 
+                        foreach ($group_list as  $group) {
+                            $id = $group['id'];
+                            $name = $group['name'];
+                            $selected = !empty($dataForm['group_id']) && $dataForm['group_id'] == $id  ? "selected" : false;
+                            echo "<option $selected value=".$id.">$name</option>";
+                        }
+                    ?>
+                </select>
+                <?php empty($errors['group_id']) ? false : getMsgErr($errors,'group_id') ?>
+            </div>
+            <div class="col-6 form-group">
+                <label for="">Trạng thái người dùng</label>
+                <select class="form-control" name="status" id="">
+                    <option <?php echo !empty($dataForm['status']) && $dataForm['status'] == 0  ? "selected" : false; ?>
+                        value="0">Chưa kích
+                        hoạt
+                    </option>
+                    <option <?php echo !empty($dataForm['status']) && $dataForm['status'] == 1  ? "selected" : false; ?>
+                        value="1">Kích hoạt
+                    </option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhập </button>
+        <p><a href="<?php echo _WEB_HOST_ROOT_ADMIN.'/dashboard' ?>">Quay lại</a></p>
+
+    </form>
+</div>
