@@ -1,5 +1,7 @@
 <?php
 class ShopModel extends Model {
+    public $category = null;
+    public $brand = null;
     protected $_table = 'products';
 
     function __construct()

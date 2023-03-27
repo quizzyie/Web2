@@ -34,7 +34,7 @@
                                 <div class="card-heading">
                                     <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
                                 </div>
-                                <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                <div id="collapseOne" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="CategoryList" class="shop__sidebar__categories">
 
@@ -53,11 +53,10 @@
                                 <div class="card-heading">
                                     <a data-toggle="collapse" data-target="#collapseTwo">Branding</a>
                                 </div>
-                                <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
+                                <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="BrandList" class="shop__sidebar__brand">
                                             <?php foreach($dsBrands as $th): ?>
-
                                             <input type="checkbox" name="brands" value="<?php echo $th['id'] ?>">
                                             <label><?php echo $th['name_brand'] ?></label>
                                             <br>
@@ -70,7 +69,7 @@
                                 <div class="card-heading">
                                     <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
                                 </div>
-                                <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
+                                <div id="collapseThree" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__price">
                                             <ul>
@@ -89,12 +88,12 @@
                                 <div class="card-heading">
                                     <a data-toggle="collapse" data-target="#collapseFour">Size</a>
                                 </div>
-                                <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
+                                <div id="collapseFour" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="SizeList" class="shop__sidebar__size">
                                             <?php foreach($dsSizes as $s): ?>
                                             <label><?php echo $s['name'] ?>
-                                                <input type="radio" id="xs">
+                                                <input type="checkbox" name="sizes" value="<?php echo $s['id'] ?>">
                                             </label>
                                             <?php endforeach ?>
                                         </div>
@@ -106,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9">
+            <div class=" col-lg-9">
                 <div class="shop__product__option">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -119,19 +118,19 @@
                                 <p>Sort by Price:</p>
                                 <select>
                                     <option value="">Low To High</option>
-                                    <option value="">$0 - $55</option>
-                                    <option value="">$55 - $100</option>
+                                    <option value="">High To Low</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div id="dsProducts" class="row">
                     <?php foreach($dsProducts as $sp): ?>
+
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
                             <div class="product__item__pic set-bg"
-                                data-setbg="<?php echo HOST_ROOT ?>/public/assets/client/img/product/product-2.jpg">
+                                data-setbg="<?php echo HOST_ROOT ?>/public/assets/client/img/product/<?php echo $sp['img'] ?>">
                                 <ul class="product__hover">
                                     <li><a href="#"><img
                                                 src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/heart.png"
@@ -146,7 +145,7 @@
                                 </ul>
                             </div>
                             <div class="product__item__text">
-                                <h6>Piqué Biker Jacket</h6>
+                                <h6><?php echo $sp['name'] ?></h6>
                                 <a href="#" class="add-cart">+ Add To Cart</a>
                                 <div class="rating">
                                     <i class="fa fa-star-o"></i>
@@ -155,7 +154,7 @@
                                     <i class="fa fa-star-o"></i>
                                     <i class="fa fa-star-o"></i>
                                 </div>
-                                <h5>$67.24</h5>
+                                <h5>$<?php echo $sp['price'] ?></h5>
                                 <div class="product__color__select">
                                     <label for="pc-4">
                                         <input type="radio" id="pc-4">
@@ -175,9 +174,17 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="product__pagination">
-                            <?php for($i=1;$i<=$soTrang;$i++): ?>
-                            <a class="active"><?php echo $i ?></a>
+                        <div id="soTrang" class="product__pagination">
+                            <?php for($i=1;$i<=$soTrang;$i++):
+                                $vt = $i-1;?>
+                            <?php if($vt==0):?>
+                            <a onclick="filter( <?php echo $vt ?>)" class="active">
+                                <?php echo $i ?> </a>
+                            <?php endif ?>
+                            <?php if($vt!=0):?>
+                            <a onclick="filter(<?php echo $vt ?>)"> <?php echo $i ?>
+                            </a>
+                            <?php endif?>
                             <?php endfor ?>
                         </div>
                     </div>

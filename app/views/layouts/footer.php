@@ -75,6 +75,7 @@
         </form>
     </div>
 </div>
+<input type="hidden" id="_HOST_ROOT" value="<?php echo HOST_ROOT; ?>">
 <!-- Search End -->
 
 <!-- Js Plugins -->

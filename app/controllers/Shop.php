@@ -4,6 +4,10 @@ class Shop extends Controller
 {
     public $__model, $__request, $__dataForm;
     private $data = [];
+    public $category = null;
+    public $brand = null;
+    public $size = null;
+    public $sql = "";
     private $slgSPMT = 6;
     public function __construct()
     {
@@ -25,6 +29,44 @@ class Shop extends Controller
         $this->data['sub_data']['soTrang'] = $this->tongSoTrang($this->data['sub_data']['dsProductsFull']);
         // print_r($data);
         $this->renderView('layouts/client_layout',$this->data);
+    }
+    public function filter(){
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $this->category = $data['category'];//Lay Category
+            $this->brand = $data['brand'];//Lay Thuong Hieu
+            $this->size = $data['size'];//Lay Size
+            
+            $vtt =0;
+            if(isset($data['trang'])){
+                $vtt = $data['trang'];
+            }
+            $viTri = $vtt*$this->slgSPMT;// Cap Nhat vi tri trong sql
+            $this->sql = "select * from products inner join products_size on  id = id_product where quantity > 0 ";
+            if(!empty($this->category)){
+                $values = implode("','", $this->category);
+                $this->sql .="and id_category in ('$values')";
+            }
+            if(!empty($this->brand)){
+                $values = implode("','", $this->brand);
+                $this->sql .="and id_brand in ('$values')";
+            }
+            if(!empty($this->size)){
+                $values = implode("','", $this->size);
+                $this->sql .="and id_size in ('$values')";
+            }
+            $this->sql .= "group by products.id ";
+            $dsspFull = $this->__model->getRawModel($this->sql);
+            $ds = $this->__model->getRawModel($this->sql."limit $viTri,".$this->slgSPMT);
+            $soTrang = $this->tongSoTrang($dsspFull);//Lay So Trang
+            $data = array(
+                'ds' => $ds,
+                'soTrang' => $soTrang,
+                'sql'=>$this->sql
+            );
+            $data = json_encode($data);
+            echo $data;
+        }
     }
     public function tongSoTrang($dssp){
         $soSp = count($dssp);
