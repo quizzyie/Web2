@@ -44,18 +44,32 @@
         </div>
         <br>
         <div class="row">
+            <div class="col-6">
+                Từ ngày
+                <input class="form-control fromDate" type="date">
+            </div>
+            <div class=" col-6">
+                Đến ngày
+                <input class="form-control toDate" type="date">
+            </div>
+        </div>
+        <br>
+        <div class="row">
             <input type="hidden" class="url_module" value="<?php echo _WEB_HOST_ROOT_ADMIN.'/products' ?>">
 
             <div class="col-6">
-                <input class="form-control keyword" placeholder="Nhập vào tên sản phẩm cần tìm kiếm..">
+                <input class="form-control keyword" placeholder="Nhập vào tên sản phẩm ..">
             </div>
             <div class="col-4">
                 <select class="form-control sort_by">
                     <option value="0">Sắp xếp</option>
                     <option value="1">Từ A-Z</option>
                     <option value="2">Từ Z-A</option>
+                    <option value="3">Bán chạy </option>
+                    <option value="4">Tồn kho</option>
                 </select>
             </div>
+
             <div class="col-2">
                 <button type="submit" class="btn btn-primary btn-block btn-search">Tìm kiếm</button>
             </div>

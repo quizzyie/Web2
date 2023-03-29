@@ -392,6 +392,58 @@ class Products extends Controller
         }
     }
 
+    public function detail($id){
+        if (isLogin()) {
+            if (!empty($id)) {
+                if (empty($this->__model->getFirstData("id = $id"))) {
+                    Session::setFlashData('msg', 'Không tồn tại sản phẩm!');
+                    Session::setFlashData('msg_type', 'danger');
+                    Response::redirect('admin/bill/');
+                } else {
+                    
+                    $data['title'] = "Chi tiết sản phẩm";
+                    $data['content'] = 'admin/products/detail';
+                    $data["sub_data"]['product_detail'] = $this->__model->getFirstRaw("SELECT products.*,da_ban,con_hang,categories.name AS cate_name,brands.name AS brand_name
+                    FROM products LEFT JOIN (SELECT id_product,SUM(quantity) 
+                    AS con_hang FROM products_size GROUP BY id_product) AS temp 
+                    ON products.id = temp.id_product 
+                    LEFT JOIN (SELECT product_id,SUM(quantity) AS da_ban 
+                    FROM bill_detail,bill where bill.id = bill_detail.bill_id  
+                    GROUP BY product_id) AS temp2
+                    ON products.id = temp2.product_id
+                    JOIN categories ON products.id_category = categories.id 
+                    JOIN brands ON products.id_brand = brands.id 
+                    where products.id = $id");
+                    $data["sub_data"]['list_img'] =  $this->__model->getRawModel("select * from images where id_product = $id");
+
+                    $this->renderView('admin/layouts/admin_layout', $data);
+                }
+            } else {
+                Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                Session::setFlashData('msg_type', 'danger');
+                Response::redirect('admin/products/');
+            }
+        } else {
+            Response::redirect('admin/auth/login');
+        }
+
+    }
+
+    public function updateTotalBillDetail(){
+        $detail = $this->__model->getRawModel("select * from bill_detail");
+        // echo "<pre>";
+        // print_r($detail);
+        // echo "</pre>";
+        foreach ($detail as $key => $value) {
+            $id = $value['id'];
+            $product_id = $value['product_id'];
+            $quantity = $value['quantity'];
+            $price = $this->__model->getFirstRaw("select * from products where id = $product_id")['sale'];
+            $total =  $quantity*$price;
+            $this->__model->updateTableData('bill_detail',['total'=>$total],"id = $id");
+        }
+    }
+
     public function phan_trang()
     {
         $page = $_POST['page'];
@@ -401,6 +453,8 @@ class Products extends Controller
         $category_id = $_POST['category_id'];
         $brand_id = $_POST['brand_id'];
         $sort_by = $_POST['sort_by'];
+        $fromDate = $_POST['fromDate'];
+        $toDate = $_POST['toDate'];
         $per_page = _PER_PAGE_ADMIN;
         $indexPage = ($page - 1) * $per_page;
 
@@ -441,12 +495,39 @@ class Products extends Controller
             }
         }
 
+        $conditionBill = "";
+        if (!empty($fromDate)) {
+            $fromDate = getDateFormat($fromDate, 'Y-m-d H:i:s');
+            if (!empty($conditionBill)) {
+                $conditionBill .= " and create_at >= '$fromDate'";
+            } else {
+                $conditionBill = "create_at >= '$fromDate'";
+            }
+        }
+
+        if (!empty($toDate)) {
+            $toDate = getDateFormat($toDate, 'Y-m-d H:i:s');
+            if (!empty($conditionBill)) {
+                $conditionBill .= " and create_at <= '$toDate'";
+            } else {
+                $conditionBill = "create_at <= '$toDate'";
+            }
+        }
+
+        if(!empty($conditionBill)){
+            $conditionBill = " and $conditionBill";
+        }
+
         $sortBy = "";
         if (!empty($sort_by)) {
             if ($sort_by == 1) {
                 $sortBy = "name asc,";
             } else if ($sort_by == 2) {
                 $sortBy = "name desc,";
+            }else if ($sort_by == 3) {
+                $sortBy = "temp2.da_ban desc,";
+            }else if ($sort_by == 4) {
+                $sortBy = "temp.con_hang desc,";
             }
         }
 
@@ -455,7 +536,7 @@ class Products extends Controller
         }
 
         $products = $this->__model->getRawModel("SELECT * FROM products LEFT JOIN (SELECT id_product,SUM(quantity) AS con_hang FROM products_size GROUP BY id_product) AS temp 
-        ON products.id = temp.id_product LEFT JOIN (SELECT product_id,SUM(quantity) AS da_ban FROM bill_detail GROUP BY product_id) AS temp2
+        ON products.id = temp.id_product LEFT JOIN (SELECT product_id,SUM(quantity) AS da_ban FROM bill_detail,bill where bill.id = bill_detail.bill_id $conditionBill  GROUP BY product_id) AS temp2
         ON products.id = temp2.product_id $condition order by $sortBy create_at desc  limit $indexPage,$per_page");
 
         $data = "";
@@ -476,6 +557,7 @@ class Products extends Controller
             $brand = $this->__model->getFirstTableData("`brands`", "id = $id_brand")['name'];
             $create_at = $product['create_at'];
             $create_at = getDateFormat($create_at, 'd/m/Y H:i:s');
+            $linkDetail = _WEB_HOST_ROOT_ADMIN . "/products/detail/$id";
             $linkUpdate = _WEB_HOST_ROOT_ADMIN . "/products/update/$id";
             $linkDelete = _WEB_HOST_ROOT_ADMIN . "/products/delete/$id";
             $linkImage = HOST_ROOT . "/uploads/$img";
@@ -493,7 +575,7 @@ class Products extends Controller
             <td>$da_ban</td>
             <td>$so_luong</td>
             <td>$create_at</td>
-            <td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>
+            <td><a href='$linkDetail' class='btn btn-primary btn-sm'>Chi tiết</a><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>
             <td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
                 btn-sm\"><i class=\"fa fa-trash\"></i>
                 Xóa</a></td></tr>

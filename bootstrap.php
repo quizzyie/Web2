@@ -17,7 +17,7 @@ if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']=='on'){
 
 define('_WEB_HOST_ROOT_ADMIN', HOST_ROOT.'/admin');
 
-define('_PER_PAGE_ADMIN', 3);
+define('_PER_PAGE_ADMIN', 5);
 
 const _INCODE = true; //Ngăn chặn hành vi truy cập trực tiếp vào file
 

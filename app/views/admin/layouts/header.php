@@ -99,6 +99,8 @@
     <script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE ?>/js/demo.js" defer></script>
     <script src="<?php echo _WEB_HOST_ADMIN_TEMPLATE ?>/js/custom.js?ver=<?php echo rand() ?>" defer></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
