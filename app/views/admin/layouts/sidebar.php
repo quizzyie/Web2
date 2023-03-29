@@ -24,7 +24,7 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="" class="d-block">
+                <a href="<?php echo _WEB_HOST_ROOT_ADMIN.'/users/user_info' ?>" class="d-block">
 
                     <?php echo empty(_NAME_USER_LOGIN) ? false : _NAME_USER_LOGIN ?>
                 </a>

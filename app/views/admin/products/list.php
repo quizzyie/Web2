@@ -5,11 +5,22 @@
                 class="fa fa-plus"></i>Thêm sản phẩm</a>
         <hr>
         <div class="row">
-            <input type="hidden" class="url_module" value="<?php echo _WEB_HOST_ROOT_ADMIN.'/products' ?>">
-            <div class="col-4">
-                <input class="form-control keyword" placeholder="Nhập vào tên sản phẩm cần tìm kiếm..">
+            <div class="col-3">
+                <select class="form-control status">
+                    <option value="0">Trạng thái sản phẩm</option>
+                    <option value="1">Mở bán</option>
+                    <option value="2">Ẩn</option>
+                </select>
             </div>
-            <div class="col-2">
+            <div class="col-3">
+                <select class="form-control type">
+                    <option value="0">Loại sản phẩm</option>
+                    <option value="normal">Bình thường</option>
+                    <option value="new">Sản phẩm mới</option>
+                    <option value="sale">Khuyến mãi</option>
+                </select>
+            </div>
+            <div class="col-3">
                 <select class="form-control category_id">
                     <option value="0">Danh mục sản phẩm</option>
                     <?php 
@@ -19,7 +30,7 @@
                         ?>
                 </select>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <select class="form-control brand_id">
                     <option value="0">Thương hiệu sản phẩm</option>
                     <?php 
@@ -29,7 +40,16 @@
                         ?>
                 </select>
             </div>
-            <div class="col-2">
+
+        </div>
+        <br>
+        <div class="row">
+            <input type="hidden" class="url_module" value="<?php echo _WEB_HOST_ROOT_ADMIN.'/products' ?>">
+
+            <div class="col-6">
+                <input class="form-control keyword" placeholder="Nhập vào tên sản phẩm cần tìm kiếm..">
+            </div>
+            <div class="col-4">
                 <select class="form-control sort_by">
                     <option value="0">Sắp xếp</option>
                     <option value="1">Từ A-Z</option>
@@ -51,6 +71,8 @@
                     <th width="">Giá giảm</th>
                     <th width="">Danh mục</th>
                     <th width="">Thương hiệu</th>
+                    <th width="">Trạng thái</th>
+                    <th width="">Loại</th>
                     <th width="">Đã bán</th>
                     <th width="">Hàng còn</th>
                     <th width="">Thời gian</th>

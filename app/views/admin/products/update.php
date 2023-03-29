@@ -68,6 +68,30 @@
                 <?php empty($errors['id_brand']) ? false : getMsgErr($errors, 'id_brand') ?>
             </div>
         </div>
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="">Trạng thái</label>
+                <select class="form-control" name="status" id="">
+                    <option <?php echo !empty($dataForm['status']) && $dataForm['status'] == 1  ? "selected" : false ?>
+                        value="1">Mở bán</option>
+                    <option <?php echo !empty($dataForm['status']) && $dataForm['status'] == 2  ? "selected" : false ?>
+                        value="2">Ẩn</option>
+                </select>
+            </div>
+            <div class="form-group col-6">
+                <label for="">Tình trạng</label>
+                <select class="form-control" name="type" id="">
+                    <option
+                        <?php echo !empty($dataForm['type']) && $dataForm['type'] == 'normal'  ? "selected" : false ?>
+                        value="normal">Bình thường</option>
+                    <option <?php echo !empty($dataForm['type']) && $dataForm['type'] == 'new'  ? "selected" : false ?>
+                        value="new">Sản phẩm mới</option>
+                    <option <?php echo !empty($dataForm['type']) && $dataForm['type'] == 'sale'  ? "selected" : false ?>
+                        value="sale">Khuyến mãi</option>
+                </select>
+                <?php empty($errors['id_brand']) ? false : getMsgErr($errors, 'id_brand') ?>
+            </div>
+        </div>
         <div class="form-group">
             <label for="">Mô tả sản phẩm</label>
             <textarea name="description" placeholder="Mô tả sản phẩm" class="editor" cols="30"

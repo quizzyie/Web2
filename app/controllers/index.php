@@ -16,7 +16,4 @@ class index extends Controller
         $data['content'] = 'blocks/home';
         $this->renderView('layouts/client_layout',$data);
     }
-    public function add(){
-        echo "123";
-    }
 }
