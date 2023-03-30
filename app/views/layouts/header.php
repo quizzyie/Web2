@@ -172,6 +172,9 @@
                                                 $userQuery = $this->__model->getFirstRaw("select * from users where id = ".$id);
                                                 echo "Hello ".$userQuery['fullname'];
                                             }
+                                            else{
+                                                echo "My account";
+                                            }
                                         ?>
                                         <i class="fa fa-angle-down"></i>
                                     </a>

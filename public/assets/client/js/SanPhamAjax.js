@@ -1,8 +1,8 @@
 const tenDoAn = "Web2";
 let gdsp = document.getElementById("dsProducts");
 let dsSoTrang = document.getElementById("soTrang");
-const HOST_ROOT = document.getElementById("_HOST_ROOT");
-
+const HOST_ROOT = document.getElementById("_HOST_ROOT").value;
+console.log(HOST_ROOT);
 const categories = document.getElementsByName("categories");
 const categoryValues = [];
 const brands = document.getElementsByName("brands");
@@ -52,13 +52,35 @@ function getValueofCheckBox() {
   checkSizes();
 }
 
-function giaoDienSanPham(products) {
+function printRadioSize(dsSizes) {
+  let html = "";
+  let defaultSize = 1;
+  dsSizes.forEach((s) => {
+    if (s.id == defaultSize) {
+      html += `<label>
+      <input type="radio" name="product__size" value="${s.id}" checked> ${s.name} 
+      </label>`;
+    } else {
+      html +=
+        `<label>
+      <input type="radio" name="product__size" value="${s.id}">` +
+        "  " +
+        ` ${s.name}` +
+        "  " +
+        ` </label>`;
+    }
+  });
+  return html;
+}
+
+function giaoDienSanPham(products, htmlSize) {
   var html = "";
   products.forEach(function (product) {
-    html += `<div class="col-lg-4 col-md-6 col-sm-6">
+    html +=
+      `<div class="col-lg-4 col-md-6 col-sm-6">
     <div class="product__item">
       <a class="link-product" href="${HOST_ROOT}/chi-tiet">
-        <div class="product__item__pic set-bg" style="background-image: url('${HOST_ROOT}/public/assets/client/img/product/${product.img}');"  >
+        <div class="product__item__pic set-bg" style="background-image: url('${HOST_ROOT}/uploads/${product.img}');"  >
           <ul class="product__hover">
             <li><a href="#"><img src="${HOST_ROOT}/public/assets/client/img/icon/heart.png" alt=""></a></li>
             <li><a href="#"><img src="${HOST_ROOT}/public/assets/client/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
@@ -68,7 +90,7 @@ function giaoDienSanPham(products) {
       </a>
       <div class="product__item__text">
         <h6>${product.name}</h6>
-        <a href="#" class="add-cart">+ Add To Cart</a>
+        <a onclick="addToCart(event)" class="add-cart" data-product-id=${product.id}>+ Add To Cart</a>
         <div class="rating">
           <i class="fa fa-star-o"></i>
           <i class="fa fa-star-o"></i>
@@ -76,18 +98,10 @@ function giaoDienSanPham(products) {
           <i class="fa fa-star-o"></i>
           <i class="fa fa-star-o"></i>
         </div>
-        <h5>$${product.price}</h5>
-        <div class="product__color__select">
-          <label for="pc-4">
-            <input type="radio" id="pc-4">
-          </label>
-          <label class="active black" for="pc-5">
-            <input type="radio" id="pc-5">
-          </label>
-          <label class="grey" for="pc-6">
-            <input type="radio" id="pc-6">
-          </label>
-        </div>
+        <h5>$${product.price}</h5>` +
+      htmlSize +
+      `
+        
       </div>
     </div>
   </div>`;
@@ -121,7 +135,8 @@ function filter(vtt) {
     .then((response) => response.json())
     .then((data) => {
       var products = data.ds;
-      giaoDienSanPham(products); //In ra giao dien San Pham
+      let htmlSize = printRadioSize(data.dsSize);
+      giaoDienSanPham(products, htmlSize); //In ra giao dien San Pham
       var trang = data.soTrang;
       var htmlTrang = "";
       for (let i = 1; i <= trang; i++) {
@@ -135,6 +150,50 @@ function filter(vtt) {
       // console.log(htmlTrang);
       dsSoTrang.innerHTML = htmlTrang;
     })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+// Giỏ Hàng
+let addCart = document.querySelectorAll(".add-cart");
+addCart.forEach(function (button) {
+  button.addEventListener("click", addToCart);
+});
+
+function addToCart(event) {
+  let productId = event.target.getAttribute("data-product-id");
+  // let productAmount = event.target.getAttribute("data-product-amount");
+  let productSizeInputs = event.target.parentNode.querySelectorAll(
+    "[name='product__size']"
+  );
+  let productSize;
+  productSizeInputs.forEach(function (input) {
+    if (input.checked) {
+      productSize = input.value;
+    }
+  });
+
+  //fetch nè
+  const currentUrl = window.location.origin + "/" + tenDoAn;
+  const relativeUrl = "/cartcontroller/themVaoGio";
+  const fullUrl = currentUrl + relativeUrl;
+
+  const data = {
+    idsp: productId,
+    slm: 1,
+    idSize: productSize,
+  };
+
+  fetch(fullUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {})
     .catch((error) => {
       console.error("Error:", error);
     });

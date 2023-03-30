@@ -100,8 +100,9 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
+                            <p>Sort by Price:</p>
                             <div class="shop__product__option__right">
-                                <p>Sort by Price:</p>
+
                                 <select>
                                     <option value="">Low To High</option>
                                     <option value="">High To Low</option>
@@ -116,7 +117,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
                             <div class="product__item__pic set-bg"
-                                data-setbg="<?php echo HOST_ROOT ?>/public/assets/client/img/product/<?php echo $sp['img'] ?>">
+                                data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp['img'] ?>">
                                 <ul class="product__hover">
                                     <li><a href="#"><img
                                                 src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/heart.png"
@@ -132,7 +133,7 @@
                             </div>
                             <div class="product__item__text">
                                 <h6><?php echo $sp['name'] ?></h6>
-                                <a href="#" class="add-cart">+ Add To Cart</a>
+                                <a class="add-cart"  data-product-id="<?php echo $sp['id'] ?>">+ Add To Cart</a>
                                 <div class="rating">
                                     <i class="fa fa-star-o"></i>
                                     <i class="fa fa-star-o"></i>
@@ -141,17 +142,15 @@
                                     <i class="fa fa-star-o"></i>
                                 </div>
                                 <h5>$<?php echo $sp['price'] ?></h5>
-                                <div class="product__color__select">
-                                    <label for="pc-4">
-                                        <input type="radio" id="pc-4">
-                                    </label>
-                                    <label class="active black" for="pc-5">
-                                        <input type="radio" id="pc-5">
-                                    </label>
-                                    <label class="grey" for="pc-6">
-                                        <input type="radio" id="pc-6">
-                                    </label>
-                                </div>
+                                <?php
+                                    $defaultSize = 1;
+                                    foreach ($dsSizes as $s): ?>
+                                <label>
+                                    <input type="radio" name="product__size" value="<?php echo $s['id'] ?>"
+                                        <?php if ($s['id'] == $defaultSize): ?> checked <?php endif ?>>
+                                    <?php echo $s['name'] ?>
+                                </label>
+                                <?php endforeach ?>
                             </div>
                         </div>
                     </div>
