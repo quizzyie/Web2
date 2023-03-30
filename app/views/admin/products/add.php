@@ -67,6 +67,24 @@
                 <?php empty($errors['id_brand']) ? false : getMsgErr($errors, 'id_brand') ?>
             </div>
         </div>
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="">Trạng thái</label>
+                <select class="form-control" name="status" id="">
+                    <option value="1">Mở bán</option>
+                    <option value="2">Ẩn</option>
+                </select>
+            </div>
+            <div class="form-group col-6">
+                <label for="">Tình trạng</label>
+                <select class="form-control" name="type" id="">
+                    <option value="normal">Bình thường</option>
+                    <option value="new">Sản phẩm mới</option>
+                    <option value="sale">Khuyến mãi</option>
+                </select>
+                <?php empty($errors['id_brand']) ? false : getMsgErr($errors, 'id_brand') ?>
+            </div>
+        </div>
         <div class="form-group">
             <label for="">Mô tả sản phẩm</label>
             <textarea name="description" placeholder="Mô tả sản phẩm" class="editor" cols="30"

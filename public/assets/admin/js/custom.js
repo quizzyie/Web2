@@ -669,6 +669,7 @@ async function fetchData(page) {
     data.append('email', document.querySelector('.email') ? document.querySelector('.email').value : "");
     data.append('star', document.querySelector('.star') ? document.querySelector('.star').value : "");
     data.append('product_id', document.querySelector('.product_id') ? document.querySelector('.product_id').value : "");
+    data.append('type', document.querySelector('.type') ? document.querySelector('.type').value : "");
 
     let url_module = document.querySelector('.url_module').value + '/phan_trang';
 
@@ -701,7 +702,7 @@ async function fetchData(page) {
         if (page == document.querySelector('.max-page').value) {
             page--;
         }
-        fetchData(page + 1);
+        fetchData(parseInt(page) + 1);
     }
     document.querySelector('.btn-search').onclick = function() {
         fetchPagination(1);
@@ -724,6 +725,7 @@ async function fetchPagination(page) {
     data.append('email', document.querySelector('.email') ? document.querySelector('.email').value : "");
     data.append('star', document.querySelector('.star') ? document.querySelector('.star').value : "");
     data.append('product_id', document.querySelector('.product_id') ? document.querySelector('.product_id').value : "");
+    data.append('type', document.querySelector('.type') ? document.querySelector('.type').value : "");
 
     let url_module = document.querySelector('.url_module').value + '/pagination';
     
@@ -756,7 +758,7 @@ async function fetchPagination(page) {
         if (page == document.querySelector('.max-page').value) {
             page--;
         }
-        fetchData(page + 1);
+        fetchData(parseInt(page) + 1);
     }
     document.querySelector('.btn-search').onclick = function() {
         fetchPagination(1);
@@ -768,3 +770,13 @@ async function fetchPagination(page) {
 
 fetchPagination(1)
 fetchData(1)
+
+
+function generateRandomColor(){
+  let maxVal = 0xFFFFFF; // 16777215
+  let randomNumber = Math.random() * maxVal; 
+  randomNumber = Math.floor(randomNumber);
+  randomNumber = randomNumber.toString(16);
+  let randColor = randomNumber.padStart(6, 0);   
+  return `#${randColor.toUpperCase()}`
+}
