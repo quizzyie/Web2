@@ -77,7 +77,6 @@ class Auth extends Controller{
         
                             //Lưu login_token vào session
                             Session::setSession('login_token', $tokenLogin);
-        
                             //Chuyển hướng qua trang quản lý users
                             Response::redirect('admin/dashboard');
                         }else{

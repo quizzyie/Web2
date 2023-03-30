@@ -166,7 +166,13 @@
 
                                 <li class="account">
                                     <a href="#">
-                                        My Account
+                                        <?php 
+                                            if(Session::getSession("id_user")){
+                                                $id = Session::getSession("id_user");
+                                                $userQuery = $this->__model->getFirstRaw("select * from users where id = ".$id);
+                                                echo "Hello ".$userQuery['fullname'];
+                                            }
+                                        ?>
                                         <i class="fa fa-angle-down"></i>
                                     </a>
                                     <ul class="account_selection">

@@ -48,6 +48,18 @@ class Request
 
         return $dataField;
     }
+    
+    public function getFieldsWithData($data){
+        $dataField = [];
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $dataField[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+            } else {
+                $dataField[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+            }
+        }
+        return $dataField;
+    }
 
     public function rules($rules = [])
     {
@@ -66,9 +78,9 @@ class Request
 
         if (!empty($this->__rules)) {
             foreach ($this->__rules as $key_rule => $rule) {
-                $arr_rule = explode('|', $rule);
-                foreach ($arr_rule as $check_rule => $value_rule) {
-                    $arr_field = explode(':', $value_rule);
+                $arr_rule = explode('|', $rule);//Tách dấu | trong mảng rule
+                foreach ($arr_rule as $check_rule => $value_rule) {//Duyệt qua mảng rule
+                    $arr_field = explode(':', $value_rule);//Xử lý trường hợp có dấu :
                     $field = reset($arr_field);
                     $fieldCondition = '';
                     if(count($arr_field)>1){
