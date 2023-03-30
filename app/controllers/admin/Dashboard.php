@@ -11,5 +11,5 @@ class Dashboard extends Controller{
     public function index(){
         Response::redirect('admin/');
     }
-
+    
 }

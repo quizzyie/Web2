@@ -19,4 +19,5 @@ class index extends Controller
     public function add(){
         echo "123";
     }
+    
 }

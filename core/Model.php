@@ -26,6 +26,7 @@ abstract class Model extends Database
         $tableName = $this->tableFill();
         $fieldSelect = $this->fieldFill();
         $query = $this->db->first($tableName,$fieldSelect,$condition);
+        
         return $query;
     }
 
@@ -36,7 +37,7 @@ abstract class Model extends Database
     public function getFirstRaw($sql){
         return $this->db->firstRaw($sql);
     }
-
+    
     public function getData($condition="",$orderBy = "",$limit = ""){
         $tableName = $this->tableFill();
         $fieldSelect = $this->fieldFill();
