@@ -681,6 +681,8 @@ async function fetchData(page) {
             body: data.toString()
         })
     let jsonData = await response.json();
+    console.log(jsonData);
+    console.log(123);
     document.querySelector('.fetch-data-table').innerHTML = jsonData; // outputs an array of user objects
     groupBtnPage = document.querySelectorAll('.btn-page');
     groupBtnPage.forEach(item => {
@@ -704,9 +706,11 @@ async function fetchData(page) {
         }
         fetchData(parseInt(page) + 1);
     }
-    document.querySelector('.btn-search').onclick = function() {
-        fetchPagination(1);
-        fetchData(1);
+    if(document.querySelector('.btn-search')){
+      document.querySelector('.btn-search').onclick = async function() {
+        await fetchPagination(1);
+        await fetchData(1);
+      }
     }
 }
 
@@ -760,9 +764,11 @@ async function fetchPagination(page) {
         }
         fetchData(parseInt(page) + 1);
     }
-    document.querySelector('.btn-search').onclick = function() {
-        fetchPagination(1);
-        fetchData(1);
+    if(document.querySelector('.btn-search')){
+      document.querySelector('.btn-search').onclick = async function() {
+        await fetchPagination(1);
+        await fetchData(1);
+      }
     }
 
 }
@@ -780,3 +786,173 @@ function generateRandomColor(){
   let randColor = randomNumber.padStart(6, 0);   
   return `#${randColor.toUpperCase()}`
 }
+
+async function fetchChartCircle() {
+
+  let data = new URLSearchParams();
+  data.append('category_id', document.querySelector('.category_id') ? document.querySelector('.category_id')
+      .value :
+      "");
+  data.append('fromDate', document.querySelector('.fromDate') ? document.querySelector('.fromDate')
+      .value :
+      "");
+  data.append('toDate', document.querySelector('.toDate') ? document.querySelector('.toDate')
+      .value :
+      "");
+  let response = await fetch('http://localhost:81/php/mvc_training/admin/statistics/fetchData', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: data.toString()
+  })
+  let jsonData = await response.json();
+  var barColors = [];
+  var xValues = [];
+  var yValues = [];
+  console.log(jsonData);
+  let total = 0;
+  jsonData.forEach(element => {
+      barColors.push(generateRandomColor());
+      xValues.push(element['name']);
+      yValues.push(element['so_luong'] ? element['so_luong'] : 0);
+      total += element['so_luong'] ? parseInt(element['so_luong']) : 0;
+  });
+
+  new Chart("myChart", {
+      type: "pie",
+      data: {
+          labels: xValues,
+          datasets: [{
+              backgroundColor: barColors,
+              data: yValues,
+          }, ],
+      },
+      options: {
+          title: {
+              display: true,
+              text: "Theo danh mục sản phẩm : " + total,
+          },
+      },
+  });
+}
+
+fetchChartCircle();
+
+var resetCanvas = function() {
+  $('#myChart').remove(); // this is my <canvas> element
+  $('.container-content').append(
+      '<canvas id="myChart" style="width: 50%; max-width: 600px"></canvas>'
+  );
+  $('#myChart2').remove(); // this is my <canvas> element
+  $('.container-content-2').append(
+      '<canvas id="myChart2"></canvas>'
+  );
+};
+
+if(document.querySelector(".btn-thongke")){
+  document.querySelector(".btn-thongke").onclick =  () => {
+    resetCanvas();
+     fetchChartCircle();
+     fetchChartBar();
+     fetchSmallBoxs();
+     fetchPagination(1)
+     fetchData(1)
+  }
+}
+
+
+
+
+async function fetchChartBar() {
+  let data = new URLSearchParams();
+  data.append('category_id', document.querySelector('.category_id') ? document.querySelector('.category_id')
+      .value :
+      "");
+  data.append('fromDate', document.querySelector('.fromDate') ? document.querySelector('.fromDate')
+      .value :
+      "");
+  data.append('toDate', document.querySelector('.toDate') ? document.querySelector('.toDate')
+      .value :
+      "");
+
+
+  let response = await fetch('http://localhost:81/php/mvc_training/admin/statistics/fetchDataChartBar', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: data.toString()
+  })
+  let jsonData = await response.json();
+  console.log(jsonData);
+
+  // document.querySelector('.bill_quantity').innerHTML = jsonData['bill_quantity'];
+  // document.querySelector('.bill_quantity_cancel').innerHTML = (jsonData['bill_quantity_cancel'] * 100 / jsonData['bill_quantity'])+'%';
+  // document.querySelector('.new_users').innerHTML = jsonData['new_users'];
+  // document.querySelector('.total_revenue').innerHTML = jsonData['total_revenue'];
+  const ctx = document.getElementById('myChart2');
+
+  let arrLabel = [];
+  let arrData = [];
+  let total = 0;
+  jsonData['arr_month'].forEach(element => {
+      arrLabel.push(element['col']);
+      arrData.push(element['value'] ? element['value'] : 0);
+      total += parseInt(element['value']);
+  });
+
+  new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: arrLabel,
+          datasets: [{
+              label: '# quantity products : ' + total,
+              data: arrData,
+              borderWidth: 1,
+              min: 0,
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+}
+
+fetchChartBar();
+
+async function fetchSmallBoxs() {
+  let data = new URLSearchParams();
+  data.append('category_id', document.querySelector('.category_id') ? document.querySelector('.category_id')
+      .value :
+      "");
+  data.append('fromDate', document.querySelector('.fromDate') ? document.querySelector('.fromDate')
+      .value :
+      "");
+  data.append('toDate', document.querySelector('.toDate') ? document.querySelector('.toDate')
+      .value :
+      "");
+
+
+  let response = await fetch('http://localhost:81/php/mvc_training/admin/statistics/fetchSmallBoxs', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: data.toString()
+  })
+  let jsonData = await response.json();
+  console.log(jsonData);
+
+  document.querySelector('.bill_quantity').innerHTML = jsonData['bill_quantity'];
+  document.querySelector('.bill_quantity_cancel').innerHTML =jsonData['bill_quantity']? (jsonData['bill_quantity_cancel'] * 100 / jsonData['bill_quantity'])+'%':"0%";
+  document.querySelector('.new_users').innerHTML = jsonData['new_users'];
+  document.querySelector('.total_revenue').innerHTML = jsonData['total_revenue'] ? jsonData['total_revenue'] : 0;
+  
+}
+
+fetchSmallBoxs();

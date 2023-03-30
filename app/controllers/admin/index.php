@@ -7,7 +7,7 @@ class index extends Controller
 
     public function __construct()
     {
-        $this->__model = $this->model("admin/BrandsModel");
+        $this->__model = $this->model("admin/ProductsModel");
         $this->__request = new Request();
     }
 
@@ -16,9 +16,11 @@ class index extends Controller
         if (isLogin()) {
             $data['title'] = "Tổng quan";
             $data['content'] = 'admin/dashboard/list';
+            $data['sub_data']['categories'] = $this->__model->getRawModel("select * from categories");
             $this->renderView('admin/layouts/admin_layout', $data);
         } else {
             Response::redirect('admin/auth/login');
         }
     }
+
 }
