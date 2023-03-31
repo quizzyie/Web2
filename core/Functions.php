@@ -38,7 +38,7 @@ function sendMail($to, $subject, $content)
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $mail->setFrom('tienhai@gmail.com', 'Unicode');
+        $mail->setFrom('tienhai@gmail.com', 'Web_2');
         $mail->addAddress($to);
         // $mail->addReplyTo($to, 'TienHai');
 
@@ -257,6 +257,14 @@ function isLogin(){
     }
 
     return $checkLogin;
+}
+
+function getNameLogin(){
+    if(isLogin()){
+        $db = new Database();
+        return $db->firstRaw("select * from users where id = ".isLogin()['user_id'])['fullname'];
+    }
+    return '';
 }
 
 function isPermission($module,$action){

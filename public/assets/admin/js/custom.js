@@ -681,8 +681,8 @@ async function fetchData(page) {
             body: data.toString()
         })
     let jsonData = await response.json();
-    console.log(jsonData);
-    console.log(123);
+    // console.log(jsonData);
+    // console.log(123);
     document.querySelector('.fetch-data-table').innerHTML = jsonData; // outputs an array of user objects
     groupBtnPage = document.querySelectorAll('.btn-page');
     groupBtnPage.forEach(item => {
@@ -956,3 +956,4 @@ async function fetchSmallBoxs() {
 }
 
 fetchSmallBoxs();
+
