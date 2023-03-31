@@ -135,7 +135,11 @@
                                     if (isLogin()) {
                                     ?>
                                     <ul class="account_selection">
-                                        <li><a href="#" "><i class=" fa fa-user" aria-hidden="true"></i>Thông tin</a>
+                                        <li><a href="<?php echo HOST_ROOT.'/auth/user_info' ?>"><i class=" fa fa-user"
+                                                    aria-hidden="true"></i>Thông tin</a>
+                                        </li>
+                                        <li><a href="<?php echo HOST_ROOT.'/auth/change_password' ?>"><i
+                                                    class=" fa fa-user" aria-hidden="true"></i>Đổi mật khẩu</a>
                                         </li>
                                         <li><a href="#" onclick="onLogout()"><i class="fa fa-arrow-left"
                                                     aria-hidden="true"></i>Đăng xuất</a>
@@ -170,7 +174,7 @@
                 <div class="row">
                     <div class="col-lg-12 text-right">
                         <div class="logo_container">
-                            <a href="#">colo<span>shop</span></a>
+                            <a href="<?php echo HOST_ROOT ?>">colo<span>shop</span></a>
                         </div>
                         <nav class="navbar">
                             <ul class="navbar_menu">
@@ -224,7 +228,10 @@
                     if (isLogin()) {
                     ?>
                     <ul class="menu_selection">
-                        <li class=""><a href="#"><i class=" fa fa-user" aria-hidden="true"></i>Thông tin</a>
+                        <li class=""><a href="<?php echo HOST_ROOT.'/auth/user_info' ?>"><i class=" fa fa-user"
+                                    aria-hidden="true"></i>Thông tin</a>
+                        <li class=""><a href="<?php echo HOST_ROOT.'/auth/change_password' ?>"><i class=" fa fa-user"
+                                    aria-hidden="true"></i>Đổi mật khẩu</a>
                         </li>
                         <li class=""><a href="#" onclick="onLogout()"><i class="fa fa-arrow-left"
                                     aria-hidden="true"></i>Đăng
@@ -257,14 +264,6 @@
             </ul>
         </div>
     </div>
-
-
-
-
-
-
-
-
     <!-- Deal of the week -->
 
     <!-- link host root -->
@@ -290,7 +289,7 @@
                     <button class="btn btn-primary" onclick="checkLogin()">Đăng nhập</button>
                     <button class="btn btn-success" onclick="onRegister()">Đăng kí</button>
                 </div>
-                <a href="">Quên mật khẩu</a>
+                <a href="#" onclick="onForgot()">Quên mật khẩu</a>
             </div>
         </div>
     </div>
@@ -327,6 +326,31 @@
                 </div>
                 <div class="">
                     <button class="btn btn-primary" onclick="checkRegister()">Đăng kí</button>
+                    <button class="btn btn-success" onclick="onLogin()">Đăng nhập</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-form container-form-forgot" onclick="onOutsideForgot(event)">
+        <div class="container form-main-forgot border"
+            style="max-width: 600px; padding: 30px 20px; border-radius: 20px; margin: 0 auto;background-color: white;">
+            <div class="form">
+                <h3 class="text-center">Đặt lại mật khẩu</h3>
+                <div class="alert alert-danger mt-1 hidden"></div>
+
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input spellcheck="false" type="text" class="form-control email">
+                    <span class="error error-email"></span>
+                </div>
+
+                <div class="centered">
+                    <button class="btn btn-primary" onclick="checkForgot()">Xác nhận</button>
+                </div>
+                <hr>
+                <div class="">
+                    <button class="btn btn-danger" onclick="onRegister()">Đăng kí</button>
                     <button class="btn btn-success" onclick="onLogin()">Đăng nhập</button>
                 </div>
             </div>

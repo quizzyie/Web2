@@ -14,6 +14,14 @@ const onOutsideRegister = (event) => {
     }
 };
 
+const onOutsideForgot = (event) => {
+    const ignoreClickOnMeElement = document.querySelector(".form-main-forgot");
+    const isClickInsideElement = ignoreClickOnMeElement.contains(event.target);
+    if (!isClickInsideElement) {
+        offForm();
+    }
+};
+
 
 const resetFormLogin = () => {
     const form = document.querySelector(".container-form-login");
@@ -36,6 +44,17 @@ const resetFormRegister = () => {
     errors.forEach(item => item.textContent = "");
 }
 
+const resetFormForgot = () => {
+    const form = document.querySelector(".container-form-forgot");
+    const showErr = form.querySelector('.alert-danger');
+    showErr.textContent = "";
+    showErr.classList.add('hidden');
+    let inputs = document.querySelectorAll('.container-form-forgot .form-control');
+    let errors = document.querySelectorAll('.container-form-forgot .error');
+    inputs.forEach(item => item.value = "");
+    errors.forEach(item => item.textContent = "");
+}
+
 const onFormLogin = () => {
     const form = document.querySelector(".container-form-login");
     form.classList.add("active");
@@ -45,12 +64,19 @@ const onFormRegister = () => {
     form.classList.add("active");
 };
 
+const onFormForgot = () => {
+    const form = document.querySelector(".container-form-forgot");
+    form.classList.add("active");
+};
+
 
 const offForm = () => {
     const formLogin = document.querySelector(".container-form-login");
     formLogin.classList.remove("active");
     const formRegister = document.querySelector(".container-form-register");
     formRegister.classList.remove("active");
+    const formForgot = document.querySelector(".container-form-forgot");
+    formForgot.classList.remove("active");
 };
 
 const onLogin = () => {
@@ -63,6 +89,12 @@ const onRegister = () => {
     resetFormRegister()
     offForm();
     onFormRegister();
+};
+
+const onForgot = () => {
+    resetFormForgot()
+    offForm();
+    onFormForgot();
 };
 
 async function checkLogin() {
@@ -250,6 +282,62 @@ const checkRegister = async () => {
 
         if (jsonData['check']) {
             resetFormRegister();
+            showErr.textContent = jsonData['msg'];
+            showErr.classList.remove('hidden');
+        } else {
+            showErr.textContent = jsonData['msg'];
+            showErr.classList.remove('hidden');
+        }
+    } else {
+        showErr.textContent = "Vui lòng kiểm tra lại dữ liệu nhập vào";
+        showErr.classList.remove('hidden');
+    }
+}
+
+const checkForgot = async () => {
+    const form = document.querySelector(".container-form-forgot");
+    const showErr = form.querySelector('.alert-danger');
+    const email = form.querySelector('.email').value.trim();
+    let validate = true;
+
+    if (!email) {
+        form.querySelector('.error-email').textContent = "Vui lòng nhập email!";
+        if (validate) {
+            validate = false;
+            form.querySelector('.email').focus();
+        }
+    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        form.querySelector('.error-email').textContent = "Email không hợp lệ!";
+        if (validate) {
+            validate = false;
+            form.querySelector('.email').focus();
+        }
+    } else {
+        form.querySelector('.error-email').textContent = "";
+    }
+
+    if (validate) {
+        showErr.textContent = "Vui lòng đợi...";
+        showErr.classList.remove('hidden');
+        let data = new URLSearchParams();
+        data.append('email', email);
+
+        let host_root = "";
+        if (document.querySelector('.url_hoot_root')) {
+            host_root = document.querySelector('.url_hoot_root').value;
+        }
+        let response = await fetch(host_root + "/auth/post_forgot", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data.toString()
+        })
+        let jsonData = await response.json();
+        console.log(jsonData);
+
+        if (jsonData['check']) {
+            resetFormForgot();
             showErr.textContent = jsonData['msg'];
             showErr.classList.remove('hidden');
         } else {
