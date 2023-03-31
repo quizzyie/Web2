@@ -235,6 +235,7 @@ class Auth extends Controller{
     
             if(!$validate){
                 $this->__dataForm['sub_data']['errors'] = $this->__request->error();
+                $this->__dataForm['sub_data']['token'] = $data['token'];
                 Session::setFlashData('msg',"Đã có lỗi vui lòng kiểm tra lại dữ liệu!");
                 Session::setFlashData('msg_type',"danger");
                 $this->__dataForm['content'] = 'admin/auth/reset';
