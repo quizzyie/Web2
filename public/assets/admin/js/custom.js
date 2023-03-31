@@ -104,15 +104,15 @@ const handleBtnDelete = (galleryGroup, classBtnDelete, itemDelete) => {
   if (btnDelete) {
     btnDelete.forEach(
       (item) =>
-        (item.onclick = () => {
-          if (confirm("Bạn có thực sự muốn xóa?")) {
-            let parent = item.parentElement;
-            while (!parent.classList.contains(itemDelete)) {
-              parent = parent.parentElement;
-            }
-            parent.remove();
+      (item.onclick = () => {
+        if (confirm("Bạn có thực sự muốn xóa?")) {
+          let parent = item.parentElement;
+          while (!parent.classList.contains(itemDelete)) {
+            parent = parent.parentElement;
           }
-        })
+          parent.remove();
+        }
+      })
     );
   }
 };
@@ -471,8 +471,8 @@ async function getSize() {
   let jsonData = await response.json();
   console.log(jsonData);
   const group_select = document.querySelectorAll('.select-form');
-  group_select.forEach(item=>{
-    if(!item.classList.contains('select-fill')){
+  group_select.forEach(item => {
+    if (!item.classList.contains('select-fill')) {
       item.innerHTML = jsonData;
       item.classList.add('select-fill');
     }
@@ -655,121 +655,121 @@ if (ourteamGroup) {
 let groupBtnPage;
 
 async function fetchData(page) {
-    let data = new URLSearchParams();
-    data.append('page', page);
-    data.append('keyword', document.querySelector('.keyword') ? document.querySelector('.keyword').value : "");
-    data.append('status', document.querySelector('.status') ? document.querySelector('.status').value : "");
-    data.append('group_id', document.querySelector('.group_id') ? document.querySelector('.group_id').value : "");
-    data.append('category_id', document.querySelector('.category_id') ? document.querySelector('.category_id').value : "");
-    data.append('brand_id', document.querySelector('.brand_id') ? document.querySelector('.brand_id').value : "");
-    data.append('phone', document.querySelector('.phone') ? document.querySelector('.phone').value : "");
-    data.append('fromDate', document.querySelector('.fromDate') ? document.querySelector('.fromDate').value : "");
-    data.append('toDate', document.querySelector('.toDate') ? document.querySelector('.toDate').value : "");
-    data.append('sort_by', document.querySelector('.sort_by') ? document.querySelector('.sort_by').value : "");
-    data.append('email', document.querySelector('.email') ? document.querySelector('.email').value : "");
-    data.append('star', document.querySelector('.star') ? document.querySelector('.star').value : "");
-    data.append('product_id', document.querySelector('.product_id') ? document.querySelector('.product_id').value : "");
-    data.append('type', document.querySelector('.type') ? document.querySelector('.type').value : "");
+  let data = new URLSearchParams();
+  data.append('page', page);
+  data.append('keyword', document.querySelector('.keyword') ? document.querySelector('.keyword').value : "");
+  data.append('status', document.querySelector('.status') ? document.querySelector('.status').value : "");
+  data.append('group_id', document.querySelector('.group_id') ? document.querySelector('.group_id').value : "");
+  data.append('category_id', document.querySelector('.category_id') ? document.querySelector('.category_id').value : "");
+  data.append('brand_id', document.querySelector('.brand_id') ? document.querySelector('.brand_id').value : "");
+  data.append('phone', document.querySelector('.phone') ? document.querySelector('.phone').value : "");
+  data.append('fromDate', document.querySelector('.fromDate') ? document.querySelector('.fromDate').value : "");
+  data.append('toDate', document.querySelector('.toDate') ? document.querySelector('.toDate').value : "");
+  data.append('sort_by', document.querySelector('.sort_by') ? document.querySelector('.sort_by').value : "");
+  data.append('email', document.querySelector('.email') ? document.querySelector('.email').value : "");
+  data.append('star', document.querySelector('.star') ? document.querySelector('.star').value : "");
+  data.append('product_id', document.querySelector('.product_id') ? document.querySelector('.product_id').value : "");
+  data.append('type', document.querySelector('.type') ? document.querySelector('.type').value : "");
 
-    let url_module = document.querySelector('.url_module').value + '/phan_trang';
+  let url_module = document.querySelector('.url_module').value + '/phan_trang';
 
-    let response = await fetch(url_module, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: data.toString()
-        })
-    let jsonData = await response.json();
-    // console.log(jsonData);
-    // console.log(123);
-    document.querySelector('.fetch-data-table').innerHTML = jsonData; // outputs an array of user objects
-    groupBtnPage = document.querySelectorAll('.btn-page');
-    groupBtnPage.forEach(item => {
-        if (item.textContent != page) {
-            item.classList.remove('active');
-        } else {
-            item.classList.add('active');
-        }
-    })
-    document.querySelector('.btn-pre').onclick = (e) => {
-        e.preventDefault();
-        if (page == 1) {
-            page++;
-        }
-        fetchData(page - 1);
+  let response = await fetch(url_module, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: data.toString()
+  })
+  let jsonData = await response.json();
+  // console.log(jsonData);
+  // console.log(123);
+  document.querySelector('.fetch-data-table').innerHTML = jsonData; // outputs an array of user objects
+  groupBtnPage = document.querySelectorAll('.btn-page');
+  groupBtnPage.forEach(item => {
+    if (item.textContent != page) {
+      item.classList.remove('active');
+    } else {
+      item.classList.add('active');
     }
-    document.querySelector('.btn-next').onclick = (e) => {
-        e.preventDefault();
-        if (page == document.querySelector('.max-page').value) {
-            page--;
-        }
-        fetchData(parseInt(page) + 1);
+  })
+  document.querySelector('.btn-pre').onclick = (e) => {
+    e.preventDefault();
+    if (page == 1) {
+      page++;
     }
-    if(document.querySelector('.btn-search')){
-      document.querySelector('.btn-search').onclick = async function() {
-        await fetchPagination(1);
-        await fetchData(1);
-      }
+    fetchData(page - 1);
+  }
+  document.querySelector('.btn-next').onclick = (e) => {
+    e.preventDefault();
+    if (page == document.querySelector('.max-page').value) {
+      page--;
     }
+    fetchData(parseInt(page) + 1);
+  }
+  if (document.querySelector('.btn-search')) {
+    document.querySelector('.btn-search').onclick = async function () {
+      await fetchPagination(1);
+      await fetchData(1);
+    }
+  }
 }
 
 async function fetchPagination(page) {
-    let data = new URLSearchParams();
-    data.append('page', page);
-    data.append('keyword', document.querySelector('.keyword') ? document.querySelector('.keyword').value : "");
-    data.append('status', document.querySelector('.status') ? document.querySelector('.status').value : "");
-    data.append('group_id', document.querySelector('.group_id') ? document.querySelector('.group_id').value : "");
-    data.append('category_id', document.querySelector('.category_id') ? document.querySelector('.category_id').value : "");
-    data.append('brand_id', document.querySelector('.brand_id') ? document.querySelector('.brand_id').value : "");
-    data.append('phone', document.querySelector('.phone') ? document.querySelector('.phone').value : "");
-    data.append('fromDate', document.querySelector('.fromDate') ? document.querySelector('.fromDate').value : "");
-    data.append('toDate', document.querySelector('.toDate') ? document.querySelector('.toDate').value : "");
-    data.append('sort_by', document.querySelector('.sort_by') ? document.querySelector('.sort_by').value : "");
-    data.append('email', document.querySelector('.email') ? document.querySelector('.email').value : "");
-    data.append('star', document.querySelector('.star') ? document.querySelector('.star').value : "");
-    data.append('product_id', document.querySelector('.product_id') ? document.querySelector('.product_id').value : "");
-    data.append('type', document.querySelector('.type') ? document.querySelector('.type').value : "");
+  let data = new URLSearchParams();
+  data.append('page', page);
+  data.append('keyword', document.querySelector('.keyword') ? document.querySelector('.keyword').value : "");
+  data.append('status', document.querySelector('.status') ? document.querySelector('.status').value : "");
+  data.append('group_id', document.querySelector('.group_id') ? document.querySelector('.group_id').value : "");
+  data.append('category_id', document.querySelector('.category_id') ? document.querySelector('.category_id').value : "");
+  data.append('brand_id', document.querySelector('.brand_id') ? document.querySelector('.brand_id').value : "");
+  data.append('phone', document.querySelector('.phone') ? document.querySelector('.phone').value : "");
+  data.append('fromDate', document.querySelector('.fromDate') ? document.querySelector('.fromDate').value : "");
+  data.append('toDate', document.querySelector('.toDate') ? document.querySelector('.toDate').value : "");
+  data.append('sort_by', document.querySelector('.sort_by') ? document.querySelector('.sort_by').value : "");
+  data.append('email', document.querySelector('.email') ? document.querySelector('.email').value : "");
+  data.append('star', document.querySelector('.star') ? document.querySelector('.star').value : "");
+  data.append('product_id', document.querySelector('.product_id') ? document.querySelector('.product_id').value : "");
+  data.append('type', document.querySelector('.type') ? document.querySelector('.type').value : "");
 
-    let url_module = document.querySelector('.url_module').value + '/pagination';
-    
-    let response = await fetch(url_module, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: data.toString()
-        })
-    let jsonData = await response.json();
-    document.querySelector('.fetch-pagination').innerHTML = jsonData; // outputs an array of user objects
-    groupBtnPage = document.querySelectorAll('.btn-page');
-    groupBtnPage.forEach(item => {
-        item.onclick = (e) => {
-            e.preventDefault();
-            let page = item.textContent;
-            fetchData(page);
-        }
-    })
-    document.querySelector('.btn-pre').onclick = (e) => {
-        e.preventDefault();
-        if (page == 1) {
-            page++;
-        }
-        fetchData(page - 1);
+  let url_module = document.querySelector('.url_module').value + '/pagination';
+
+  let response = await fetch(url_module, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: data.toString()
+  })
+  let jsonData = await response.json();
+  document.querySelector('.fetch-pagination').innerHTML = jsonData; // outputs an array of user objects
+  groupBtnPage = document.querySelectorAll('.btn-page');
+  groupBtnPage.forEach(item => {
+    item.onclick = (e) => {
+      e.preventDefault();
+      let page = item.textContent;
+      fetchData(page);
     }
-    document.querySelector('.btn-next').onclick = (e) => {
-        e.preventDefault();
-        if (page == document.querySelector('.max-page').value) {
-            page--;
-        }
-        fetchData(parseInt(page) + 1);
+  })
+  document.querySelector('.btn-pre').onclick = (e) => {
+    e.preventDefault();
+    if (page == 1) {
+      page++;
     }
-    if(document.querySelector('.btn-search')){
-      document.querySelector('.btn-search').onclick = async function() {
-        await fetchPagination(1);
-        await fetchData(1);
-      }
+    fetchData(page - 1);
+  }
+  document.querySelector('.btn-next').onclick = (e) => {
+    e.preventDefault();
+    if (page == document.querySelector('.max-page').value) {
+      page--;
     }
+    fetchData(parseInt(page) + 1);
+  }
+  if (document.querySelector('.btn-search')) {
+    document.querySelector('.btn-search').onclick = async function () {
+      await fetchPagination(1);
+      await fetchData(1);
+    }
+  }
 
 }
 
@@ -778,12 +778,12 @@ fetchPagination(1)
 fetchData(1)
 
 
-function generateRandomColor(){
+function generateRandomColor() {
   let maxVal = 0xFFFFFF; // 16777215
-  let randomNumber = Math.random() * maxVal; 
+  let randomNumber = Math.random() * maxVal;
   randomNumber = Math.floor(randomNumber);
   randomNumber = randomNumber.toString(16);
-  let randColor = randomNumber.padStart(6, 0);   
+  let randColor = randomNumber.padStart(6, 0);
   return `#${randColor.toUpperCase()}`
 }
 
@@ -791,20 +791,24 @@ async function fetchChartCircle() {
 
   let data = new URLSearchParams();
   data.append('category_id', document.querySelector('.category_id') ? document.querySelector('.category_id')
-      .value :
-      "");
+    .value :
+    "");
   data.append('fromDate', document.querySelector('.fromDate') ? document.querySelector('.fromDate')
-      .value :
-      "");
+    .value :
+    "");
   data.append('toDate', document.querySelector('.toDate') ? document.querySelector('.toDate')
-      .value :
-      "");
-  let response = await fetch('http://localhost:81/php/mvc_training/admin/statistics/fetchData', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: data.toString()
+    .value :
+    "");
+  let host_root = "";
+  if (document.querySelector('.url_hoot_root')) {
+    host_root = document.querySelector('.url_hoot_root').value;
+  }
+  let response = await fetch(host_root + '/admin/statistics/fetchData', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: data.toString()
   })
   let jsonData = await response.json();
   var barColors = [];
@@ -813,51 +817,51 @@ async function fetchChartCircle() {
   console.log(jsonData);
   let total = 0;
   jsonData.forEach(element => {
-      barColors.push(generateRandomColor());
-      xValues.push(element['name']);
-      yValues.push(element['so_luong'] ? element['so_luong'] : 0);
-      total += element['so_luong'] ? parseInt(element['so_luong']) : 0;
+    barColors.push(generateRandomColor());
+    xValues.push(element['name']);
+    yValues.push(element['so_luong'] ? element['so_luong'] : 0);
+    total += element['so_luong'] ? parseInt(element['so_luong']) : 0;
   });
 
   new Chart("myChart", {
-      type: "pie",
-      data: {
-          labels: xValues,
-          datasets: [{
-              backgroundColor: barColors,
-              data: yValues,
-          }, ],
+    type: "pie",
+    data: {
+      labels: xValues,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yValues,
+      },],
+    },
+    options: {
+      title: {
+        display: true,
+        text: "Theo danh mục sản phẩm : " + total,
       },
-      options: {
-          title: {
-              display: true,
-              text: "Theo danh mục sản phẩm : " + total,
-          },
-      },
+    },
   });
 }
 
 fetchChartCircle();
 
-var resetCanvas = function() {
+var resetCanvas = function () {
   $('#myChart').remove(); // this is my <canvas> element
   $('.container-content').append(
-      '<canvas id="myChart" style="width: 50%; max-width: 600px"></canvas>'
+    '<canvas id="myChart" style="width: 50%; max-width: 600px"></canvas>'
   );
   $('#myChart2').remove(); // this is my <canvas> element
   $('.container-content-2').append(
-      '<canvas id="myChart2"></canvas>'
+    '<canvas id="myChart2"></canvas>'
   );
 };
 
-if(document.querySelector(".btn-thongke")){
-  document.querySelector(".btn-thongke").onclick =  () => {
+if (document.querySelector(".btn-thongke")) {
+  document.querySelector(".btn-thongke").onclick = () => {
     resetCanvas();
-     fetchChartCircle();
-     fetchChartBar();
-     fetchSmallBoxs();
-     fetchPagination(1)
-     fetchData(1)
+    fetchChartCircle();
+    fetchChartBar();
+    fetchSmallBoxs();
+    fetchPagination(1)
+    fetchData(1)
   }
 }
 
@@ -867,22 +871,25 @@ if(document.querySelector(".btn-thongke")){
 async function fetchChartBar() {
   let data = new URLSearchParams();
   data.append('category_id', document.querySelector('.category_id') ? document.querySelector('.category_id')
-      .value :
-      "");
+    .value :
+    "");
   data.append('fromDate', document.querySelector('.fromDate') ? document.querySelector('.fromDate')
-      .value :
-      "");
+    .value :
+    "");
   data.append('toDate', document.querySelector('.toDate') ? document.querySelector('.toDate')
-      .value :
-      "");
+    .value :
+    "");
 
-
-  let response = await fetch('http://localhost:81/php/mvc_training/admin/statistics/fetchDataChartBar', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: data.toString()
+  let host_root = "";
+  if (document.querySelector('.url_hoot_root')) {
+    host_root = document.querySelector('.url_hoot_root').value;
+  }
+  let response = await fetch(host_root + '/admin/statistics/fetchDataChartBar', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: data.toString()
   })
   let jsonData = await response.json();
   console.log(jsonData);
@@ -897,29 +904,29 @@ async function fetchChartBar() {
   let arrData = [];
   let total = 0;
   jsonData['arr_month'].forEach(element => {
-      arrLabel.push(element['col']);
-      arrData.push(element['value'] ? element['value'] : 0);
-      total += parseInt(element['value']);
+    arrLabel.push(element['col']);
+    arrData.push(element['value'] ? element['value'] : 0);
+    total += parseInt(element['value']);
   });
 
   new Chart(ctx, {
-      type: 'bar',
-      data: {
-          labels: arrLabel,
-          datasets: [{
-              label: '# quantity products : ' + total,
-              data: arrData,
-              borderWidth: 1,
-              min: 0,
-          }]
-      },
-      options: {
-          scales: {
-              y: {
-                  beginAtZero: true
-              }
-          }
+    type: 'bar',
+    data: {
+      labels: arrLabel,
+      datasets: [{
+        label: '# quantity products : ' + total,
+        data: arrData,
+        borderWidth: 1,
+        min: 0,
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
       }
+    }
   });
 }
 
@@ -928,31 +935,35 @@ fetchChartBar();
 async function fetchSmallBoxs() {
   let data = new URLSearchParams();
   data.append('category_id', document.querySelector('.category_id') ? document.querySelector('.category_id')
-      .value :
-      "");
+    .value :
+    "");
   data.append('fromDate', document.querySelector('.fromDate') ? document.querySelector('.fromDate')
-      .value :
-      "");
+    .value :
+    "");
   data.append('toDate', document.querySelector('.toDate') ? document.querySelector('.toDate')
-      .value :
-      "");
+    .value :
+    "");
 
+  let host_root = "";
+  if (document.querySelector('.url_hoot_root')) {
+    host_root = document.querySelector('.url_hoot_root').value;
+  }
 
-  let response = await fetch('http://localhost:81/php/mvc_training/admin/statistics/fetchSmallBoxs', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: data.toString()
+  let response = await fetch(host_root + '/admin/statistics/fetchSmallBoxs', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: data.toString()
   })
   let jsonData = await response.json();
   console.log(jsonData);
 
   document.querySelector('.bill_quantity').innerHTML = jsonData['bill_quantity'];
-  document.querySelector('.bill_quantity_cancel').innerHTML =jsonData['bill_quantity']? (jsonData['bill_quantity_cancel'] * 100 / jsonData['bill_quantity'])+'%':"0%";
+  document.querySelector('.bill_quantity_cancel').innerHTML = jsonData['bill_quantity'] ? (Math.round(jsonData['bill_quantity_cancel'] * 100 / jsonData['bill_quantity'])) + '%' : "0%";
   document.querySelector('.new_users').innerHTML = jsonData['new_users'];
   document.querySelector('.total_revenue').innerHTML = jsonData['total_revenue'] ? jsonData['total_revenue'] : 0;
-  
+
 }
 
 fetchSmallBoxs();

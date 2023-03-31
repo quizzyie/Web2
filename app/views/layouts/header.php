@@ -267,7 +267,8 @@
 
     <!-- Deal of the week -->
 
-
+    <!-- link host root -->
+    <input type="hidden" class="url_hoot_root" value="<?php echo HOST_ROOT ?>">
     <!-- form login register -->
     <div class="container-form container-form-login" onclick="onOutsideLogin(event)">
         <div class="container form-main-login border"
