@@ -119,9 +119,10 @@
                                           alt=""></a></li>
                           </ul>
                       </div>
+
                       <div class="product__item__text">
                           <h6>Piqué Biker Jacket</h6>
-                          <a href="#" class="add-cart">+ Add To Cart</a>
+                          <a class="add-cart" data-product-id="123">+ Add To Cart</a>
                           <div class="rating">
                               <i class="fa fa-star-o"></i>
                               <i class="fa fa-star-o"></i>
@@ -130,16 +131,17 @@
                               <i class="fa fa-star-o"></i>
                           </div>
                           <h5>$67.24</h5>
-                          <div class="product__color__select">
-                              <label for="pc-1">
-                                  <input type="radio" id="pc-1">
+                          <div>
+                              <?php
+                              $defaultSize = 1;
+                              foreach ($dsSizes as $s): ?>
+                              <label>
+                                  <input type="radio" name="product__size" value="<?php echo $s['id'] ?>"
+                                      <?php if ($s['id'] === $defaultSize): ?> checked <?php endif ?>>
+                                  <?php echo $s['name'] ?>
                               </label>
-                              <label class="active black" for="pc-2">
-                                  <input type="radio" id="pc-2">
-                              </label>
-                              <label class="grey" for="pc-3">
-                                  <input type="radio" id="pc-3">
-                              </label>
+                              <?php endforeach ?>
+
                           </div>
                       </div>
                   </div>

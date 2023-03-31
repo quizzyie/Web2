@@ -62,7 +62,8 @@ class Shop extends Controller
             $data = array(
                 'ds' => $ds,
                 'soTrang' => $soTrang,
-                'sql'=>$this->sql
+                'sql'=>$this->sql,
+                'dsSize'=>$this->data['sub_data']['dsSizes'],
             );
             $data = json_encode($data);
             echo $data;
