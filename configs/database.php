@@ -1,7 +1,7 @@
 <?php
 $config['database'] = [
     'host'=>'localhost',
-    'user'=>'root',
+    'user'=>'phpAdmin',
     'pass'=>'',
     // 'db'=>'mvc_training',
     'db'=>'do_an_web',
