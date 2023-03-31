@@ -108,7 +108,11 @@ async function checkLogin() {
         let data = new URLSearchParams();
         data.append('email', email);
         data.append('password', password);
-        let response = await fetch("http://localhost:81/php/mvc_training/auth/post_login", {
+        let host_root = "";
+        if (document.querySelector('.url_hoot_root')) {
+            host_root = document.querySelector('.url_hoot_root').value;
+        }
+        let response = await fetch(host_root + "/auth/post_login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -230,7 +234,11 @@ const checkRegister = async () => {
         data.append('phone', phone);
         data.append('password', password);
 
-        let response = await fetch("http://localhost:81/php/mvc_training/auth/post_register", {
+        let host_root = "";
+        if (document.querySelector('.url_hoot_root')) {
+            host_root = document.querySelector('.url_hoot_root').value;
+        }
+        let response = await fetch(host_root + "/auth/post_register", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -257,7 +265,11 @@ const checkRegister = async () => {
 const onLogout = async () => {
     if (confirm("Bạn có chắc chắn muốn đăng xuất!")) {
         let data = new URLSearchParams();
-        let response = await fetch("http://localhost:81/php/mvc_training/auth/logout", {
+        let host_root = "";
+        if (document.querySelector('.url_hoot_root')) {
+            host_root = document.querySelector('.url_hoot_root').value;
+        }
+        let response = await fetch(host_root + "/auth/logout", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
