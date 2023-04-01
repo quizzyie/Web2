@@ -193,7 +193,13 @@ function addToCart(event) {
     body: JSON.stringify(data),
   })
     .then((response) => response.json())
-    .then((data) => {})
+    .then((data) => {
+      if (data.error) {
+        alert(data.error);
+      } else {
+        alert("Them san pham thanh cong");
+      }
+    })
     .catch((error) => {
       console.error("Error:", error);
     });
