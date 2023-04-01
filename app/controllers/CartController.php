@@ -82,7 +82,7 @@
                 $result = $this->__model->getRawModel("DELETE FROM `cart` WHERE product_id = ".$data['idsp']);
                 if ($result === false) {
                     $error = $this->__model->getError();
-                    $result = [$error];
+                    $return = [$error];
                     // handle the error
                 } else {
                     $user_id = Session::getSession('id_user');
@@ -95,6 +95,30 @@
                 echo $return;
             }
             
+        }
+        public function capNhatSanPham(){
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $data = json_decode(file_get_contents('php://input'), true);
+                $dsIDsp = $data["dsidsp"];
+                $dsTSL = $data["dstsl"];
+                
+                for($i=0;$i<count($dsIDsp);$i++){
+                    $idsp = $dsIDsp[$i];
+                    $tsl = $dsTSL[$i];
+                    $result = $this->__model->getRawModel("UPDATE `cart` SET `amount`= ".$tsl." where product_id = ".$idsp);
+                    if ($result === false) {
+                        $error = $this->__model->getError();
+                        $return = [$error];
+                        // handle the error
+                    } else {
+                        $return = ["ok"];
+                        
+                    }
+                    
+                }
+                $return = json_encode($return);
+                echo $return;
+            }
         }
     }
 

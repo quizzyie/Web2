@@ -251,8 +251,11 @@ function giaoDienGioHang(dsgh) {
     </td>
     <td class="quantity__item">
         <div class="quantity">
+          
             <div class="pro-qty-2">
-                <input type="text" value="${sp.tsl}">
+            <span class="fa fa-angle-left dec qtybtn"></span>
+              <input id="slg" type="text" value="${sp.tsl}">
+            <span class="fa fa-angle-right inc qtybtn"></span>
             </div>
         </div>
     </td>
@@ -266,4 +269,45 @@ function giaoDienGioHang(dsgh) {
 
   gdgh = document.getElementById("dsgh");
   gdgh.innerHTML = html;
+}
+
+function updateCart() {
+  let dsspgh = document.querySelectorAll(".ghsp");
+  const currentUrl = window.location.origin + "/" + tenDoAn;
+  const relativeUrl = "/cartcontroller/capNhatSanPham";
+  const fullUrl = currentUrl + relativeUrl;
+
+  let idspArray = [];
+  let tslArray = [];
+
+  for (i = 0; i < dsspgh.length; i++) {
+    let sp = dsspgh[i];
+    let idsp = sp.querySelector(".idsp").value;
+    let tsl = sp.querySelector(".slg").value;
+    console.log("Lan " + i + " co idsp la: " + idsp + " va tsl la: " + tsl);
+    idspArray.push(idsp);
+    tslArray.push(tsl);
+  }
+  const data = {
+    dsidsp: idspArray,
+    dstsl: tslArray,
+  };
+  fetch(fullUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        alert(data.error);
+      } else {
+        alert("Cap Nhat thanh cong");
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }
