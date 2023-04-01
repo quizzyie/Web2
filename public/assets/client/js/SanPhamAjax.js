@@ -196,6 +196,7 @@ function addToCart(event) {
     .then((data) => {
       if (data.error) {
         alert(data.error);
+      } else if (data.login) {
       } else {
         alert("Them san pham thanh cong");
       }
@@ -203,4 +204,66 @@ function addToCart(event) {
     .catch((error) => {
       console.error("Error:", error);
     });
+}
+//Remove
+function remove(idsp) {
+  const currentUrl = window.location.origin + "/" + tenDoAn;
+  const relativeUrl = "/cartcontroller/xoaSanPham";
+  const fullUrl = currentUrl + relativeUrl;
+  const data = {
+    idsp: idsp,
+  };
+  fetch(fullUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        alert(data.error);
+      } else {
+        alert("Xoa San Pham thanh cong");
+        giaoDienGioHang(data.dsgh);
+        let tongTien = document.getElementById("tongTienGH");
+        tongTien.innerHTML = data.tt;
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+function giaoDienGioHang(dsgh) {
+  let html = "";
+  dsgh.forEach(function (sp) {
+    html += `<tr>
+    <td class="product__cart__item">
+        <div class="product__cart__item__pic">
+            <img src="img/shopping-cart/cart-1.jpg" alt="">
+        </div>
+        <div class="product__cart__item__text">
+            <h6>${sp.tensp}</h6>
+            <h5>${sp.sale}</h5>
+        </div>
+    </td>
+    <td class="quantity__item">
+        <div class="quantity">
+            <div class="pro-qty-2">
+                <input type="text" value="${sp.tsl}">
+            </div>
+        </div>
+    </td>
+    <td class="cart__price">$${sp.sale * sp.tsl}</td>
+
+    <td onclick="remove(${sp.product_id})" class="cart__close"><i
+            class="fa fa-close"></i></td>
+
+  </tr>`;
+  });
+
+  gdgh = document.getElementById("dsgh");
+  gdgh.innerHTML = html;
 }
