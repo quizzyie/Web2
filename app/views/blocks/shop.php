@@ -133,7 +133,7 @@
                             </div>
                             <div class="product__item__text">
                                 <h6><?php echo $sp['name'] ?></h6>
-                                <a class="add-cart"  data-product-id="<?php echo $sp['id'] ?>">+ Add To Cart</a>
+                                <a class="add-cart" data-product-id="<?php echo $sp['id'] ?>">+ Add To Cart</a>
                                 <div class="rating">
                                     <i class="fa fa-star-o"></i>
                                     <i class="fa fa-star-o"></i>

@@ -201,6 +201,7 @@
                         </nav>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -279,6 +280,7 @@
                     <label for="">Email</label>
                     <input spellcheck="false" type="text" class="form-control email">
                     <span class="error error-email"></span>
+
                 </div>
                 <div class="form-group">
                     <label for="">Mật khẩu</label>
