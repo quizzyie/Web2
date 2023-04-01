@@ -195,15 +195,21 @@ class Auth extends Controller{
     }
 
     public function reset($token){
-        $checkToken = $this->__model->getFirstTableData('users',"forgot_token = '$token'");
+        if(!empty($token)){
+            $checkToken = $this->__model->getFirstTableData('users',"forgot_token = '$token'");
         
-        if(!empty($checkToken)){
-            $data['content'] = 'admin/auth/reset';
-            $data['title'] = "Đặt lại mật khẩu";
-            $data['sub_data']['token'] = $token;
-            $this->renderView('admin/layouts/admin_layout_login',$data);
+            if(!empty($checkToken)){
+                $data['content'] = 'admin/auth/reset';
+                $data['title'] = "Đặt lại mật khẩu";
+                $data['sub_data']['token'] = $token;
+                $this->renderView('admin/layouts/admin_layout_login',$data);
+            }else{
+                Session::setFlashData('msg', 'Đường dẫn không tồn tại hoặc token đã hết hạn!');
+                Session::setFlashData('msg_type', 'danger');
+                Response::redirect('admin/auth/forgot');
+            }
         }else{
-            Session::setFlashData('msg', 'Đường dẫn không tồn tại hoặc token đã hết hạn!');
+            Session::setFlashData('msg', 'Đường dẫn không tồn tại!');
             Session::setFlashData('msg_type', 'danger');
             Response::redirect('admin/auth/forgot');
         }
@@ -229,6 +235,7 @@ class Auth extends Controller{
     
             if(!$validate){
                 $this->__dataForm['sub_data']['errors'] = $this->__request->error();
+                $this->__dataForm['sub_data']['token'] = $data['token'];
                 Session::setFlashData('msg',"Đã có lỗi vui lòng kiểm tra lại dữ liệu!");
                 Session::setFlashData('msg_type',"danger");
                 $this->__dataForm['content'] = 'admin/auth/reset';
