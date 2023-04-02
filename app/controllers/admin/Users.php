@@ -12,30 +12,40 @@ class Users extends Controller
 
     public function index()
     {
-        if (isLogin()) {
-            $data['title'] = "Danh sách người dùng";
-            $data['content'] = 'admin/users/list';
-
-            $data['sub_data']['group_list'] = $this->__model->getRawModel("select * from groups");
-
-            $this->renderView('admin/layouts/admin_layout', $data);
-        } else {
+        if (!isLogin()) {
             Response::redirect('admin/auth/login');
+            return;
         }
+
+        if (!isPermission('users','add')&&!isPermission('users','update')&&!isPermission('users','delete')) {
+            App::$app->loadError('permission');
+            return;
+        }
+        $data['title'] = "Danh sách người dùng";
+        $data['content'] = 'admin/users/list';
+
+        $data['sub_data']['group_list'] = $this->__model->getRawModel("select * from groups");
+
+        $this->renderView('admin/layouts/admin_layout', $data);
     }
 
     public function add()
     {
-        if (isLogin()) {
-            $data['title'] = "Thêm người dùng";
-            $data['content'] = 'admin/users/add';
-
-            $data['sub_data']['group_list'] = $this->__model->getRawModel("select * from groups");
-
-            $this->renderView('admin/layouts/admin_layout', $data);
-        } else {
+        if (!isLogin()) {
             Response::redirect('admin/auth/login');
+            return;
         }
+
+        if (!isPermission('users', 'add')) {
+            App::$app->loadError('permission');
+            return;
+        }
+        $data['title'] = "Thêm người dùng";
+        $data['content'] = 'admin/users/add';
+
+        $data['sub_data']['group_list'] = $this->__model->getRawModel("select * from groups");
+
+        $this->renderView('admin/layouts/admin_layout', $data);
     }
 
     public function post_add()
@@ -86,6 +96,7 @@ class Users extends Controller
                     'fullname' => $data['fullname'],
                     'email' => $data['email'],
                     'phone' => $data['phone'],
+                    'type' => $data['type'],
                     'password' => password_hash($data['password'], PASSWORD_DEFAULT),
                     'status' => $data['status'],
                     'group_id' => $data['group_id'],
@@ -107,20 +118,25 @@ class Users extends Controller
 
     public function update($id)
     {
-        if (isLogin()) {
-            if (empty($this->__model->getFirstData("id = $id"))) {
-                Session::setFlashData('msg', 'Không tồn tại người dùng!');
-                Response::redirect('admin/users/');
-            } else {
-                $data['title'] = "Cập nhập người dùng";
-                $data['content'] = 'admin/users/update';
-                $data['sub_data']['group_list'] = $this->__model->getRawModel("select * from groups");
-                $data['sub_data']['dataForm'] = $this->__model->getFirstData("id = $id");
-                $this->renderView('admin/layouts/admin_layout', $data);
-                Session::setSession('user_update_id', $id);
-            }
-        } else {
+        if (!isLogin()) {
             Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if (!isPermission('users', 'update')) {
+            App::$app->loadError('permission');
+            return;
+        }
+        if (empty($this->__model->getFirstData("id = $id"))) {
+            Session::setFlashData('msg', 'Không tồn tại người dùng!');
+            Response::redirect('admin/users/');
+        } else {
+            $data['title'] = "Cập nhập người dùng";
+            $data['content'] = 'admin/users/update';
+            $data['sub_data']['group_list'] = $this->__model->getRawModel("select * from groups");
+            $data['sub_data']['dataForm'] = $this->__model->getFirstData("id = $id");
+            $this->renderView('admin/layouts/admin_layout', $data);
+            Session::setSession('user_update_id', $id);
         }
     }
 
@@ -135,7 +151,6 @@ class Users extends Controller
                     'fullname' => 'required|min:5|max:30',
                     'email' => 'required|min:6|max:30|email|unique:users,email,' . $data['id'],
                     'phone' => 'required|phone',
-                    'group_id' => 'selected',
                 ]);
             } else {
                 $this->__request->rules([
@@ -144,7 +159,6 @@ class Users extends Controller
                     'repeat_password' => 'required|match:password',
                     'email' => 'required|min:6|max:30|email|unique:users,email,' . $data['id'],
                     'phone' => 'required|phone',
-                    'group_id' => 'selected',
                 ]);
             }
 
@@ -165,7 +179,6 @@ class Users extends Controller
                 'email.unique' => 'Email đã tồn tại!',
                 'phone.required' => 'Số điện thoại không được để trống!',
                 'phone.phone' => 'Số điện thoại không hợp lệ!',
-                'group_id.selected' => 'Vui lòng chọn nhóm!',
             ]);
 
             $validate = $this->__request->validate($data);
@@ -183,11 +196,15 @@ class Users extends Controller
                 $dataUpdate = [
                     'fullname' => $data['fullname'],
                     'email' => $data['email'],
+                    'type' => $data['type'],
                     'phone' => $data['phone'],
                     'status' => $data['status'],
-                    'group_id' => $data['group_id'],
                     'update_at' => date('Y-m-d H:i:s')
                 ];
+
+                if(isPermission('groups','permission')){
+                    $dataUpdate['group_id'] = $data['group_id'];
+                }
                 if (!empty($data['password'])) {
                     $dataUpdate['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                 }
@@ -210,12 +227,21 @@ class Users extends Controller
 
     public function delete($id)
     {
-        if (isLogin()) {
-            if (!empty($id)) {
-                if (empty($this->__model->getFirstData("id = $id"))) {
-                    Session::setFlashData('msg', 'Không tồn tại người dùng!');
-                    Session::setFlashData('msg_type', 'danger');
-                } else {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if (!isPermission('users', 'delete')) {
+            App::$app->loadError('permission');
+            return;
+        }
+        if (!empty($id)) {
+            if (empty($this->__model->getFirstData("id = $id"))) {
+                Session::setFlashData('msg', 'Không tồn tại người dùng!');
+                Session::setFlashData('msg_type', 'danger');
+            } else {
+                if ($this->__model->getRowsModel("select * from bill where user_id = $id") == 0) {
                     if ($this->__model->deleteData("id = $id")) {
                         Session::setFlashData('msg', 'Xóa người dùng thành công!');
                         Session::setFlashData('msg_type', 'success');
@@ -223,46 +249,52 @@ class Users extends Controller
                         Session::setFlashData('msg', 'Xóa người dùng không thành công!');
                         Session::setFlashData('msg_type', 'danger');
                     }
+                } else {
+                    Session::setFlashData('msg', 'Xóa người dùng không thành công,người dùng đã tồn tại trong đơn hàng!');
+                    Session::setFlashData('msg_type', 'danger');
                 }
-            } else {
-                Session::setFlashData('msg', 'Truy cập không hợp lệ!');
-                Session::setFlashData('msg_type', 'danger');
             }
-            Response::redirect('admin/users/');
         } else {
-            Response::redirect('admin/auth/login');
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
         }
+        Response::redirect('admin/users/');
     }
 
     public function change_status($id)
     {
-        if (isLogin()) {
-            if (!empty($id)) {
-                $data = $this->__model->getFirstData("id = $id");
-                if (empty($data)) {
-                    Session::setFlashData('msg', 'Không tồn tại người dùng!');
-                    Session::setFlashData('msg_type', 'danger');
-                } else {
-                    $statusChange = 0;
-                    if ($data['status'] == 0) {
-                        $statusChange = 1;
-                    }
-                    if ($this->__model->updateData(['status' => $statusChange], "id = $id")) {
-                        Session::setFlashData('msg', 'Cập nhập trạng thái người dùng thành công!');
-                        Session::setFlashData('msg_type', 'success');
-                    } else {
-                        Session::setFlashData('msg', 'Cập nhập trạng thái người dùng không thành công!');
-                        Session::setFlashData('msg_type', 'danger');
-                    }
-                }
-            } else {
-                Session::setFlashData('msg', 'Truy cập không hợp lệ!');
-                Session::setFlashData('msg_type', 'danger');
-            }
-            Response::redirect('admin/users/');
-        } else {
+        if (!isLogin()) {
             Response::redirect('admin/auth/login');
+            return;
         }
+
+        if (!isPermission('users', 'update')) {
+            App::$app->loadError('permission');
+            return;
+        }
+        if (!empty($id)) {
+            $data = $this->__model->getFirstData("id = $id");
+            if (empty($data)) {
+                Session::setFlashData('msg', 'Không tồn tại người dùng!');
+                Session::setFlashData('msg_type', 'danger');
+            } else {
+                $statusChange = 0;
+                if ($data['status'] == 0) {
+                    $statusChange = 1;
+                }
+                if ($this->__model->updateData(['status' => $statusChange], "id = $id")) {
+                    Session::setFlashData('msg', 'Cập nhập trạng thái người dùng thành công!');
+                    Session::setFlashData('msg_type', 'success');
+                } else {
+                    Session::setFlashData('msg', 'Cập nhập trạng thái người dùng không thành công!');
+                    Session::setFlashData('msg_type', 'danger');
+                }
+            }
+        } else {
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+        }
+        Response::redirect('admin/users/');
     }
 
     public function change_password()
@@ -343,7 +375,7 @@ class Users extends Controller
             $data['title'] = "Thông tin cá nhân";
             $data['content'] = 'admin/users/user_info';
             $data['sub_data']['group_list'] = $this->__model->getRawModel("select * from groups");
-            $data['sub_data']['dataForm'] = $this->__model->getFirstRaw("select * from users where id = ".isLogin()['user_id']);
+            $data['sub_data']['dataForm'] = $this->__model->getFirstRaw("select * from users where id = " . isLogin()['user_id']);
             $this->renderView('admin/layouts/admin_layout', $data);
         } else {
             Response::redirect('admin/auth/login');
@@ -360,7 +392,6 @@ class Users extends Controller
                 'fullname' => 'required|min:5|max:30',
                 'email' => 'required|min:6|max:30|email|unique:users,email,' . $data['id'],
                 'phone' => 'required|phone',
-                'group_id' => 'selected',
             ]);
 
 
@@ -375,7 +406,6 @@ class Users extends Controller
                 'email.unique' => 'Email đã tồn tại!',
                 'phone.required' => 'Số điện thoại không được để trống!',
                 'phone.phone' => 'Số điện thoại không hợp lệ!',
-                'group_id.selected' => 'Vui lòng chọn nhóm!',
             ]);
 
             $validate = $this->__request->validate($data);
@@ -395,9 +425,12 @@ class Users extends Controller
                     'email' => $data['email'],
                     'phone' => $data['phone'],
                     'status' => $data['status'],
-                    'group_id' => $data['group_id'],
                     'update_at' => date('Y-m-d H:i:s')
                 ];
+
+                if(isPermission('groups','permission')){
+                    $dataUpdate['group_id'] = $data['group_id'];
+                }
                 $status = $this->__model->updateData($dataUpdate, "id = " . $data['id']);
                 if ($status) {
                     Session::setFlashData('msg', 'Thay đổi thông tin thành công!');
@@ -420,6 +453,7 @@ class Users extends Controller
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $status = $_POST['status'];
+        $type = $_POST['type'];
         $group_id = $_POST['group_id'];
         $per_page = _PER_PAGE_ADMIN;
         $indexPage = ($page - 1) * $per_page;
@@ -443,6 +477,13 @@ class Users extends Controller
                 $condition = "group_id = $group_id";
             }
         }
+        if (!empty($type)) {
+            if (!empty($condition)) {
+                $condition .= " and type = '$type'";
+            } else {
+                $condition = "type = '$type'";
+            }
+        }
         $users = $this->__model->getData($condition, "order by create_at desc", "limit $indexPage,$per_page");
 
         $data = "";
@@ -456,31 +497,40 @@ class Users extends Controller
             $email = $user['email'];
             $phone = $user['phone'];
             $status = $user['status'];
+            $type = $user['type'];
             $date_time = empty($user['update_at']) ? $user['create_at'] : $user['update_at'];
             $create_at = getDateFormat($date_time, 'd/m/Y H:i:s');
             $btnStatus = $status ? "btn-primary" : "btn-danger";
             $msgStatus = $status ? "Kích hoạt" : "Chưa kích hoạt";
             $linkUpdate = _WEB_HOST_ROOT_ADMIN . "/users/update/$id";
             $linkDelete = _WEB_HOST_ROOT_ADMIN . "/users/delete/$id";
-            $linkChangeStatus = _WEB_HOST_ROOT_ADMIN . "/users/change_status/$id";
+            $linkChangeStatus = isPermission('users', 'update') ? _WEB_HOST_ROOT_ADMIN . "/users/change_status/$id" : '#';
             $data .= "<tr>
           <td>$i</td>
             <td>$fullname</td>
             <td>$email</td>
             <td>$phone</td>
             <td>$name_group</td>
+            <td>$type</td>
             <td>$create_at</td>
             <td><a href='$linkChangeStatus' class=\"btn $btnStatus btn-sm\">$msgStatus</a></td>
-            <td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>
+            
             ";
 
-            if (isLogin()['user_id'] != $id) {
+            if (isPermission('users', 'update')) {
+                $data .= "<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
+            }else{
+                $data .= "<td></td>";
+            }
+
+            if (isLogin()['user_id'] != $id and isPermission('users', 'delete') and $this->__model->getRowsModel("select * from bill where user_id = $id") == 0) {
                 $data .= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
                 btn-sm\"><i class=\"fa fa-trash\"></i>
-                Xóa</a></td></tr>";
-            } else {
-                $data .= "</tr>";
+                Xóa</a></td>";
+            } else{
+                $data .= "<td></td>";
             }
+            $data .= "</tr>";
             $i++;
         }
 

@@ -1,8 +1,15 @@
 <section class="content">
     <div class="container-fluid">
         <?php getMsg(Session::getFlashData('msg'),Session::getFlashData('msg_type')) ?>
+        <?php 
+        if(isPermission('users','add')){
+            ?>
         <a href="<?php echo _WEB_HOST_ROOT_ADMIN.'/users/add' ?>" class="btn btn-primary"><i class="fa fa-plus"></i>Thêm
             người dùng</a>
+        <?php
+        }
+        ?>
+
         <hr>
         <div class="row">
             <input type="hidden" class="url_module" value="<?php echo _WEB_HOST_ROOT_ADMIN.'/users' ?>">
@@ -27,10 +34,19 @@
                     </select>
                 </div>
             </div>
-            <div class="col-5">
+            <div class="col-2">
+                <div class="form-group">
+                    <select class="form-control type">
+                        <option value="0">Chọn loại</option>
+                        <option value="user">Người dùng</option>
+                        <option value="member">Thành viên </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
                 <input class="form-control keyword" placeholder="Nhập vào tên nhóm cần tìm kiếm..">
             </div>
-            <div class="col-3">
+            <div class="col-2">
                 <button type="submit" class="btn btn-primary btn-block btn-search">Tìm kiếm</button>
             </div>
         </div>
@@ -43,8 +59,9 @@
                     <th width="">Email</th>
                     <th width="">Điện thoại</th>
                     <th width="">Nhóm</th>
-                    <th width="15%">Thời gian</th>
-                    <th width="15%">Trạng thái</th>
+                    <th width="">Loại</th>
+                    <th width="10%">Thời gian</th>
+                    <th width="12%">Trạng thái</th>
                     <th width="8%">Sửa</th>
                     <th width="8%">Xóa</th>
                 </tr>

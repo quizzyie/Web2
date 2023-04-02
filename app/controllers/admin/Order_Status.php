@@ -12,6 +12,15 @@ class Order_Status extends Controller
 
     public function index()
     {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('bill','update')){
+            App::$app->loadError('permission');
+            return;
+        }
         if (isLogin()) {
             $data['title'] = "Danh sách trạng thái đơn hàng";
             $data['content'] = 'admin/order_status/list';
@@ -24,6 +33,15 @@ class Order_Status extends Controller
 
     public function add()
     {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('bill','update')){
+            App::$app->loadError('permission');
+            return;
+        }
         if (isLogin()) {
             $data['title'] = "Thêm trạng thái";
             $data['content'] = 'admin/order_status/add';
@@ -82,6 +100,15 @@ class Order_Status extends Controller
 
     public function update($id)
     {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('bill','update')){
+            App::$app->loadError('permission');
+            return;
+        }
         if (isLogin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại trạng thái!');
@@ -148,31 +175,31 @@ class Order_Status extends Controller
         }
     }
 
-    public function delete($id)
-    {
-        if (isLogin()) {
-            if (!empty($id)) {
-                if (empty($this->__model->getFirstData("id = $id"))) {
-                    Session::setFlashData('msg', 'Không tồn tại trạng thái!');
-                    Session::setFlashData('msg_type', 'danger');
-                } else {
-                    if ($this->__model->deleteData("id = $id")) {
-                        Session::setFlashData('msg', 'Xóa trạng thái thành công!');
-                        Session::setFlashData('msg_type', 'success');
-                    } else {
-                        Session::setFlashData('msg', 'Xóa trạng thái không thành công!');
-                        Session::setFlashData('msg_type', 'danger');
-                    }
-                }
-            } else {
-                Session::setFlashData('msg', 'Truy cập không hợp lệ!');
-                Session::setFlashData('msg_type', 'danger');
-            }
-            Response::redirect('admin/order_status/');
-        } else {
-            Response::redirect('admin/auth/login');
-        }
-    }
+    // public function delete($id)
+    // {
+    //     if (isLogin()) {
+    //         if (!empty($id)) {
+    //             if (empty($this->__model->getFirstData("id = $id"))) {
+    //                 Session::setFlashData('msg', 'Không tồn tại trạng thái!');
+    //                 Session::setFlashData('msg_type', 'danger');
+    //             } else {
+    //                 if ($this->__model->deleteData("id = $id")) {
+    //                     Session::setFlashData('msg', 'Xóa trạng thái thành công!');
+    //                     Session::setFlashData('msg_type', 'success');
+    //                 } else {
+    //                     Session::setFlashData('msg', 'Xóa trạng thái không thành công!');
+    //                     Session::setFlashData('msg_type', 'danger');
+    //                 }
+    //             }
+    //         } else {
+    //             Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+    //             Session::setFlashData('msg_type', 'danger');
+    //         }
+    //         Response::redirect('admin/order_status/');
+    //     } else {
+    //         Response::redirect('admin/auth/login');
+    //     }
+    // }
 
     public function phan_trang()
     {
@@ -203,11 +230,12 @@ class Order_Status extends Controller
             <td>$description</td>
             <td>$create_at</td>
             <td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>
-            <td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
-                btn-sm\"><i class=\"fa fa-trash\"></i>
-                Xóa</a></td></tr>
+            </tr>
             ";
             $i++;
+            // <td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
+            //     btn-sm\"><i class=\"fa fa-trash\"></i>
+            //     Xóa</a></td>
         }
 
         if (empty($data)) {

@@ -13,14 +13,14 @@ class index extends Controller
 
     public function index()
     {
-        if (isLogin()) {
-            $data['title'] = "Tổng quan";
-            $data['content'] = 'admin/dashboard/list';
-            $data['sub_data']['categories'] = $this->__model->getRawModel("select * from categories");
-            $this->renderView('admin/layouts/admin_layout', $data);
-        } else {
+        if (!isLogin()) {
             Response::redirect('admin/auth/login');
+            return;
         }
+        
+        $data['title'] = "Tổng quan";
+        $data['content'] = 'admin/dashboard/list';
+        $data['sub_data']['categories'] = $this->__model->getRawModel("select * from categories");
+        $this->renderView('admin/layouts/admin_layout', $data);
     }
-
 }
