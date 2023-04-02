@@ -12,6 +12,15 @@ class Bill extends Controller
 
     public function index()
     {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('bill','update')){
+            App::$app->loadError('permission');
+            return;
+        }
         if (isLogin()) {
             $data['sub_data']['order_status'] = $this->__model->getRawModel("select * from order_status");
             $data['title'] = "Danh sách hóa đơn";
@@ -25,6 +34,15 @@ class Bill extends Controller
 
     public function update($id)
     {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('bill','update')){
+            App::$app->loadError('permission');
+            return;
+        }
         if (isLogin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại trạng thái!');
@@ -206,6 +224,9 @@ class Bill extends Controller
             <td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>
             </tr>
             ";
+
+            
+
             $i++;
         }
 

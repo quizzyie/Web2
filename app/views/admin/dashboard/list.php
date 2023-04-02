@@ -1,3 +1,6 @@
+<?php 
+if(isPermission('dashboard','view')){
+    ?>
 <section class="content">
     <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
@@ -125,3 +128,6 @@
         <!-- render pagination -->
     </div>
 </div>
+<?php
+}
+?>

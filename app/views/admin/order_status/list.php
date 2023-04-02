@@ -14,7 +14,7 @@
                     <th width="">Mô tả</th>
                     <th width="">Thời gian</th>
                     <th width="8%">Sửa</th>
-                    <th width="8%">Xóa</th>
+                    <!-- <th width="8%">Xóa</th> -->
                 </tr>
             </thead>
             <tbody class="fetch-data-table">

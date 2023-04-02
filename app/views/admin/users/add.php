@@ -62,6 +62,19 @@
                     </option>
                 </select>
             </div>
+            <div class="col-6 form-group">
+                <label for="">Kiểu người dùng</label>
+                <select class="form-control" name="type" id="">
+                    <option
+                        <?php echo !empty($dataForm['type']) && $dataForm['type'] == 'user'  ? "selected" : false; ?>
+                        value="user">Người dùng
+                    </option>
+                    <option
+                        <?php echo !empty($dataForm['type']) && $dataForm['type'] == 'member'  ? "selected" : false; ?>
+                        value="member">Thành viên
+                    </option>
+                </select>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">Thêm người dùng</button>
         <p><a href="<?php echo _WEB_HOST_ROOT_ADMIN.'/users' ?>">Quay lại</a></p>

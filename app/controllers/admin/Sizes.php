@@ -148,31 +148,31 @@ class Sizes extends Controller
         }
     }
 
-    public function delete($id)
-    {
-        if (isLogin()) {
-            if (!empty($id)) {
-                if (empty($this->__model->getFirstData("id = $id"))) {
-                    Session::setFlashData('msg', 'Không tồn tại size!');
-                    Session::setFlashData('msg_type', 'danger');
-                } else {
-                    if ($this->__model->deleteData("id = $id")) {
-                        Session::setFlashData('msg', 'Xóa size thành công!');
-                        Session::setFlashData('msg_type', 'success');
-                    } else {
-                        Session::setFlashData('msg', 'Xóa size không thành công!');
-                        Session::setFlashData('msg_type', 'danger');
-                    }
-                }
-            } else {
-                Session::setFlashData('msg', 'Truy cập không hợp lệ!');
-                Session::setFlashData('msg_type', 'danger');
-            }
-            Response::redirect('admin/sizes/');
-        } else {
-            Response::redirect('admin/auth/login');
-        }
-    }
+    // public function delete($id)
+    // {
+    //     if (isLogin()) {
+    //         if (!empty($id)) {
+    //             if (empty($this->__model->getFirstData("id = $id"))) {
+    //                 Session::setFlashData('msg', 'Không tồn tại size!');
+    //                 Session::setFlashData('msg_type', 'danger');
+    //             } else {
+    //                 if ($this->__model->deleteData("id = $id")) {
+    //                     Session::setFlashData('msg', 'Xóa size thành công!');
+    //                     Session::setFlashData('msg_type', 'success');
+    //                 } else {
+    //                     Session::setFlashData('msg', 'Xóa size không thành công!');
+    //                     Session::setFlashData('msg_type', 'danger');
+    //                 }
+    //             }
+    //         } else {
+    //             Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+    //             Session::setFlashData('msg_type', 'danger');
+    //         }
+    //         Response::redirect('admin/sizes/');
+    //     } else {
+    //         Response::redirect('admin/auth/login');
+    //     }
+    // }
 
     public function phan_trang()
     {
@@ -202,12 +202,22 @@ class Sizes extends Controller
             <td>$name</td>
             <td>$description</td>
             <td>$create_at</td>
-            <td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>
-            <td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
-                btn-sm\"><i class=\"fa fa-trash\"></i>
-                Xóa</a></td></tr>
+            
+            
             ";
+
+            if(isPermission('products','update')){
+                $data  = "<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
+            }else{
+                $data .= "<td></td>";
+            }
+
+            $data .= "</tr>";
             $i++;
+
+            // <td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
+            //     btn-sm\"><i class=\"fa fa-trash\"></i>
+            //     Xóa</a></td>
         }
 
         if (empty($data)) {

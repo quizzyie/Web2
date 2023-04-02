@@ -53,7 +53,7 @@ class Auth extends Controller{
                 $email = ($data['email']);
                 $password = trim($data['password']);
                 // Truy vấn lấy thông tin user theo email
-                $userQuery = $this->__model->getFirstData("email = '$email' and status = 1");
+                $userQuery = $this->__model->getFirstData("email = '$email' and status = 1 and type = 'member'");
 
                 if (!empty($userQuery)){
                     $passwordHash = $userQuery['password'];
@@ -91,7 +91,7 @@ class Auth extends Controller{
                         Response::redirect('admin/auth/login');
                     }
                 }else{
-                    Session::setFlashData('msg', 'Email không tồn tại trong hệ thống hoặc chưa được kích hoạt');
+                    Session::setFlashData('msg', 'Email không tồn tại trong hệ thống admin hoặc chưa được kích hoạt');
                     Session::setFlashData('msg_type', 'danger');
                     Response::redirect('admin/auth/login');
                 }
@@ -147,7 +147,7 @@ class Auth extends Controller{
                 $this->renderView('admin/layouts/admin_layout_login',$this->__dataForm);
             }else {
                 $email = trim($data['email']);
-                $queryUser = $this->__model->getFirstTableData('users',"email = '$email'");
+                $queryUser = $this->__model->getFirstTableData('users',"email = '$email' and type='member'");
                 if (!empty($queryUser)) {
                     $userId = $queryUser['id'];
         
@@ -184,7 +184,7 @@ class Auth extends Controller{
                         Session::setFlashData('msg_type', 'danger');
                     }
                 } else {
-                    Session::setFlashData('msg', 'Địa chỉ email không tồn tại trong hệ thống');
+                    Session::setFlashData('msg', 'Địa chỉ email không tồn tại trong hệ thống admin');
                     Session::setFlashData('msg_type', 'danger');
                 }
                 Response::redirect('admin/auth/forgot');
@@ -196,7 +196,7 @@ class Auth extends Controller{
 
     public function reset($token){
         if(!empty($token)){
-            $checkToken = $this->__model->getFirstTableData('users',"forgot_token = '$token'");
+            $checkToken = $this->__model->getFirstTableData('users',"forgot_token = '$token' and type='member'");
         
             if(!empty($checkToken)){
                 $data['content'] = 'admin/auth/reset';
@@ -245,7 +245,7 @@ class Auth extends Controller{
                 $password = $data['password'];
                 $token = $data['token'];
 
-                $checkToken = $this->__model->getFirstTableData('users',"forgot_token = '$token'");
+                $checkToken = $this->__model->getFirstTableData('users',"forgot_token = '$token' and type='member'");
         
                 if(!empty($checkToken)){
                     $dataInsert = [
