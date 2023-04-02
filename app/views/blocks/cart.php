@@ -17,7 +17,7 @@
                             <?php 
                             if(!empty($dsgh)){
                             foreach($dsgh as $sp): ?>
-                            <tr>
+                            <tr class="ghsp">
                                 <td class="product__cart__item">
                                     <div class="product__cart__item__pic">
                                         <img src="img/shopping-cart/cart-1.jpg" alt="">
@@ -30,10 +30,13 @@
                                 <td class="quantity__item">
                                     <div class="quantity">
                                         <div class="pro-qty-2">
-                                            <input type="text" value="<?php echo $sp['tsl'] ?>">
+                                            <input class="slg" type="text" value="<?php echo $sp['tsl'] ?>">
+
                                         </div>
+                                        <input class="idsp" type="hidden" value="<?php echo $sp['product_id'] ?>">
                                     </div>
                                 </td>
+
                                 <td class="cart__price">$<?php echo ($sp['sale']*$sp['tsl'])  ?></td>
 
                                 <td onclick="remove(<?php echo $sp['product_id'] ?>)" class="cart__close"><i
@@ -52,7 +55,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="continue__btn update__btn">
-                            <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+                            <a onclick="updateCart()"><i class="fa fa-spinner"></i> Update cart</a>
                         </div>
                     </div>
                 </div>
