@@ -241,12 +241,14 @@
                                         <div class="alert alert-success alert-review hidden">
                                         </div>
                                         <h1>Add Review</h1>
-                                        <?php echo $_GET["idsp"] ?>
-                                        <input id="review_name" class="form_input input_name" type="text" name="name"
-                                            placeholder="Name*" required="required" data-error="Name is required.">
-                                        <input id="review_email" class="form_input input_email" type="email"
-                                            name="email" placeholder="Email*" required="required"
-                                            data-error="Valid email is required.">
+                                        <input id="review_name" style="margin: 0;" class="form_input input_name"
+                                            type="text" name="name" placeholder="Name*" spellcheck="false"
+                                            data-error="Name is required.">
+                                        <span class="error error-review_name"></span>
+                                        <input id="review_email" style="margin-top: 20px;"
+                                            class="form_input input_email" type="text" name="email" placeholder="Email*"
+                                            spellcheck="false" data-error="Valid email is required.">
+                                        <span class="error error-review_email"></span>
                                     </div>
                                     <div>
                                         <h1>Your Rating:</h1>
