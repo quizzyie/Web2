@@ -221,7 +221,6 @@
                                 <form id="review_form" action="post">
                                     <div>
                                         <h1>Add Review</h1>
-                                        <?php echo $_GET["idsp"] ?>
                                         <input id="review_name" class="form_input input_name" type="text" name="name"
                                             placeholder="Name*" required="required" data-error="Name is required.">
                                         <input id="review_email" class="form_input input_email" type="email"

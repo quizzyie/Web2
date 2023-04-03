@@ -53,6 +53,8 @@
                 
                 $return = json_encode($return);
                 echo $return;
+            }else {
+                Response::redirect(HOST_ROOT.'/shop');
             }
         }
         
@@ -62,6 +64,9 @@
                 $result = $this->__model->getRawModel("select products.name as tensp,sizes.name,products.sale,amount,sum(amount) as tsl,cart.product_id,sizes.id as idSize from cart inner join  products on cart.product_id = products.id INNER JOIN sizes on size_id=sizes.id where cart.user_id = ".$user_id." group by cart.product_id,size_id ");
                 
                 return $result;
+            }
+            else {
+                Response::redirect(HOST_ROOT.'/shop');
             }
             
             
