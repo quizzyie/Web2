@@ -383,7 +383,6 @@ const handleSubcribe = async (event) => {
         validate = false;
     } else {
         document.querySelector('.error-subcribe').textContent = "";
-        validate = true;
     }
 
     if (validate) {
@@ -427,7 +426,6 @@ const sendMessage = async (event) => {
         validate = false;
     } else {
         document.querySelector('.error-name-contact').textContent = "";
-        validate = true;
     }
 
     if (!email) {
@@ -438,7 +436,6 @@ const sendMessage = async (event) => {
         validate = false;
     } else {
         document.querySelector('.error-email-contact').textContent = "";
-        validate = true;
     }
 
     if (!message) {
@@ -449,7 +446,6 @@ const sendMessage = async (event) => {
         validate = false;
     } else {
         document.querySelector('.error-message').textContent = "";
-        validate = true;
     }
 
     if (validate) {
