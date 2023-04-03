@@ -485,3 +485,85 @@ const sendMessage = async (event) => {
     }
 }
 
+const onSubmitReview = async (event) => {
+    event.preventDefault();
+    const showErr = document.querySelector('.alert-review');
+    const form = document.querySelector('#review_form');
+    const name = form.querySelector('#review_name').value;
+    const email = form.querySelector('#review_email').value;
+    const message = form.querySelector('#review_message').value;
+
+    const error_review_name = document.querySelector('.error-review_name');
+    const error_review_email = document.querySelector('.error-review_email');
+    const error_review_message = document.querySelector('.error-review_message');
+
+    let validate = true;
+    if (!name) {
+        error_review_name.textContent = "Vui lòng nhập vào họ tên!";
+        validate = false;
+    } else if (name.length < 6) {
+        error_review_name.textContent = "Họ tên ít nhất 6 kí tự!";
+        validate = false;
+    } else {
+        error_review_name.textContent = "";
+    }
+
+    if (!email) {
+        error_review_email.textContent = "Vui lòng nhập vào email!";
+        validate = false;
+    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        error_review_email.textContent = "Email không hợp lệ!";
+        validate = false;
+    } else {
+        error_review_email.textContent = "";
+    }
+
+    if (!message) {
+        error_review_message.textContent = "Vui lòng nhập vào lời nhắn!";
+        validate = false;
+    } else if (message.length < 10) {
+        error_review_message.textContent = "Lời nhắn ít nhất 10 kí tự!";
+        validate = false;
+    } else {
+        error_review_message.textContent = "";
+    }
+
+    if (validate) {
+        let data = new URLSearchParams();
+        data.append('name', name);
+        data.append('email', email);
+        data.append('message', message);
+
+        let count_star = form.querySelector('.user_star_rating').querySelectorAll('.fa-star');
+        data.append('star', count_star.length);
+
+        let host_root = "";
+        if (document.querySelector('.url_hoot_root')) {
+            host_root = document.querySelector('.url_hoot_root').value;
+        }
+        let response = await fetch(host_root + "/contact/send_review", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data.toString()
+        })
+        let jsonData = await response.json();
+        console.log(jsonData);
+
+        document.querySelector('#review_name').value = "";
+        document.querySelector('#review_email').value = "";
+        document.querySelector('#review_message').value = "";
+        if (jsonData['check']) {
+            showErr.textContent = jsonData['msg'];
+            showErr.classList.remove('hidden');
+        } else {
+            showErr.textContent = jsonData['msg'];
+            showErr.classList.remove('hidden');
+        }
+
+    } else {
+        showErr.classList.remove('hidden');
+        showErr.textContent = "Vui lòng kiểm tra lại dữ liệu!";
+    }
+}

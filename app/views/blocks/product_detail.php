@@ -102,9 +102,9 @@
                 <div class="tabs_container">
                     <ul
                         class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
-                        <li class="tab active" data-active-tab="tab_1"><span>Description</span></li>
+                        <li class="tab" data-active-tab="tab_1"><span>Description</span></li>
                         <li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li>
-                        <li class="tab" data-active-tab="tab_3"><span>Reviews
+                        <li class="tab active" data-active-tab="tab_3"><span>Reviews
                                 (<?php echo $soReview ?>)</span></li>
                     </ul>
                 </div>
@@ -115,7 +115,7 @@
 
                 <!-- Tab Description -->
 
-                <div id="tab_1" class="tab_container active">
+                <div id="tab_1" class="tab_container ">
                     <div class="row">
                         <div class="col-lg-5 desc_col">
                             <div class="tab_title">
@@ -167,7 +167,7 @@
 
                 <!-- Tab Reviews -->
 
-                <div id="tab_3" class="tab_container">
+                <div id="tab_3" class="tab_container active">
                     <div class="row">
 
                         <!-- User Reviews -->
@@ -178,13 +178,16 @@
                             </div>
 
                             <!-- User Review -->
-
                             <?php 
                             for($i=0;$i<count($dsReview);$i++){
                             ?>
                             <div class="user_review_container d-flex flex-column flex-sm-row">
                                 <div class="user">
-                                    <div class="user_pic"></div>
+                                    <div class="user_pic">
+                                        <img style="width: 70px;  border-radius: 50%;"
+                                            src="https://tse4.explicit.bing.net/th?id=OIP.euqcyHvusXHENYgYwF-C5wHaFh&pid=Api&P=0"
+                                            alt="">
+                                    </div>
                                     <div class="user_rating">
                                         <ul class="star_rating">
                                             <?php for($j=1;$j<=5;$j++){ ?>
@@ -201,7 +204,7 @@
                                     </div>
                                 </div>
                                 <div class="review">
-                                    <div class="review_date"><?php echo $dsReview[$i]["create_at"]  ?></div>
+                                    <div class="review_date">27 Aug 2016</div>
                                     <div class="user_name">Brandon William</div>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                         incididunt ut labore et dolore magna aliqua.</p>
@@ -209,7 +212,12 @@
                             </div>
                             <?php } ?>
                             <!-- User Review -->
-
+                            <?php 
+                            if($soReview == 0){
+                                echo "<div class='alert alert-danger btn-block'>Chưa có bình luận nào!</div>";
+                            }
+                            
+                            ?>
 
                         </div>
 
@@ -218,15 +226,19 @@
                         <div class="col-lg-6 add_review_col">
 
                             <div class="add_review">
-                                <form id="review_form" action="post">
+                                <form id="review_form">
                                     <div>
+                                        <div class="alert alert-success alert-review hidden">
+                                        </div>
                                         <h1>Add Review</h1>
-                                        <?php echo $_GET["idsp"] ?>
-                                        <input id="review_name" class="form_input input_name" type="text" name="name"
-                                            placeholder="Name*" required="required" data-error="Name is required.">
-                                        <input id="review_email" class="form_input input_email" type="email"
-                                            name="email" placeholder="Email*" required="required"
-                                            data-error="Valid email is required.">
+                                        <input id="review_name" style="margin: 0;" class="form_input input_name"
+                                            type="text" name="name" placeholder="Name*" spellcheck="false"
+                                            data-error="Name is required.">
+                                        <span class="error error-review_name"></span>
+                                        <input id="review_email" style="margin-top: 20px;"
+                                            class="form_input input_email" type="text" name="email" placeholder="Email*"
+                                            spellcheck="false" data-error="Valid email is required.">
+                                        <span class="error error-review_email"></span>
                                     </div>
                                     <div>
                                         <h1>Your Rating:</h1>
@@ -235,16 +247,17 @@
                                             <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                             <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                             <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                         </ul>
                                         <textarea id="review_message" class="input_review" name="message"
-                                            placeholder="Your Review" rows="4" required
+                                            placeholder="Your Review" rows="4" spellcheck="false"
                                             data-error="Please, leave us a review."></textarea>
+                                        <span class="error error-review_message"></span>
                                     </div>
                                     <div class="text-left text-sm-right">
                                         <button id="review_submit" type="submit"
-                                            class="red_button review_submit_btn trans_300"
-                                            value="Submit">submit</button>
+                                            class="red_button review_submit_btn trans_300" value="Submit"
+                                            onclick="onSubmitReview(event)">submit</button>
                                     </div>
                                 </form>
                             </div>
