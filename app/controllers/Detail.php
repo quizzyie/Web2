@@ -26,6 +26,9 @@ class Detail extends Controller
         $idBrand = $this->data['sub_data']['sp']['id_brand'];
         $this->data["sub_data"]["dssplq"] = $this->sanPhamLienQuan($idsp,$idCategory,$idBrand);
         $this->data["sub_data"]["dsReview"] = $this->getReviews($idsp);
+
+        $this->data["sub_data"]["soReview"] = $this->soReviews($idsp)['soReview'];
+  
         $this->renderView('layouts/client_layout',$this->data);
         Session::setSession("user_id_detail",$idsp);
         
@@ -49,9 +52,14 @@ class Detail extends Controller
         return $dssp;
     }
     public function getReviews($idsp){
-        $sql = "SELECT *,COUNT(product_id) as soReview FROM `reviews` WHERE product_id = $idsp and status = 2";
+        $sql = "SELECT * FROM `reviews` WHERE product_id = $idsp and status = 2";
         $dsReview = $this->__model->getRawModel($sql);
         return $dsReview;
+    }
+    public function soReviews($idsp){
+        $sqlSR = "SELECT COUNT(product_id) as soReview FROM `reviews` WHERE product_id = $idsp and status = 2";
+        $soReiview = $this->__model->getFirstRaw($sqlSR);
+        return $soReiview;
     }
 }
 

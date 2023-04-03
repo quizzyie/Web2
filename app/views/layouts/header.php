@@ -189,7 +189,7 @@
                                 <li><a href="#"><i class="fa fa-search search-switch" aria-hidden="true"></i></a></li>
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                                 <li class="checkout">
-                                    <a href="#">
+                                    <a href="<?php echo HOST_ROOT ?>/cartController">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                         <span id="checkout_items" class="checkout_items">2</span>
                                     </a>
