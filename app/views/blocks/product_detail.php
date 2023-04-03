@@ -9,8 +9,7 @@
 
                                 <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/single/images/single_1_thumb.jpg"
                                         alt="" data-image="images/single_1.jpg"></li>
-                                <li class="active"><img
-                                        src="<?php echo HOST_ROOT ?>/public/assets/client/single/images/single_2_thumb.jpg"
+                                <li class="active"><img src="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"] ?>"
                                         alt="" data-image="images/single_2.jpg"></li>
                                 <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/single/images/single_3_thumb.jpg"
                                         alt="" data-image="images/single_3.jpg"></li>
@@ -21,7 +20,7 @@
                     <div class="col-lg-9 image_col order-lg-2 order-1">
                         <div class="single_product_image">
                             <div class="single_product_image_background"
-                                style="background-image:url(<?php echo HOST_ROOT ?>/public/assets/client/single/images/single_2.jpg)">
+                                style="background-image:url(<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"] ?>">
                             </div>
                         </div>
                     </div>
@@ -105,7 +104,8 @@
                         class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
                         <li class="tab active" data-active-tab="tab_1"><span>Description</span></li>
                         <li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li>
-                        <li class="tab" data-active-tab="tab_3"><span>Reviews (2)</span></li>
+                        <li class="tab" data-active-tab="tab_3"><span>Reviews
+                                (<?php echo $dsReview['soReview'] ?>)</span></li>
                     </ul>
                 </div>
             </div>
@@ -137,7 +137,7 @@
                         </div>
                         <div class="col-lg-5 offset-lg-2 desc_col">
                             <div class="tab_image">
-                                <img src="<?php echo HOST_ROOT ?>/public/assets/client/single/images/desc_2.jpg" alt="">
+                                <img src="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"] ?>" alt="">
                             </div>
                             <div class="tab_text_block">
                                 <h2>Pocket cotton sweatshirt</h2>

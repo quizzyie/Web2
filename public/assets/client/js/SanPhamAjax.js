@@ -44,7 +44,7 @@ function checkSizes() {
 }
 function getValueofCheckBox() {
   categoryValues.splice(0, categoryValues.length);
-  brandValues.splice(0, categoryValues.length);
+  brandValues.splice(0, brandValues.length);
   sizeValues.splice(0, sizeValues.length);
   checkedBrands();
   checkedCategories();
@@ -112,14 +112,18 @@ function filter(vtt) {
   const currentUrl = HOST_ROOT;
   const relativeUrl = "/shop/filter";
   const fullUrl = currentUrl + relativeUrl;
+  let search = document.getElementById("search").value;
+  let sort = document.getElementById("sort").value;
   getValueofCheckBox(); //Lay gia tri cac checkBox
   const data = {
     trang: vtt,
     category: categoryValues,
     brand: brandValues,
     size: sizeValues,
+    text: search,
+    sort: sort,
   };
-  console.log(fullUrl);
+  console.log(fullUrl + "  +  " + search);
 
   fetch(fullUrl, {
     method: "POST",
@@ -154,86 +158,83 @@ function filter(vtt) {
 // Giỏ Hàng
 
 function addToCart(idsp) {
-  const loginToken = sessionStorage.getItem("login_token");
-  if (loginToken === "false") {
-    alert("Can Dang Nhap Moi duoc them gio hang");
-  } else {
-    const sizeOptions = document.querySelectorAll(
-      '.product__details__option__size input[type="radio"]'
-    );
-    let selectedSize = "";
+  const sizeOptions = document.querySelectorAll(
+    '.product__details__option__size input[type="radio"]'
+  );
+  let selectedSize = "";
 
-    sizeOptions.forEach((option) => {
-      if (option.checked) {
-        selectedSize = option.value;
+  sizeOptions.forEach((option) => {
+    if (option.checked) {
+      selectedSize = option.value;
+    }
+  });
+
+  // Get the selected quantity
+  let selectedQuantity = document.querySelector("#quantity_value").textContent;
+
+  // //fetch nè
+  const currentUrl = HOST_ROOT;
+  const relativeUrl = "/cartcontroller/themVaoGio";
+  const fullUrl = currentUrl + relativeUrl;
+
+  const data = {
+    idsp: idsp,
+    slm: selectedQuantity,
+    idSize: selectedSize,
+  };
+
+  fetch(fullUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        alert(data.error);
+      } else if (data.login) {
+        onLogin();
+      } else {
+        alert("Them san pham thanh cong");
       }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
     });
 
-    // Get the selected quantity
-    let selectedQuantity =
-      document.querySelector("#quantity_value").textContent;
-
-    // //fetch nè
-    const currentUrl = window.location.origin + "/" + tenDoAn;
-    const relativeUrl = "/cartcontroller/themVaoGio";
-    const fullUrl = currentUrl + relativeUrl;
-
-    const data = {
-      idsp: idsp,
-      slm: selectedQuantity,
-      idSize: selectedSize,
-    };
-
-    fetch(fullUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          alert(data.error);
-        } else if (data.login) {
-        } else {
-          alert("Them san pham thanh cong");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
   //Remove
-  function remove(idsp) {
-    const currentUrl = window.location.origin + "/" + tenDoAn;
-    const relativeUrl = "/cartcontroller/xoaSanPham";
-    const fullUrl = currentUrl + relativeUrl;
-    const data = {
-      idsp: idsp,
-    };
-    fetch(fullUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+}
+function remove(idsp, idSize) {
+  const currentUrl = HOST_ROOT;
+  const relativeUrl = "/cartcontroller/xoaSanPham";
+  const fullUrl = currentUrl + relativeUrl;
+  const data = {
+    idsp: idsp,
+    idSize: idSize,
+  };
+  fetch(fullUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        alert(data.error);
+      } else {
+        alert("Xoa San Pham thanh cong");
+        giaoDienGioHang(data.dsgh);
+        let tongTien = document.getElementById("tongTienGH");
+        tongTien.innerHTML = data.tt;
+      }
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          alert(data.error);
-        } else {
-          alert("Xoa San Pham thanh cong");
-          giaoDienGioHang(data.dsgh);
-          let tongTien = document.getElementById("tongTienGH");
-          tongTien.innerHTML = data.tt;
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }
 
 function giaoDienGioHang(dsgh) {
@@ -261,7 +262,7 @@ function giaoDienGioHang(dsgh) {
     </td>
     <td class="cart__price">$${sp.sale * sp.tsl}</td>
 
-    <td onclick="remove(${sp.product_id})" class="cart__close"><i
+    <td onclick="remove(${sp.product_id},${sp.idSize})" class="cart__close"><i
             class="fa fa-close"></i></td>
 
   </tr>`;
@@ -273,24 +274,38 @@ function giaoDienGioHang(dsgh) {
 
 function updateCart() {
   let dsspgh = document.querySelectorAll(".ghsp");
-  const currentUrl = window.location.origin + "/" + tenDoAn;
+  const currentUrl = HOST_ROOT;
   const relativeUrl = "/cartcontroller/capNhatSanPham";
   const fullUrl = currentUrl + relativeUrl;
 
   let idspArray = [];
   let tslArray = [];
+  let sizeArray = [];
 
   for (i = 0; i < dsspgh.length; i++) {
     let sp = dsspgh[i];
     let idsp = sp.querySelector(".idsp").value;
     let tsl = sp.querySelector(".slg").value;
-    console.log("Lan " + i + " co idsp la: " + idsp + " va tsl la: " + tsl);
+    let size = sp.querySelector(".idsize").value;
+
+    console.log(
+      "Lan " +
+        i +
+        " co idsp la: " +
+        idsp +
+        " va tsl la: " +
+        tsl +
+        "  va size la " +
+        size
+    );
     idspArray.push(idsp);
     tslArray.push(tsl);
+    sizeArray.push(size);
   }
   const data = {
     dsidsp: idspArray,
     dstsl: tslArray,
+    dssize: sizeArray,
   };
   fetch(fullUrl, {
     method: "POST",

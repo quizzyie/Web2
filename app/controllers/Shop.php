@@ -8,6 +8,8 @@ class Shop extends Controller
     public $brand = null;
     public $size = null;
     public $sql = "";
+    public $text = "";
+    private $sort = 1;
     private $slgSPMT = 6;
     public function __construct()
     {
@@ -36,13 +38,15 @@ class Shop extends Controller
             $this->category = $data['category'];//Lay Category
             $this->brand = $data['brand'];//Lay Thuong Hieu
             $this->size = $data['size'];//Lay Size
-            
+            $this->text = $data['text'];//Lay tim kiem
+            $this->sort = $data['sort'];//Lay Sort
             $vtt =0;
             if(isset($data['trang'])){
                 $vtt = $data['trang'];
             }
             $viTri = $vtt*$this->slgSPMT;// Cap Nhat vi tri trong sql
-            $this->sql = "select * from products inner join products_size on  id = id_product where quantity > 0 ";
+            $this->sql = "select * from products inner join products_size on  id = id_product where quantity > 0 and products.name like '%$this->text%' ";
+            
             if(!empty($this->category)){
                 $values = implode("','", $this->category);
                 $this->sql .="and id_category in ('$values')";
@@ -55,7 +59,14 @@ class Shop extends Controller
                 $values = implode("','", $this->size);
                 $this->sql .="and id_size in ('$values')";
             }
-            $this->sql .= "group by products.id ";
+            
+            $this->sql .= " group by products.id ";
+            if($this->sort==2){
+                $this->sql .=" order by sale DESC ";
+            }
+            else{
+                $this->sql .=" order by sale ASC ";
+            }
             $dsspFull = $this->__model->getRawModel($this->sql);
             $ds = $this->__model->getRawModel($this->sql."limit $viTri,".$this->slgSPMT);
             $soTrang = $this->tongSoTrang($dsspFull);//Lay So Trang

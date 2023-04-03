@@ -17,11 +17,11 @@
         public function themVaoGio(){
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $return =[];
-                if(Session::getSession('login_token')){
+                if(isLogin()){
                     $data = json_decode(file_get_contents('php://input'), true);
                     $idsp = $data['idsp'];
                     $slm = $data['slm'];
-                    $user_id = Session::getSession('id_user');
+                    $user_id = isLogin()['user_id'];
                     if(isset($data['idSize'])){
                         $idSize = $data['idSize'];
                     }
@@ -48,7 +48,7 @@
                     
                 }
                 else{
-                    $return = ['error'=>"Cần đăng nhập mới được thêm giỏ hàng"];
+                    $return = ['login'=>"Cần đăng nhập mới được thêm giỏ hàng"];
                 }
                 
                 $return = json_encode($return);
@@ -59,7 +59,7 @@
         public function xemGioHang(){
             if(Session::getSession('login_token')){
                 $user_id = Session::getSession('id_user');
-                $result = $this->__model->getRawModel("select products.name as tensp,sizes.name,products.sale,amount,sum(amount) as tsl,cart.product_id from cart inner join  products on cart.product_id = products.id INNER JOIN sizes on size_id=sizes.id where cart.user_id = ".$user_id." group by cart.product_id,size_id ");
+                $result = $this->__model->getRawModel("select products.name as tensp,sizes.name,products.sale,amount,sum(amount) as tsl,cart.product_id,sizes.id as idSize from cart inner join  products on cart.product_id = products.id INNER JOIN sizes on size_id=sizes.id where cart.user_id = ".$user_id." group by cart.product_id,size_id ");
                 
                 return $result;
             }
@@ -78,15 +78,16 @@
         }
         public function xoaSanPham(){
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $user_id = isLogin()['user_id'];
                 $data = json_decode(file_get_contents('php://input'), true);
-                $result = $this->__model->getRawModel("DELETE FROM `cart` WHERE product_id = ".$data['idsp']);
+                $result = $this->__model->getRawModel("DELETE FROM `cart` WHERE product_id = ".$data['idsp']." AND size_id = ".$data["idSize"]." AND user_id = $user_id");
                 if ($result === false) {
                     $error = $this->__model->getError();
                     $return = [$error];
                     // handle the error
                 } else {
                     $user_id = Session::getSession('id_user');
-                    $dssp = $this->__model->getRawModel("select products.name as tensp,sizes.name,products.sale,amount,sum(amount) as tsl,cart.product_id from cart inner join  products on cart.product_id = products.id INNER JOIN sizes on size_id=sizes.id where cart.user_id = ".$user_id." group by cart.product_id,size_id ");
+                    $dssp = $this->xemGioHang();
                     $tt = $this->tongTien();
                     $return = ["dsgh"=>$dssp,"tt"=>$tt];
                     
@@ -101,11 +102,14 @@
                 $data = json_decode(file_get_contents('php://input'), true);
                 $dsIDsp = $data["dsidsp"];
                 $dsTSL = $data["dstsl"];
-                
+                $dsSize = $data["dssize"];
+                $user_id = isLogin()['user_id'];
                 for($i=0;$i<count($dsIDsp);$i++){
                     $idsp = $dsIDsp[$i];
                     $tsl = $dsTSL[$i];
-                    $result = $this->__model->getRawModel("UPDATE `cart` SET `amount`= ".$tsl." where product_id = ".$idsp);
+                    $size = $dsSize[$i];
+                    $this->__model->getRawModel("DELETE FROM cart where product_id = ".$idsp." AND size_id = ".$size);
+                    $result = $this->__model->getRawModel("INSERT INTO cart (user_id, product_id, amount, size_id) VALUES ('$user_id', '$idsp', '$tsl', '$size')");
                     if ($result === false) {
                         $error = $this->__model->getError();
                         $return = [$error];
