@@ -19,17 +19,19 @@ class Shop extends Controller
         $this->data['sub_data']['dsCategories'] = $this->__model->getRawModel("select * from categories");
         $this->data['sub_data']['dsBrands'] = $this->__model->getRawModel("select * from brands");
         $this->data['sub_data']['dsSizes'] = $this->__model->getRawModel("select * from sizes");
+        $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
         
     }
 
     public function index($vtt = 0){
-        $this->data['title'] = "Cửa hàng";
+        $this->data['sub_data']['title'] = "Cửa hàng";
         $this->data['content'] = 'blocks/shop';
         
         $this->data[''] = '';
         $this->data['sub_data']['dsProducts'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where quantity > 0 and products.name like '%%' GROUP BY products.id ORDER BY sale ASC limit $vtt,".$this->slgSPMT);
         $this->data['sub_data']['dsProductsFull'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where quantity > 0 and products.name like '%%' GROUP BY products.id ");
         $this->data['sub_data']['soTrang'] = $this->tongSoTrang($this->data['sub_data']['dsProductsFull']);
+        $this->data['sub_data']['tongSp'] = count($this->data['sub_data']['dsProductsFull']) ;
         // echo "<pre>";
         // print_r($this->data['sub_data']['dsProductsFull']);
         // echo "</pre>";
@@ -78,6 +80,7 @@ class Shop extends Controller
                 'soTrang' => $soTrang,
                 'sql'=>$this->sql,
                 'dsSize'=>$this->data['sub_data']['dsSizes'],
+                'tongsp'=>count($dsspFull),
             );
             $data = json_encode($data);
             echo $data;
@@ -93,5 +96,6 @@ class Shop extends Controller
         $data['content'] = 'blocks/product_detail';
         $this->renderView('layouts/client_layout',$data);
     }
+    
     
 }

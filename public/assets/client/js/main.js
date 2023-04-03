@@ -1,3 +1,67 @@
+const rangeInput = document.querySelectorAll(".range-input input");
+let priceInput = document.querySelectorAll(".shop__sidebar__price input");
+let progress = document.querySelector(".slider .progress");
+let priceGap = 1000;
+priceInput.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    let minVal = parseInt(priceInput[0].value);
+    let maxVal = parseInt(priceInput[1].value);
+
+    if (maxVal - minVal >= priceGap && maxVal <= 10000) {
+      if (e.target.className === "input-min") {
+        rangeInput[0].value = minVal;
+        progress.style.left = (minVal / rangeInput[0].max) * 100 + "%";
+      } else {
+        rangeInput[1].value = maxVal;
+        progress.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+      }
+    }
+  });
+  input.addEventListener("blur", () => {
+    let minVal = parseInt(priceInput[0].value);
+    let maxVal = parseInt(priceInput[1].value);
+    let minValue = document.querySelector(".input-min");
+    let maxValue = document.querySelector(".input-max");
+    if (maxVal - minVal < priceGap) {
+      maxVal = minVal + priceGap;
+      rangeInput[1].value = maxVal;
+      maxValue.value = maxVal;
+      progress.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+    }
+    if (minVal < 0) {
+      minVal = 0;
+      rangeInput[0].value = minVal;
+      minValue.value = minVal;
+      progress.style.left = (minVal / rangeInput[0].max) * 100 + "%";
+    }
+    if (maxVal > 10000) {
+      maxVal = 10000;
+      rangeInput[1].value = maxVal;
+      maxValue.value = maxVal;
+      progress.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+    }
+  });
+});
+
+rangeInput.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    let minVal = parseInt(e.target.parentElement.children[0].value);
+    let maxVal = parseInt(e.target.parentElement.children[1].value);
+
+    if (maxVal - minVal < priceGap) {
+      if (e.target.className === "range-min") {
+        rangeInput[0].value = maxVal - priceGap;
+      } else {
+        rangeInput[1].value = minVal + priceGap;
+      }
+    } else {
+      priceInput[0].value = minVal;
+      priceInput[1].value = maxVal;
+      progress.style.left = (minVal / rangeInput[0].max) * 100 + "%";
+      progress.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+    }
+  });
+});
 /*  ---------------------------------------------------
     Template Name: Male Fashion
     Description: Male Fashion - ecommerce teplate
@@ -6,21 +70,6 @@
     Version: 1.0
     Created: Colorib
 ---------------------------------------------------------  */
-
-function activeSize() {
-  document.addEventListener("DOMContentLoaded", function () {
-    let sizeCustom = document.querySelectorAll(".size-custom");
-    for (let i = 0; i < sizeCustom.length; i++) {
-      sizeCustom[i].addEventListener("click", function () {
-        for (let j = 0; j < sizeCustom.length; j++) {
-          sizeCustom[j].classList.remove("active");
-        }
-        sizeCustom[i].classList.add("active");
-      });
-    }
-  });
-}
-activeSize();
 
 // sizeCustom.addEventListener("click", function () {
 //   alert("123");

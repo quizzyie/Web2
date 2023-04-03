@@ -52,31 +52,31 @@
                 </ul>
                 <div class="product__details__option__size">
                     <span>Size:</span>
-                    
+
                     <!-- Giai thich: Cho mặc định size S được chọn. Nếu như size S hết hàng thì cộng defaultSize lên -->
                     <?php $defaultSize = 1;  foreach ($dsSizes as $s): ?>
                     <?php if($s['id']==$defaultSize && $s["quantity"]>0){  ?>
-                        <div class="size-custom">
-                        <input type="radio" name="size" value="<?php  echo $s["id"] ?>" checked>
-                    <?php echo $s["name"]  ?>
+                    <div class="size-custom">
+                        <input type="radio" name="size" value="<?php  echo $s["id"] ?>">
+                        <?php echo $s["name"]  ?>
 
-                        </div>
-                   
+                    </div>
+
                     <?php } else{ $defaultSize += 1; ?>
 
                     <?php if($s["quantity"]>0){?>
-                        <div  class="size-custom">
+                    <div class="size-custom">
                         <input type="radio" name="size" value="<?php  echo $s["id"] ?>">
-                    <?php echo $s["name"]  ?>
-                        </div>
-                    
+                        <?php echo $s["name"]  ?>
+                    </div>
+
 
                     <?php }else { ?>
-                        <div  class="size-custom disabled">
+                    <div class="size-custom disabled">
                         <input type="radio" name="size" value="<?php  echo $s["id"] ?>" disabled>
-                    <?php echo $s["name"]  ?>
-                        </div>
-                    
+                        <?php echo $s["name"]  ?>
+                    </div>
+
 
 
                     <?php } ?>

@@ -111,9 +111,9 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="top_nav_left"><?php
-                                                    $msgAlert = Session::getFlashData('msg');
-                                                    echo !empty($msgAlert) ? $msgAlert : "free shipping on all u.s orders over $50";
-                                                    ?></div>
+                        $msgAlert = Session::getFlashData('msg');
+                        echo !empty($msgAlert) ? $msgAlert : "free shipping on all u.s orders over $50";
+                        ?></div>
                     </div>
                     <div class="col-md-6 text-right">
                         <div class="top_nav_right">
@@ -186,13 +186,15 @@
                                 <li><a href="contact.html">contact</a></li>
                             </ul>
                             <ul class="navbar_user">
-                                <li><a href="#"><i class="fa fa-search search-switch" aria-hidden="true"></i></a></li>
+                                <li><a><i class="fa fa-search search-switch" aria-hidden="true"></i></a></li>
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                                 <li class="checkout">
+                                    <?php if(isLogin()){ ?>
                                     <a href="<?php echo HOST_ROOT ?>/cartController">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                        <span id="checkout_items" class="checkout_items">2</span>
+                                        <span id="checkout_items" class="checkout_items"><?php echo $soSpGh  ?></span>
                                     </a>
+                                    <?php } ?>
                                 </li>
                             </ul>
                             <div class="hamburger_container">

@@ -145,6 +145,10 @@ function filter(vtt) {
           htmlTrang += `<a  onclick="filter(${i - 1})">${i}</a>`;
         }
       }
+      let showSlg = document.getElementById("showslg");
+      showSlg.innerHTML = `<p id="showslg">Showing ${vtt + 1} – ${trang} of ${
+        data.tongsp
+      } results</p>`;
       // console.log(data);
       // console.log(htmlTrang);
       dsSoTrang.innerHTML = htmlTrang;
@@ -155,53 +159,80 @@ function filter(vtt) {
 }
 
 // Giỏ Hàng
-
+function activeSize() {
+  document.addEventListener("DOMContentLoaded", function () {
+    let sizeCustom = document.querySelectorAll(".size-custom");
+    for (let i = 0; i < sizeCustom.length; i++) {
+      sizeCustom[i].addEventListener("click", function () {
+        for (let j = 0; j < sizeCustom.length; j++) {
+          sizeCustom[j].classList.remove("active");
+        }
+        sizeCustom[i].classList.add("active");
+      });
+    }
+  });
+}
+activeSize();
 function addToCart(idsp) {
-  const sizeOptions = document.querySelectorAll(
-    '.product__details__option__size input[type="radio"]'
-  );
-  let selectedSize = "";
+  // const sizeOptions = document.querySelectorAll(
+  //   '.product__details__option__size input[type="radio"]'
+  // );
+  // let selectedSize = "";
 
-  sizeOptions.forEach((option) => {
-    if (option.checked) {
-      selectedSize = option.value;
+  // sizeOptions.forEach((option) => {
+  //   if (option.classList.contains("active")) {
+  //     selectedSize = option.value;
+  //     console.log(selectedSize);
+  //   }
+  // });
+  let sizeCustom = document.querySelectorAll(".size-custom");
+  let selectedSize = 0;
+  sizeCustom.forEach((size) => {
+    let radio = size.querySelector('input[type="radio"]');
+    if (size.classList.contains("active")) {
+      selectedSize = radio.value;
     }
   });
 
-  // Get the selected quantity
-  let selectedQuantity = document.querySelector("#quantity_value").textContent;
+  if (selectedSize == 0) {
+    alert("Can chon size truoc khi dat hang");
+  } else {
+    // Get the selected quantity
+    let selectedQuantity =
+      document.querySelector("#quantity_value").textContent;
 
-  // //fetch nè
-  const currentUrl = HOST_ROOT;
-  const relativeUrl = "/cartcontroller/themVaoGio";
-  const fullUrl = currentUrl + relativeUrl;
+    // //fetch nè
+    const currentUrl = HOST_ROOT;
+    const relativeUrl = "/cartcontroller/themVaoGio";
+    const fullUrl = currentUrl + relativeUrl;
 
-  const data = {
-    idsp: idsp,
-    slm: selectedQuantity,
-    idSize: selectedSize,
-  };
+    const data = {
+      idsp: idsp,
+      slm: selectedQuantity,
+      idSize: selectedSize,
+    };
 
-  fetch(fullUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) {
-        alert(data.error);
-      } else if (data.login) {
-        onLogin();
-      } else {
-        alert("Them san pham thanh cong");
-      }
+    fetch(fullUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          alert(data.error);
+        } else if (data.login) {
+          onLogin();
+        } else {
+          alert("Them san pham thanh cong");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
 
   //Remove
 }
@@ -289,13 +320,13 @@ function updateCart() {
 
     console.log(
       "Lan " +
-      i +
-      " co idsp la: " +
-      idsp +
-      " va tsl la: " +
-      tsl +
-      "  va size la " +
-      size
+        i +
+        " co idsp la: " +
+        idsp +
+        " va tsl la: " +
+        tsl +
+        "  va size la " +
+        size
     );
     idspArray.push(idsp);
     tslArray.push(tsl);
