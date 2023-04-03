@@ -62,16 +62,26 @@ $config['images'] = array(
 
 /*=================================== Backends ========================================*/
 // https://ckeditor.com/docs/ckfinder/ckfinder3-php/configuration.html#configuration_options_backends
+$web_root = $_SERVER['HTTP_HOST'];
+
+$temp = str_replace("\\","/",__DIR__);
+
+$temp2 = str_replace(strtolower($_SERVER['DOCUMENT_ROOT']),"",strtolower($temp)) ;
+$rootPath = explode("public", $temp2)[0];
+$test = "{$rootPath}";
+
 
 $config['backends'][] = array(
     'name'         => 'default',
     'adapter'      => 'local',
-    'baseUrl'      => HOST_ROOT.'/uploads',
+    'baseUrl'      => $test.'uploads',
+    // 'baseUrl'      => 'http://localhost:81/PHP/mvc_training/uploads',
 //  'root'         => '', // Can be used to explicitly set the CKFinder user files directory.
     'chmodFiles'   => 0777,
     'chmodFolders' => 0755,
     'filesystemEncoding' => 'UTF-8',
 );
+
 
 /*================================ Resource Types =====================================*/
 // https://ckeditor.com/docs/ckfinder/ckfinder3-php/configuration.html#configuration_options_resourceTypes
