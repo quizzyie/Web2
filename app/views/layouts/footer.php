@@ -39,9 +39,13 @@
                     <h6>NewLetter</h6>
                     <div class="footer__newslatter">
                         <p>Be the first to know about new arrivals, look books, sales & promos!</p>
-                        <form action="#">
-                            <input type="text" placeholder="Your email">
-                            <button type="submit"><span class="icon_mail_alt"></span></button>
+                        <form>
+                            <input class="subcribe" type="text" spellcheck="false" placeholder="Your email"
+                                style="color: white;">
+                            <button type="submit" onclick="handleSubcribe(event)"><span
+                                    class="icon_mail_alt"></span></button>
+                            <span class="error error-subcribe"></span>
+                            <span class="success-subcribe" style="color: #cdbc39;"></span>
                         </form>
                     </div>
                 </div>

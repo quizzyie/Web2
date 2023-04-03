@@ -267,6 +267,14 @@ function getNameLogin(){
     return '';
 }
 
+function getUserLogin(){
+    if(isLogin()){
+        $db = new Database();
+        return $db->firstRaw("select * from users where id = ".isLogin()['user_id']);
+    }
+    return [];
+}
+
 function isPermission($module,$action){
     if(isLogin()){
         $id = isLogin()['user_id'];

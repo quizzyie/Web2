@@ -1,8 +1,15 @@
 <section class="content">
     <div class="container-fluid">
         <?php getMsg(Session::getFlashData('msg'),Session::getFlashData('msg_type')) ?>
+        <?php 
+        if(isPermission('products','add')){
+            ?>
         <a href="<?php echo _WEB_HOST_ROOT_ADMIN.'/products/add' ?>" class="btn btn-primary"><i
                 class="fa fa-plus"></i>Thêm sản phẩm</a>
+        <?php
+        }
+        ?>
+
         <hr>
         <div class="row">
             <div class="col-3">
@@ -91,7 +98,7 @@
                     <th width="">Hàng còn</th>
                     <th width="">Thời gian</th>
                     <th width="8%">Sửa</th>
-                    <th width="8%">Xóa</th>
+                    <!-- <th width="8%">Xóa</th> -->
                 </tr>
             </thead>
             <tbody class="fetch-data-table">

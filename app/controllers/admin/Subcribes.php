@@ -12,6 +12,15 @@ class Subcribes extends Controller
 
     public function index()
     {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('contacts','update')&&!isPermission('contacts','delete')){
+            App::$app->loadError('permission');
+            return;
+        }
         if (isLogin()) {
             $data['title'] = "Danh sách theo dõi";
             $data['content'] = 'admin/subcribes/list';
@@ -24,6 +33,15 @@ class Subcribes extends Controller
 
     public function update($id)
     {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('contacts','update')){
+            App::$app->loadError('permission');
+            return;
+        }
         if (isLogin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại theo dõi!');
@@ -90,6 +108,15 @@ class Subcribes extends Controller
 
     public function delete($id)
     {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('contacts','delete')){
+            App::$app->loadError('permission');
+            return;
+        }
         if (isLogin()) {
             if (!empty($id)) {
                 if (empty($this->__model->getFirstData("id = $id"))) {
@@ -169,11 +196,26 @@ class Subcribes extends Controller
             <td>$btnStatus</td>
             <td>$note</td>
             <td>$create_at</td>
-            <td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>
-            <td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
-                btn-sm\"><i class=\"fa fa-trash\"></i>
-                Xóa</a></td></tr>
+            
+            
             ";
+
+            if(isPermission('contacts','update')){
+                $data .= "<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
+            }else{
+                $data .= "<td></td>";
+            }
+
+            if(isPermission('contacts','delete')){
+                $data .= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
+                btn-sm\"><i class=\"fa fa-trash\"></i>
+                Xóa</a></td>";
+            }else{
+                $data .= "<td></td>";
+            }
+
+            $data .= "</tr>";
+
             $i++;
         }
 

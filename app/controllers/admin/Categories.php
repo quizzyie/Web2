@@ -9,25 +9,35 @@ class Categories extends Controller {
     }
 
     public function index(){
-        if(isLogin()){
-            $data['title'] = "Danh sách danh mục sản phẩm";
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('products','add')&&!isPermission('products','update')&&!isPermission('products','delete')){
+            App::$app->loadError('permission');
+            return;
+        }
+        $data['title'] = "Danh sách danh mục sản phẩm";
             $data['content'] = 'admin/categories/list';
     
-            $this->renderView('admin/layouts/admin_layout',$data);
-        }else{
-            Response::redirect('admin/auth/login');
-        }        
+            $this->renderView('admin/layouts/admin_layout',$data);    
     }
 
     public function add(){
-        if(isLogin()){
-            $data['title'] = "Thêm danh mục sản phẩm";
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('products','add')){
+            App::$app->loadError('permission');
+            return;
+        }
+        $data['title'] = "Thêm danh mục sản phẩm";
             $data['content'] = 'admin/categories/add';
                 
             $this->renderView('admin/layouts/admin_layout',$data);
-        }else{
-            Response::redirect('admin/auth/login');
-        }   
     }
     
     public function post_add(){
@@ -76,20 +86,25 @@ class Categories extends Controller {
     }
 
     public function update($id){
-        if(isLogin()){
-            if(empty($this->__model->getFirstData("id = $id"))){
-                Session::setFlashData('msg','Không tồn tại danh mục sản phẩm!');
-                Response::redirect('admin/categories/');
-            }else{
-                $data['title'] = "Cập nhập danh mục sản phẩm";   
-                $data['content'] = 'admin/categories/update';
-                $data['sub_data']['dataForm'] = $this->__model->getFirstData("id = $id");
-                $this->renderView('admin/layouts/admin_layout',$data);
-                Session::setSession('catetgory_update_id',$id);
-            } 
-        }else{
+        if (!isLogin()) {
             Response::redirect('admin/auth/login');
+            return;
         }
+
+        if(!isPermission('products','update')){
+            App::$app->loadError('permission');
+            return;
+        }
+        if(empty($this->__model->getFirstData("id = $id"))){
+            Session::setFlashData('msg','Không tồn tại danh mục sản phẩm!');
+            Response::redirect('admin/categories/');
+        }else{
+            $data['title'] = "Cập nhập danh mục sản phẩm";   
+            $data['content'] = 'admin/categories/update';
+            $data['sub_data']['dataForm'] = $this->__model->getFirstData("id = $id");
+            $this->renderView('admin/layouts/admin_layout',$data);
+            Session::setSession('catetgory_update_id',$id);
+        } 
     }
 
     public function post_update(){
@@ -142,12 +157,22 @@ class Categories extends Controller {
     }
 
     public function delete($id){
-        if(isLogin()){
-            if(!empty($id)){
-                if(empty($this->__model->getFirstData("id = $id"))){
-                    Session::setFlashData('msg','Không tồn tại danh mục sản phẩm!');
-                    Session::setFlashData('msg_type','danger');
-                }else {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('products','delete')){
+            App::$app->loadError('permission');
+            return;
+        }
+        if(!empty($id)){
+            if(empty($this->__model->getFirstData("id = $id"))){
+                Session::setFlashData('msg','Không tồn tại danh mục sản phẩm!');
+                Session::setFlashData('msg_type','danger');
+            }else {
+                if($this->__model->getRowsModel("select * from products where id_category = $id")==0)
+                {
                     if($this->__model->deleteData("id = $id")){
                         Session::setFlashData('msg','Xóa danh mục sản phẩm thành công!');
                         Session::setFlashData('msg_type','success');
@@ -155,15 +180,16 @@ class Categories extends Controller {
                         Session::setFlashData('msg','Xóa danh mục sản phẩm không thành công!');
                         Session::setFlashData('msg_type','danger');
                     }
+                }else{
+                    Session::setFlashData('msg','Xóa danh mục sản phẩm không thành công đã có sản phẩm đki danh mục!');
+                    Session::setFlashData('msg_type','danger');
                 }
-            }else{
-                Session::setFlashData('msg','Truy cập không hợp lệ!');
-                Session::setFlashData('msg_type','danger');
             }
-            Response::redirect('admin/categories/');
         }else{
-            Response::redirect('admin/auth/login');
+            Session::setFlashData('msg','Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type','danger');
         }
+        Response::redirect('admin/categories/');
     }
 
     public function phan_trang(){        
@@ -194,11 +220,23 @@ class Categories extends Controller {
             <td>$name</td>
             <td><img src='$linkImage' width='80' /></td>
             <td>$create_at</td>
-            <td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>
-            <td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
-                btn-sm\"><i class=\"fa fa-trash\"></i>
-                Xóa</a></td></tr>
+            
+            
             ";
+
+            if(isPermission('products','update')){
+                $data .= "<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
+            }else{
+                $data .= "<td></td>";
+            }
+            if($this->__model->getRowsModel("select * from products where id_category = $id")==0&& isPermission('products','delete')){
+                $data.= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
+                btn-sm\"><i class=\"fa fa-trash\"></i>
+                Xóa</a></td>";
+            }else{
+                $data .= "<td></td>";
+            }
+            $data .= '</tr>';
         $i++;
         }
 

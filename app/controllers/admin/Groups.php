@@ -19,7 +19,7 @@ class Groups extends Controller
             return;
         }
 
-        if(!isPermission('groups','view')){
+        if(!isPermission('groups','add')&&!isPermission('groups','update')&&!isPermission('groups','delete')&&!isPermission('groups','permission')){
             App::$app->loadError('permission');
             return;
         }
@@ -172,10 +172,14 @@ class Groups extends Controller
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại nhóm!');
             } else {
-                if ($this->__model->deleteData("id = $id")) {
-                    Session::setFlashData('msg', 'Xóa nhóm thành công!');
-                } else {
-                    Session::setFlashData('msg', 'Xóa nhóm không thành công!');
+                if($this->__model->getRowsModel("select * from users where group_id = $id")>0){
+                    Session::setFlashData('msg', 'Vui lòng thử lại nhóm đã tồn tại thành viên!');
+                }else{
+                    if ($this->__model->deleteData("id = $id")) {
+                        Session::setFlashData('msg', 'Xóa nhóm thành công!');
+                    } else {
+                        Session::setFlashData('msg', 'Xóa nhóm không thành công!');
+                    }
                 }
             }
         } else {
@@ -229,7 +233,7 @@ class Groups extends Controller
             } else {
                 Session::setFlashData('msg', 'Phân quyền nhóm không thành công!');
             }
-            Response::redirect('admin/groups/');
+            Response::redirect('admin/groups/permission/'.$data['id']);
         } else {
             Session::setFlashData('msg', 'Truy cập không hợp lệ!');
             Response::redirect('admin/groups/');
@@ -277,7 +281,7 @@ class Groups extends Controller
             }else{
                 $data .= "<td></td>";
             }
-            if(isPermission('groups','delete')){
+            if(isPermission('groups','delete')&&$this->__model->getRowsModel("select * from users where group_id = $id")==0){
                 $data .= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class='btn btn-danger btn-sm'><i
                 class='fa fa-trash'></i>
             Xóa</a></td>";

@@ -24,10 +24,13 @@
                 <?php empty($errors['phone']) ? false : getMsgErr($errors,'phone') ?>
             </div>
 
+
+            <?php 
+            if(isPermission('groups','permission')){
+                ?>
             <div class="col-6 form-group">
                 <label for="">Nhóm người dùng</label>
                 <select class="form-control" name="group_id" id="">
-                    <option value="0">Chọn nhóm người dùng</option>
                     <?php 
                         foreach ($group_list as  $group) {
                             $id = $group['id'];
@@ -51,6 +54,10 @@
                     </option>
                 </select>
             </div>
+            <?php
+            }
+            ?>
+
         </div>
         <button type="submit" class="btn btn-primary">Cập nhập </button>
         <p><a href="<?php echo _WEB_HOST_ROOT_ADMIN.'/dashboard' ?>">Quay lại</a></p>

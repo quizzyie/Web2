@@ -1,12 +1,3 @@
-<?php
-//   $userId = isLogin()['user_id'];
-//   $userDetail = getUserInfo($userId);
-// echo "<pre>";
-// print_r($_SESSION);
-// echo "</pre>";
-// die();
-?>
-
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="<?php echo _WEB_HOST_ROOT_ADMIN ?>" class="brand-link">
@@ -24,7 +15,7 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="<?php echo _WEB_HOST_ROOT_ADMIN.'/users/user_info' ?>" class="d-block">
+                <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/users/user_info' ?>" class="d-block">
 
                     <?php echo empty(_NAME_USER_LOGIN) ? false : _NAME_USER_LOGIN ?>
                 </a>
@@ -46,6 +37,9 @@
                     </a>
                 </li>
 
+                <?php
+                if (isPermission('groups', 'add') || isPermission('groups', 'update') || isPermission('groups', 'delete') || isPermission('groups', 'permission')) {
+                ?>
                 <li class="nav-item has-treeview <?php echo getActiveSidebar('groups') ? 'menu-open' : false ?>">
                     <a href="#" class="nav-link <?php echo getActiveSidebar('groups') ? 'active' : false ?>">
                         <i class="nav-icon fas fa-users"></i>
@@ -56,23 +50,17 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <?php
-                        if (isPermission('groups', 'view')) {
-                        ?>
                         <li class="nav-item">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/groups' ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh sách</p>
                             </a>
                         </li>
-                        <?php
-                        }
-                        ?>
 
 
                         <?php
-                        if (isPermission('groups', 'add')) {
-                        ?>
+                            if (isPermission('groups', 'add')) {
+                            ?>
                         <li class="nav-item ">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/groups/add' ?>" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
@@ -80,15 +68,21 @@
                             </a>
                         </li>
                         <?php
-                        }
-                        ?>
+                            }
+                            ?>
 
 
                     </ul>
                 </li>
+                <?php
+                }
+                ?>
 
 
 
+                <?php
+                if (isPermission('users', 'add') || isPermission('users', 'update') || isPermission('users', 'delete')) {
+                ?>
                 <li class="nav-item has-treeview <?php echo getActiveSidebar('users') ? 'menu-open' : false ?>">
                     <a href="#" class="nav-link <?php echo getActiveSidebar('users') ? 'active' : false ?>">
                         <i class="nav-icon fas fa-user"></i>
@@ -105,16 +99,30 @@
                                 <p>Danh sách</p>
                             </a>
                         </li>
+                        <?php
+                            if (isPermission('users', 'add')) {
+                            ?>
                         <li class="nav-item ">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/users/add' ?>" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm mới</p>
                             </a>
                         </li>
+                        <?php
+                            }
+                            ?>
+
 
                     </ul>
                 </li>
+                <?php
+                }
+                ?>
 
+
+                <?php
+                if (isPermission('products', 'add') || isPermission('products', 'update') || isPermission('products', 'delete')) {
+                ?>
                 <li
                     class="nav-item has-treeview <?php echo getActiveSidebar('products') || getActiveSidebar('sizes') || getActiveSidebar('brands') || getActiveSidebar('categories') ? 'menu-open' : false ?>">
                     <a href="#"
@@ -133,12 +141,19 @@
                                 <p>Danh sách</p>
                             </a>
                         </li>
+                        <?php
+                            if (isPermission('products', 'add')) {
+                            ?>
                         <li class="nav-item ">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/products/add' ?>" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm mới</p>
                             </a>
                         </li>
+                        <?php
+                            }
+                            ?>
+
                         <li class="nav-item ">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/brands/' ?>" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
@@ -158,9 +173,19 @@
                             </a>
                         </li>
 
+
+
+
                     </ul>
                 </li>
+                <?php
+                }
+                ?>
 
+
+                <?php
+                if (isPermission('bill', 'add') || isPermission('bill', 'update') || isPermission('bill', 'delete')) {
+                ?>
                 <li
                     class="nav-item has-treeview <?php echo getActiveSidebar('bill') || getActiveSidebar('order_status') ? 'menu-open' : false ?>">
                     <a href="#"
@@ -189,7 +214,14 @@
 
                     </ul>
                 </li>
+                <?php
+                }
+                ?>
 
+
+                <?php
+                if (isPermission('options', 'update')) {
+                ?>
                 <li class="nav-item has-treeview <?php echo getActiveSidebar('options') ? 'menu-open' : false ?>">
                     <a href="#" class="nav-link <?php echo getActiveSidebar('options') ? 'active' : false ?>">
                         <i class="nav-icon fas fa-cog"></i>
@@ -229,6 +261,13 @@
 
                     </ul>
                 </li>
+                <?php
+                }
+                ?>
+
+                <?php
+                if (isPermission('contacts', 'update') || isPermission('contacts', 'delete')) {
+                ?>
                 <li
                     class="nav-item has-treeview <?php echo getActiveSidebar('contacts') || getActiveSidebar('subcribes') ? 'menu-open' : false ?>">
                     <a href="#"
@@ -249,12 +288,21 @@
                         <li class="nav-item ">
                             <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/subcribes' ?>" class="nav-link ">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Danh sách nhận thông báo</p>
+                                <p>DS nhận thông báo</p>
                             </a>
                         </li>
 
                     </ul>
                 </li>
+                <?php
+                }
+                ?>
+
+
+
+                <?php
+                if (isPermission('reviews', 'update') || isPermission('reviews', 'delete')) {
+                ?>
                 <li class="nav-item has-treeview <?php echo getActiveSidebar('reviews') ? 'menu-open' : false ?>">
                     <a href="#" class="nav-link <?php echo getActiveSidebar('reviews') ? 'active' : false ?>">
                         <i class="nav-icon fas fa-comments"></i>
@@ -274,6 +322,10 @@
 
                     </ul>
                 </li>
+                <?php
+                }
+                ?>
+
 
 
 

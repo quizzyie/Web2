@@ -35,10 +35,12 @@
                 <?php empty($errors['phone']) ? false : getMsgErr($errors,'phone') ?>
             </div>
 
+            <?php 
+            if(isPermission('groups','permission')){
+                ?>
             <div class="col-6 form-group">
                 <label for="">Nhóm người dùng</label>
                 <select class="form-control" name="group_id" id="">
-                    <option value="0">Chọn nhóm người dùng</option>
                     <?php 
                         foreach ($group_list as  $group) {
                             $id = $group['id'];
@@ -50,6 +52,10 @@
                 </select>
                 <?php empty($errors['group_id']) ? false : getMsgErr($errors,'group_id') ?>
             </div>
+            <?php
+            }
+            ?>
+
             <div class="col-6 form-group">
                 <label for="">Trạng thái người dùng</label>
                 <select class="form-control" name="status" id="">
@@ -59,6 +65,19 @@
                     </option>
                     <option <?php echo !empty($dataForm['status']) && $dataForm['status'] == 1  ? "selected" : false; ?>
                         value="1">Kích hoạt
+                    </option>
+                </select>
+            </div>
+            <div class="col-6 form-group">
+                <label for="">Kiểu người dùng</label>
+                <select class="form-control" name="type" id="">
+                    <option
+                        <?php echo !empty($dataForm['type']) && $dataForm['type'] == 'user'  ? "selected" : false; ?>
+                        value="user">Người dùng
+                    </option>
+                    <option
+                        <?php echo !empty($dataForm['type']) && $dataForm['type'] == 'member'  ? "selected" : false; ?>
+                        value="member">Thành viên
                     </option>
                 </select>
             </div>

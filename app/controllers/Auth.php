@@ -64,6 +64,7 @@ class Auth extends Controller
             ]);
         } else {
             Response::redirect("");
+            Session::setFlashData('msg',"Truy cập không hợp lệ!");
         }
     }
 
@@ -81,6 +82,7 @@ class Auth extends Controller
             }
         } else {
             Response::redirect();
+            Session::setFlashData('msg',"Truy cập không hợp lệ!");
         }
     }
 
@@ -146,6 +148,7 @@ class Auth extends Controller
             ]);
         } else {
             Response::redirect("");
+            Session::setFlashData('msg',"Truy cập không hợp lệ!");
         }
     }
 
@@ -199,6 +202,7 @@ class Auth extends Controller
             ]);
         } else {
             Response::redirect("");
+            Session::setFlashData('msg',"Truy cập không hợp lệ!");
         }
     }
 
