@@ -25,6 +25,7 @@ class Detail extends Controller
         $idCategory = $this->data['sub_data']['sp']['id_category'];
         $idBrand = $this->data['sub_data']['sp']['id_brand'];
         $this->data["sub_data"]["dssplq"] = $this->sanPhamLienQuan($idsp,$idCategory,$idBrand);
+        $this->data["sub_data"]["dsReview"] = $this->getReviews($idsp);
         // echo "<pre>";
         // print_r($this->data["sub_data"]["dssplq"]);
         // echo "</pre>";
@@ -48,6 +49,11 @@ class Detail extends Controller
         $sql = "SELECT * FROM `products` WHERE ( id_category = $idLoai OR id_brand = $idThuongHieu) and id != $idsp  group BY id";
         $dssp = $this->__model->getRawModel($sql);
         return $dssp;
+    }
+    public function getReviews($idsp){
+        $sql = "SELECT *,COUNT(product_id) as soReview FROM `reviews` WHERE product_id = $idsp and status = 2";
+        $dsReview = $this->__model->getRawModel($sql);
+        return $dsReview;
     }
 }
 

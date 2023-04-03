@@ -10,6 +10,7 @@
                                 <th>Product</th>
                                 <th>Quantity</th>
                                 <th>Total</th>
+                                <th>SIZE</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -34,13 +35,15 @@
 
                                         </div>
                                         <input class="idsp" type="hidden" value="<?php echo $sp['product_id'] ?>">
+                                        <input class="idsize" type="hidden" value="<?php echo $sp['idSize'] ?>">
                                     </div>
                                 </td>
 
                                 <td class="cart__price">$<?php echo ($sp['sale']*$sp['tsl'])  ?></td>
+                                <td><?php echo $sp["name"]  ?></td>
 
-                                <td onclick="remove(<?php echo $sp['product_id'] ?>)" class="cart__close"><i
-                                        class="fa fa-close"></i></td>
+                                <td onclick="remove(<?php echo $sp['product_id'] ?>,<?php echo $sp['idSize'] ?>)"
+                                    class="cart__close"><i class="fa fa-close"></i></td>
 
                             </tr>
                             <?php endforeach;} ?>
