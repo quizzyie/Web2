@@ -52,31 +52,31 @@
                 </ul>
                 <div class="product__details__option__size">
                     <span>Size:</span>
-                    
+
                     <!-- Giai thich: Cho mặc định size S được chọn. Nếu như size S hết hàng thì cộng defaultSize lên -->
                     <?php $defaultSize = 1;  foreach ($dsSizes as $s): ?>
                     <?php if($s['id']==$defaultSize && $s["quantity"]>0){  ?>
-                        <div class="size-custom">
+                    <div class="size-custom">
                         <input type="radio" name="size" value="<?php  echo $s["id"] ?>" checked>
-                    <?php echo $s["name"]  ?>
+                        <?php echo $s["name"]  ?>
 
-                        </div>
-                   
+                    </div>
+
                     <?php } else{ $defaultSize += 1; ?>
 
                     <?php if($s["quantity"]>0){?>
-                        <div  class="size-custom">
+                    <div class="size-custom">
                         <input type="radio" name="size" value="<?php  echo $s["id"] ?>">
-                    <?php echo $s["name"]  ?>
-                        </div>
-                    
+                        <?php echo $s["name"]  ?>
+                    </div>
+
 
                     <?php }else { ?>
-                        <div  class="size-custom disabled">
+                    <div class="size-custom disabled">
                         <input type="radio" name="size" value="<?php  echo $s["id"] ?>" disabled>
-                    <?php echo $s["name"]  ?>
-                        </div>
-                    
+                        <?php echo $s["name"]  ?>
+                    </div>
+
 
 
                     <?php } ?>
@@ -112,9 +112,9 @@
                 <div class="tabs_container">
                     <ul
                         class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
-                        <li class="tab" data-active-tab="tab_1"><span>Description</span></li>
+                        <li class="tab active" data-active-tab="tab_1"><span>Description</span></li>
                         <li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li>
-                        <li class="tab active" data-active-tab="tab_3"><span>Reviews
+                        <li class="tab " data-active-tab="tab_3"><span>Reviews
                                 (<?php echo $soReview ?>)</span></li>
                     </ul>
                 </div>
@@ -125,7 +125,7 @@
 
                 <!-- Tab Description -->
 
-                <div id="tab_1" class="tab_container ">
+                <div id="tab_1" class="tab_container active">
                     <div class="row">
                         <div class="col-lg-5 desc_col">
                             <div class="tab_title">
@@ -177,7 +177,7 @@
 
                 <!-- Tab Reviews -->
 
-                <div id="tab_3" class="tab_container active">
+                <div id="tab_3" class="tab_container ">
                     <div class="row">
 
                         <!-- User Reviews -->
@@ -202,7 +202,7 @@
                                         <ul class="star_rating">
                                             <?php for($j=1;$j<=5;$j++){ ?>
 
-                                            <?php  if($j<$dsReview[$i]['star']) {?>
+                                            <?php  if($j<=$dsReview[$i]['star']) {?>
                                             <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                             <?php  }else{ ?>
                                             <li><i class="fa fa-star-o" aria-hidden="true"></i></li>

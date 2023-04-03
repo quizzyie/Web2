@@ -562,6 +562,8 @@ const onSubmitReview = async (event) => {
             showErr.classList.remove('hidden');
         }
 
+        location.reload();
+
     } else {
         showErr.classList.remove('hidden');
         showErr.textContent = "Vui lòng kiểm tra lại dữ liệu!";
