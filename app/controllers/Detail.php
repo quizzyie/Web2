@@ -52,7 +52,7 @@ class Detail extends Controller
         return $dssp;
     }
     public function getReviews($idsp){
-        $sql = "SELECT * FROM `reviews` WHERE product_id = $idsp and status = 2";
+        $sql = "SELECT * FROM `reviews` WHERE product_id = $idsp and status = 2 order by create_at desc";
         $dsReview = $this->__model->getRawModel($sql);
         return $dsReview;
     }
