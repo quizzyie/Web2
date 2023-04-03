@@ -9,6 +9,7 @@ const brandValues = [];
 const sizes = document.getElementsByName("sizes");
 const sizeValues = [];
 
+// Allo
 const categoryCheckbox = document.querySelectorAll('input[name="categories"]');
 for (var i = 0; i < categoryCheckbox.length; i++) {
   categoryCheckbox[i].addEventListener("change", filter);
