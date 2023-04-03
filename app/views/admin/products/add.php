@@ -1,3 +1,7 @@
+<?php 
+    // print_r($_SERVER);
+?>
+
 <input type="hidden" class="url_module_size" value="<?php echo _WEB_HOST_ROOT_ADMIN . '/sizes/get_options' ?>">
 <div style="max-width: 1200px;margin:0 auto; ">
     <?php empty($msg) ? false : getMsg($msg, 'danger') ?>

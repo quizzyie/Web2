@@ -1,8 +1,15 @@
 <section class="content">
     <div class="container-fluid">
         <?php getMsg(Session::getFlashData('msg'),Session::getFlashData('msg_type')) ?>
+        <?php 
+        if(isPermission('products','add')){
+            ?>
         <a href="<?php echo _WEB_HOST_ROOT_ADMIN.'/brands/add' ?>" class="btn btn-primary"><i
                 class="fa fa-plus"></i>Thêm thương hiệu</a>
+        <?php
+        }
+        ?>
+
         <hr>
         <div class="row">
             <input type="hidden" class="url_module" value="<?php echo _WEB_HOST_ROOT_ADMIN.'/brands' ?>">

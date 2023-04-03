@@ -135,10 +135,10 @@
                                     if (isLogin()) {
                                     ?>
                                     <ul class="account_selection">
-                                        <li><a href="<?php echo HOST_ROOT.'/auth/user_info' ?>"><i class=" fa fa-user"
+                                        <li><a href="<?php echo HOST_ROOT . '/auth/user_info' ?>"><i class=" fa fa-user"
                                                     aria-hidden="true"></i>Thông tin</a>
                                         </li>
-                                        <li><a href="<?php echo HOST_ROOT.'/auth/change_password' ?>"><i
+                                        <li><a href="<?php echo HOST_ROOT . '/auth/change_password' ?>"><i
                                                     class=" fa fa-user" aria-hidden="true"></i>Đổi mật khẩu</a>
                                         </li>
                                         <li><a href="#" onclick="onLogout()"><i class="fa fa-arrow-left"
@@ -186,7 +186,7 @@
                                 <li><a href="contact.html">contact</a></li>
                             </ul>
                             <ul class="navbar_user">
-                                <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-search search-switch" aria-hidden="true"></i></a></li>
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                                 <li class="checkout">
                                     <a href="#">
@@ -218,7 +218,7 @@
                     <a href="#">
                         <?php
                         if (isLogin()) {
-                            echo "Hi, <span>" . getNameLogin().'</span>';
+                            echo "Hi, <span>" . getNameLogin() . '</span>';
                         } else {
                             echo "My Account";
                         }
@@ -229,9 +229,9 @@
                     if (isLogin()) {
                     ?>
                     <ul class="menu_selection">
-                        <li class=""><a href="<?php echo HOST_ROOT.'/auth/user_info' ?>"><i class=" fa fa-user"
+                        <li class=""><a href="<?php echo HOST_ROOT . '/auth/user_info' ?>"><i class=" fa fa-user"
                                     aria-hidden="true"></i>Thông tin</a>
-                        <li class=""><a href="<?php echo HOST_ROOT.'/auth/change_password' ?>"><i class=" fa fa-user"
+                        <li class=""><a href="<?php echo HOST_ROOT . '/auth/change_password' ?>"><i class=" fa fa-user"
                                     aria-hidden="true"></i>Đổi mật khẩu</a>
                         </li>
                         <li class=""><a href="#" onclick="onLogout()"><i class="fa fa-arrow-left"

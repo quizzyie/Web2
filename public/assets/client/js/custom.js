@@ -58,10 +58,12 @@ const resetFormForgot = () => {
 const onFormLogin = () => {
     const form = document.querySelector(".container-form-login");
     form.classList.add("active");
+    form.querySelector('.email').focus();
 };
 const onFormRegister = () => {
     const form = document.querySelector(".container-form-register");
     form.classList.add("active");
+    form.querySelector('.fullname').focus();
 };
 
 const onFormForgot = () => {
@@ -367,3 +369,119 @@ const onLogout = async () => {
         location.reload();
     }
 }
+
+const handleSubcribe = async (event) => {
+    document.querySelector('.success-subcribe').textContent = "";
+    event.preventDefault();
+    let subcribe = document.querySelector('.subcribe').value;
+    let validate = true;
+    if (!subcribe) {
+        document.querySelector('.error-subcribe').textContent = "Vui lòng nhập vào email!";
+        validate = false;
+    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(subcribe)) {
+        document.querySelector('.error-subcribe').textContent = "Email không hợp lệ!";
+        validate = false;
+    } else {
+        document.querySelector('.error-subcribe').textContent = "";
+    }
+
+    if (validate) {
+        let data = new URLSearchParams();
+        data.append('email', subcribe);
+
+        let host_root = "";
+        if (document.querySelector('.url_hoot_root')) {
+            host_root = document.querySelector('.url_hoot_root').value;
+        }
+        let response = await fetch(host_root + "/contact/subcribe", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data.toString()
+        })
+        let jsonData = await response.json();
+        console.log(jsonData);
+
+        document.querySelector('.error-subcribe').textContent = "";
+        document.querySelector('.success-subcribe').textContent = jsonData['msg'];
+        document.querySelector('.subcribe').value = "";
+    }
+}
+
+const sendMessage = async (event) => {
+    event.preventDefault();
+    let showErr = document.querySelector('.alert-contact');
+    let name = document.querySelector('.name-contact').value;
+    let email = document.querySelector('.email-contact').value;
+    let message = document.querySelector('.message').value;
+    console.log(message);
+
+    let validate = true;
+    if (!name) {
+        document.querySelector('.error-name-contact').textContent = "Vui lòng nhập vào họ tên!";
+        validate = false;
+    } else if (name.length < 6) {
+        document.querySelector('.error-name-contact').textContent = "Họ tên ít nhất 6 kí tự!";
+        validate = false;
+    } else {
+        document.querySelector('.error-name-contact').textContent = "";
+    }
+
+    if (!email) {
+        document.querySelector('.error-email-contact').textContent = "Vui lòng nhập vào email!";
+        validate = false;
+    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        document.querySelector('.error-email-contact').textContent = "Email không hợp lệ!";
+        validate = false;
+    } else {
+        document.querySelector('.error-email-contact').textContent = "";
+    }
+
+    if (!message) {
+        document.querySelector('.error-message').textContent = "Vui lòng nhập vào lời nhắn!";
+        validate = false;
+    } else if (message.length < 10) {
+        document.querySelector('.error-message').textContent = "Lời nhắn ít nhất 10 kí tự!";
+        validate = false;
+    } else {
+        document.querySelector('.error-message').textContent = "";
+    }
+
+    if (validate) {
+        let data = new URLSearchParams();
+        data.append('name', name);
+        data.append('email', email);
+        data.append('message', message);
+
+        let host_root = "";
+        if (document.querySelector('.url_hoot_root')) {
+            host_root = document.querySelector('.url_hoot_root').value;
+        }
+        let response = await fetch(host_root + "/contact/send", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data.toString()
+        })
+        let jsonData = await response.json();
+        console.log(jsonData);
+
+        document.querySelector('.name-contact').value = "";
+        document.querySelector('.email-contact').value = "";
+        document.querySelector('.message').value = "";
+        if (jsonData['check']) {
+            showErr.textContent = jsonData['msg'];
+            showErr.classList.remove('hidden');
+        } else {
+            showErr.textContent = jsonData['msg'];
+            showErr.classList.remove('hidden');
+        }
+
+    } else {
+        showErr.classList.remove('hidden');
+        showErr.textContent = "Vui lòng kiểm tra lại dữ liệu!";
+    }
+}
+

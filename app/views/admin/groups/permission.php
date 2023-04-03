@@ -1,10 +1,6 @@
-<?php 
-// echo "<pre>";
-// print_r($permission);
-// echo "</pre>";
-?>
 <div style="max-width: 1200px;margin:0 auto; ">
-    <?php empty($msg) ? false : getMsg($msg,'danger') ?>
+    <?php empty($msg) ? false : getMsg($msg,'success') ?>
+    <?php getMsg(Session::getFlashData('msg'),'success') ?>
     <form action="<?php echo _WEB_HOST_ROOT_ADMIN.'/groups/post_permission' ?>" method="POST">
         <table class="table table-bordered">
             <thead>

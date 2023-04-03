@@ -101,6 +101,8 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
 
+
+
                             <div class="shop__product__option__right">
                                 <p>Sort by Price:</p>
                                 <select id="sort" onchange="filter()">
@@ -112,14 +114,15 @@
                     </div>
                 </div>
                 <div id="dsProducts" class="row">
-                    <?php foreach($dsProducts as $sp): ?>
+                    <?php 
+                        foreach($dsProducts as $sp): 
+                        $linkImage = HOST_ROOT .'/uploads/'.$sp['img'];
+                    ?>
 
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
-
-                            <div class="product__item__pic set-bg"
-                                data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp['img'] ?>">
-
+                            <div class="product__item__pic set-bg" data-setbg="<?php echo $linkImage ?>"
+                                style="background-image: url('<?php echo $linkImage ?>');">
                                 <ul class="product__hover">
                                     <li><a href="#"><img
                                                 src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/heart.png"

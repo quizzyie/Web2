@@ -12,18 +12,32 @@ class Brands extends Controller
 
     public function index()
     {
-        if (isLogin()) {
-            $data['title'] = "Danh sách thương hiệu";
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('products','add')&&!isPermission('products','update')&&!isPermission('products','delete')){
+            App::$app->loadError('permission');
+            return;
+        }
+        $data['title'] = "Danh sách thương hiệu";
             $data['content'] = 'admin/brands/list';
 
             $this->renderView('admin/layouts/admin_layout', $data);
-        } else {
-            Response::redirect('admin/auth/login');
-        }
     }
 
     public function add()
     {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('products','add')){
+            App::$app->loadError('permission');
+            return;
+        }
         if (isLogin()) {
             $data['title'] = "Thêm thương hiệu";
             $data['content'] = 'admin/brands/add';
@@ -82,6 +96,15 @@ class Brands extends Controller
 
     public function update($id)
     {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('products','update')){
+            App::$app->loadError('permission');
+            return;
+        }
         if (isLogin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại thương hiệu!');
@@ -150,17 +173,31 @@ class Brands extends Controller
 
     public function delete($id)
     {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('products','delete')){
+            App::$app->loadError('permission');
+            return;
+        }
         if (isLogin()) {
             if (!empty($id)) {
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại thương hiệu!');
                     Session::setFlashData('msg_type', 'danger');
                 } else {
-                    if ($this->__model->deleteData("id = $id")) {
-                        Session::setFlashData('msg', 'Xóa thương hiệu thành công!');
-                        Session::setFlashData('msg_type', 'success');
-                    } else {
-                        Session::setFlashData('msg', 'Xóa thương hiệu không thành công!');
+                    if($this->__model->getRowsModel("select * from products where id_brand = $id")==0){
+                        if ($this->__model->deleteData("id = $id")) {
+                            Session::setFlashData('msg', 'Xóa thương hiệu thành công!');
+                            Session::setFlashData('msg_type', 'success');
+                        } else {
+                            Session::setFlashData('msg', 'Xóa thương hiệu không thành công!');
+                            Session::setFlashData('msg_type', 'danger');
+                        }
+                    }else{
+                        Session::setFlashData('msg', 'Xóa thương hiệu không thành công đã có sản phẩm đki thương hiệu!');
                         Session::setFlashData('msg_type', 'danger');
                     }
                 }
@@ -203,11 +240,22 @@ class Brands extends Controller
             <td>$name</td>
             <td><img src='$linkImage' width='80' /></td>
             <td>$create_at</td>
-            <td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>
-            <td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
-                btn-sm\"><i class=\"fa fa-trash\"></i>
-                Xóa</a></td></tr>
+            
+            
             ";
+            if(isPermission('products','update')){
+                $data .="<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
+            }else{
+                $data .= "<td></td>";
+            }
+            if($this->__model->getRowsModel("select * from products where id_brand = $id")==0&& isPermission('products','delete')){
+                $data .= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
+                btn-sm\"><i class=\"fa fa-trash\"></i>
+                Xóa</a></td>";
+            }else{
+                $data .= "<td></td>";
+            }
+            $data .= '</tr>';
             $i++;
         }
 
