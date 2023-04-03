@@ -88,7 +88,7 @@ function giaoDienSanPham(products, htmlSize) {
       </a>
       <div class="product__item__text">
         <h6>${product.name}</h6>
-        <a onclick="addToCart(event)" class="add-cart" data-product-id=${product.id}>+ Add To Cart</a>
+        <a href="detail?idsp=${product.id} " class="add-cart" data-product-id=${product.id}>+ SEE DETAIL</a>
         <div class="rating">
           <i class="fa fa-star-o"></i>
           <i class="fa fa-star-o"></i>
@@ -96,7 +96,7 @@ function giaoDienSanPham(products, htmlSize) {
           <i class="fa fa-star-o"></i>
           <i class="fa fa-star-o"></i>
         </div>
-        <h5>$${product.price}</h5>
+        <h5>$${product.sale}</h5>
         
       </div>
     </div>
@@ -135,8 +135,7 @@ function filter(vtt) {
     .then((response) => response.json())
     .then((data) => {
       var products = data.ds;
-      let htmlSize = printRadioSize(data.dsSize);
-      giaoDienSanPham(products, htmlSize); //In ra giao dien San Pham
+      giaoDienSanPham(products); //In ra giao dien San Pham
       var trang = data.soTrang;
       var htmlTrang = "";
       for (let i = 1; i <= trang; i++) {
@@ -261,7 +260,7 @@ function giaoDienGioHang(dsgh) {
         </div>
     </td>
     <td class="cart__price">$${sp.sale * sp.tsl}</td>
-
+    <td>${sp.size}</td>
     <td onclick="remove(${sp.product_id},${sp.idSize})" class="cart__close"><i
             class="fa fa-close"></i></td>
 

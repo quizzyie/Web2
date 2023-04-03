@@ -58,7 +58,7 @@
         
         public function xemGioHang(){
             if(Session::getSession('login_token')){
-                $user_id = Session::getSession('id_user');
+                $user_id = isLogin()['user_id'];
                 $result = $this->__model->getRawModel("select products.name as tensp,sizes.name,products.sale,amount,sum(amount) as tsl,cart.product_id,sizes.id as idSize from cart inner join  products on cart.product_id = products.id INNER JOIN sizes on size_id=sizes.id where cart.user_id = ".$user_id." group by cart.product_id,size_id ");
                 
                 return $result;
@@ -69,7 +69,7 @@
         public function tongTien(){
             $tt =0;
             if(Session::getSession('login_token')){
-                $user_id = Session::getSession('id_user');
+                $user_id = isLogin()['user_id'];
                 $tt = $this->__model->getFirstRaw("select sum(products.sale) as tongTien from cart inner join  products on cart.product_id = products.id INNER JOIN sizes on size_id=sizes.id where cart.user_id = ".$user_id."");
             }
             
