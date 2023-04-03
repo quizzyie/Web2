@@ -17,6 +17,11 @@ class CartModel extends Model{
     function fieldFill(){
         return "*";
     }
+    function soSanPham(){
+        $sql = "select * from cart group by product_id,size_id";
+        $soSp = count($this->getRawModel("select * from cart group by product_id,size_id"));
+        return $soSp;
+    }
     
 }
 
