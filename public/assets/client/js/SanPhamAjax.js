@@ -1,7 +1,6 @@
-const tenDoAn = "Web2";
 let gdsp = document.getElementById("dsProducts");
 let dsSoTrang = document.getElementById("soTrang");
-const HOST_ROOT = document.getElementById("_HOST_ROOT").value;
+const HOST_ROOT = document.querySelector(".url_hoot_root").value;
 console.log(HOST_ROOT);
 const categories = document.getElementsByName("categories");
 const categoryValues = [];
@@ -76,8 +75,7 @@ function printRadioSize(dsSizes) {
 function giaoDienSanPham(products, htmlSize) {
   var html = "";
   products.forEach(function (product) {
-    html +=
-      `<div class="col-lg-4 col-md-6 col-sm-6">
+    html += `<div class="col-lg-4 col-md-6 col-sm-6">
     <div class="product__item">
       <a class="link-product" href="${HOST_ROOT}/chi-tiet">
         <div class="product__item__pic set-bg" style="background-image: url('${HOST_ROOT}/uploads/${product.img}');"  >
@@ -98,9 +96,7 @@ function giaoDienSanPham(products, htmlSize) {
           <i class="fa fa-star-o"></i>
           <i class="fa fa-star-o"></i>
         </div>
-        <h5>$${product.price}</h5>` +
-      htmlSize +
-      `
+        <h5>$${product.price}</h5>
         
       </div>
     </div>
@@ -113,7 +109,7 @@ function filter(vtt) {
   if (typeof vtt === "object") {
     vtt = "0";
   }
-  const currentUrl = window.location.origin + "/" + tenDoAn;
+  const currentUrl = HOST_ROOT;
   const relativeUrl = "/shop/filter";
   const fullUrl = currentUrl + relativeUrl;
   getValueofCheckBox(); //Lay gia tri cac checkBox
@@ -156,84 +152,88 @@ function filter(vtt) {
 }
 
 // Giỏ Hàng
-let addCart = document.querySelectorAll(".add-cart");
-addCart.forEach(function (button) {
-  button.addEventListener("click", addToCart);
-});
 
-function addToCart(event) {
-  let productId = event.target.getAttribute("data-product-id");
-  // let productAmount = event.target.getAttribute("data-product-amount");
-  let productSizeInputs = event.target.parentNode.querySelectorAll(
-    "[name='product__size']"
-  );
-  let productSize;
-  productSizeInputs.forEach(function (input) {
-    if (input.checked) {
-      productSize = input.value;
-    }
-  });
+function addToCart(idsp) {
+  const loginToken = sessionStorage.getItem("login_token");
+  if (loginToken === "false") {
+    alert("Can Dang Nhap Moi duoc them gio hang");
+  } else {
+    const sizeOptions = document.querySelectorAll(
+      '.product__details__option__size input[type="radio"]'
+    );
+    let selectedSize = "";
 
-  //fetch nè
-  const currentUrl = window.location.origin + "/" + tenDoAn;
-  const relativeUrl = "/cartcontroller/themVaoGio";
-  const fullUrl = currentUrl + relativeUrl;
-
-  const data = {
-    idsp: productId,
-    slm: 1,
-    idSize: productSize,
-  };
-
-  fetch(fullUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) {
-        alert(data.error);
-      } else if (data.login) {
-      } else {
-        alert("Them san pham thanh cong");
+    sizeOptions.forEach((option) => {
+      if (option.checked) {
+        selectedSize = option.value;
       }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
     });
-}
-//Remove
-function remove(idsp) {
-  const currentUrl = window.location.origin + "/" + tenDoAn;
-  const relativeUrl = "/cartcontroller/xoaSanPham";
-  const fullUrl = currentUrl + relativeUrl;
-  const data = {
-    idsp: idsp,
-  };
-  fetch(fullUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) {
-        alert(data.error);
-      } else {
-        alert("Xoa San Pham thanh cong");
-        giaoDienGioHang(data.dsgh);
-        let tongTien = document.getElementById("tongTienGH");
-        tongTien.innerHTML = data.tt;
-      }
+
+    // Get the selected quantity
+    let selectedQuantity =
+      document.querySelector("#quantity_value").textContent;
+
+    // //fetch nè
+    const currentUrl = window.location.origin + "/" + tenDoAn;
+    const relativeUrl = "/cartcontroller/themVaoGio";
+    const fullUrl = currentUrl + relativeUrl;
+
+    const data = {
+      idsp: idsp,
+      slm: selectedQuantity,
+      idSize: selectedSize,
+    };
+
+    fetch(fullUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          alert(data.error);
+        } else if (data.login) {
+        } else {
+          alert("Them san pham thanh cong");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+  //Remove
+  function remove(idsp) {
+    const currentUrl = window.location.origin + "/" + tenDoAn;
+    const relativeUrl = "/cartcontroller/xoaSanPham";
+    const fullUrl = currentUrl + relativeUrl;
+    const data = {
+      idsp: idsp,
+    };
+    fetch(fullUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          alert(data.error);
+        } else {
+          alert("Xoa San Pham thanh cong");
+          giaoDienGioHang(data.dsgh);
+          let tongTien = document.getElementById("tongTienGH");
+          tongTien.innerHTML = data.tt;
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
 }
 
 function giaoDienGioHang(dsgh) {

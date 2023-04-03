@@ -133,10 +133,12 @@
                                                 src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/search.png"
                                                 alt=""></a></li>
                                 </ul>
+
                             </div>
                             <div class="product__item__text">
                                 <h6><?php echo $sp['name'] ?></h6>
-                                <a class="add-cart" data-product-id="<?php echo $sp['id'] ?>">+ Add To Cart</a>
+                                <a href="detail?idsp=<?php echo $sp['id'] ?>"
+                                    data-product-id="<?php echo $sp['id'] ?>">+ SEE DETAIL</a>
                                 <div class="rating">
                                     <i class="fa fa-star-o"></i>
                                     <i class="fa fa-star-o"></i>
@@ -145,18 +147,10 @@
                                     <i class="fa fa-star-o"></i>
                                 </div>
                                 <h5>$<?php echo $sp['price'] ?></h5>
-                                <?php
-                                    $defaultSize = 1;
-                                    foreach ($dsSizes as $s): ?>
-                                <label>
-                                    <input type="radio" name="product__size" value="<?php echo $s['id'] ?>"
-                                        <?php if ($s['id'] == $defaultSize): ?> checked <?php endif ?>>
-                                    <?php echo $s['name'] ?>
-                                </label>
-                                <?php endforeach ?>
                             </div>
                         </div>
                     </div>
+
                     <?php endforeach?>
 
                 </div>

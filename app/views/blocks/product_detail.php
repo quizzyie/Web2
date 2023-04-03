@@ -6,6 +6,7 @@
                     <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
                         <div class="single_product_thumbnails">
                             <ul>
+
                                 <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/single/images/single_1_thumb.jpg"
                                         alt="" data-image="images/single_1.jpg"></li>
                                 <li class="active"><img
@@ -13,6 +14,7 @@
                                         alt="" data-image="images/single_2.jpg"></li>
                                 <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/single/images/single_3_thumb.jpg"
                                         alt="" data-image="images/single_3.jpg"></li>
+
                             </ul>
                         </div>
                     </div>
@@ -29,15 +31,19 @@
         <div class="col-lg-5">
             <div class="product_details">
                 <div class="product_details_title">
-                    <h2>Pocket cotton sweatshirt</h2>
-                    <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque
-                        diam dolor, elementum etos lobortis des mollis ut...</p>
+                    <h2><?php echo $sp['name']  ?></h2>
+                    <p><?php  echo $sp["description"] ?></p>
                 </div>
                 <div class="free_delivery d-flex flex-row align-items-center justify-content-center">
                     <span class="ti-truck"></span><span>free delivery</span>
                 </div>
-                <div class="original_price">$629.99</div>
-                <div class="product_price">$495.00</div>
+                <?php if($sp['sale']<$sp['price']){ ?>
+                <div class="original_price">$<?php echo $sp["price"] ?></div>
+                <div class="product_price">$<?php echo $sp["sale"] ?></div>
+                <?php }else{  ?>
+                <div class="product_price">$<?php echo $sp["price"] ?></div>
+                <?php } ?>
+
                 <ul class="star_rating">
                     <li><i class="fa fa-star" aria-hidden="true"></i></li>
                     <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -45,13 +51,30 @@
                     <li><i class="fa fa-star" aria-hidden="true"></i></li>
                     <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
                 </ul>
-                <div class="product_color">
-                    <span>Select Color:</span>
-                    <ul>
-                        <li style="background: #e54e5d"></li>
-                        <li style="background: #252525"></li>
-                        <li style="background: #60b3f3"></li>
-                    </ul>
+                <div class="product__details__option__size">
+                    <span>Size:</span>
+                    <!-- Giai thich: Cho mặc định size S được chọn. Nếu như size S hết hàng thì cộng defaultSize lên -->
+                    <?php $defaultSize = 1;  foreach ($dsSizes as $s): ?>
+                    <?php if($s['id']==$defaultSize && $s["quantity"]>0){  ?>
+                    <input type="radio" value="<?php  echo $s["id"] ?>" checked>
+                    <?php echo $s["name"]  ?>
+
+                    <?php } else{ $defaultSize += 1; ?>
+
+                    <?php if($s["quantity"]>0){?>
+                    <input type="radio" value="<?php  echo $s["id"] ?>">
+                    <?php echo $s["name"]  ?>
+
+                    <?php }else { ?>
+                    <input type="radio" value="<?php  echo $s["id"] ?>" disabled>
+                    <?php echo $s["name"]  ?>
+
+
+                    <?php } ?>
+
+                    <?php } ?>
+
+                    <?php endforeach ?>
                 </div>
                 <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                     <span>Quantity:</span>
@@ -60,7 +83,8 @@
                         <span id="quantity_value">1</span>
                         <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
                     </div>
-                    <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+                    <div class="red_button add_to_cart_button"><a onclick="addToCart(<?php echo $sp['id'] ?>)">add to
+                            cart</a></div>
                     <div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>
                 </div>
             </div>
@@ -259,11 +283,18 @@
             </div>
         </div>
         <div class="row">
+            <?php foreach($dssplq as $sp):  ?>
             <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
                 <div class="product__item">
                     <div class="product__item__pic set-bg"
-                        data-setbg="<?php echo HOST_ROOT ?>/public/assets/client/img/product/product-1.jpg">
-                        <span class="label">New</span>
+                        data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php  echo $sp["img"] ?>">
+
+                        <?php if($sp["type"]!="normal"){  ?>
+                        <span class="label"><?php echo $sp["type"]  ?></span>
+
+                        <?php }  ?>
+
+
                         <ul class="product__hover">
                             <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
                             <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
@@ -271,8 +302,8 @@
                         </ul>
                     </div>
                     <div class="product__item__text">
-                        <h6>Piqué Biker Jacket</h6>
-                        <a href="#" class="add-cart">+ Add To Cart</a>
+                        <h6><?php echo $sp['name'] ?></h6>
+                        <a href="detail?idsp=<?php echo $sp['id']?>" class="add-cart">SEE DETAIL</a>
                         <div class="rating">
                             <i class="fa fa-star-o"></i>
                             <i class="fa fa-star-o"></i>
@@ -295,112 +326,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                <div class="product__item">
-                    <div class="product__item__pic set-bg"
-                        data-setbg="<?php echo HOST_ROOT ?>/public/assets/client/img/product/product-2.jpg">
-                        <ul class="product__hover">
-                            <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                            <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                            <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                        </ul>
-                    </div>
-                    <div class="product__item__text">
-                        <h6>Piqué Biker Jacket</h6>
-                        <a href="#" class="add-cart">+ Add To Cart</a>
-                        <div class="rating">
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
-                        <h5>$67.24</h5>
-                        <div class="product__color__select">
-                            <label for="pc-4">
-                                <input type="radio" id="pc-4">
-                            </label>
-                            <label class="active black" for="pc-5">
-                                <input type="radio" id="pc-5">
-                            </label>
-                            <label class="grey" for="pc-6">
-                                <input type="radio" id="pc-6">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                <div class="product__item sale">
-                    <div class="product__item__pic set-bg"
-                        data-setbg="<?php echo HOST_ROOT ?>/public/assets/client/img/product/product-3.jpg">
-                        <span class="label">Sale</span>
-                        <ul class="product__hover">
-                            <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                            <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                            <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                        </ul>
-                    </div>
-                    <div class="product__item__text">
-                        <h6>Multi-pocket Chest Bag</h6>
-                        <a href="#" class="add-cart">+ Add To Cart</a>
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
-                        <h5>$43.48</h5>
-                        <div class="product__color__select">
-                            <label for="pc-7">
-                                <input type="radio" id="pc-7">
-                            </label>
-                            <label class="active black" for="pc-8">
-                                <input type="radio" id="pc-8">
-                            </label>
-                            <label class="grey" for="pc-9">
-                                <input type="radio" id="pc-9">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                <div class="product__item">
-                    <div class="product__item__pic set-bg"
-                        data-setbg="<?php echo HOST_ROOT ?>/public/assets/client/img/product/product-4.jpg">
-                        <ul class="product__hover">
-                            <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                            <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                            <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                        </ul>
-                    </div>
-                    <div class="product__item__text">
-                        <h6>Diagonal Textured Cap</h6>
-                        <a href="#" class="add-cart">+ Add To Cart</a>
-                        <div class="rating">
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
-                        <h5>$60.9</h5>
-                        <div class="product__color__select">
-                            <label for="pc-10">
-                                <input type="radio" id="pc-10">
-                            </label>
-                            <label class="active black" for="pc-11">
-                                <input type="radio" id="pc-11">
-                            </label>
-                            <label class="grey" for="pc-12">
-                                <input type="radio" id="pc-12">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach ?>
+
         </div>
     </div>
 </section>
