@@ -8,6 +8,9 @@ class Detail extends Controller
     {
         $this->__model = $this->model("DetailModel");
         $this->__request = new Request();
+        if(isLogin()){
+            $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+        } 
     }
     public function index(){
         $this->data['title'] = "Chi tiet san pham";

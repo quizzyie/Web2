@@ -1,3 +1,89 @@
+.shop__sidebar__price .field {
+  height: 45px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.shop__sidebar__price .separator {
+  width: 60px;
+  display: flex;
+  height: 1px;
+  align-items: center;
+  justify-content: center;
+  background-color: #999;
+}
+
+.field input {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-size: 16px;
+  text-align: center;
+  /* margin-left:12px; */
+  border-radius: 5px;
+  border: 1px solid #999;
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.collapse {
+  margin: 12px 0;
+}
+
+.slider {
+  height: 5px;
+  border-radius: 5px;
+  background: #ddd;
+  position: relative;
+}
+
+.slider .progress {
+  height: 5px;
+  left: 5%;
+  right: 5%;
+  position: absolute;
+  border-radius: 5px;
+  background-color: #17a2b8;
+}
+
+.range-input {
+  position: relative;
+}
+
+.range-input input {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -5px;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 17px;
+  width: 17px;
+  pointer-events: auto;
+  border-radius: 50%;
+  background: #17a2b8;
+}
+
+input[type="range"]::-moz-rang-thumb {
+  -moz-appearance: none;
+  height: 17px;
+  width: 17px;
+  border: none;
+  pointer-events: auto;
+  border-radius: 50%;
+  background: #17a2b8;
+}
 /******************************************************************
   Template Name: Male Fashion
   Description: Male Fashion - ecommerce teplate
