@@ -367,6 +367,7 @@ const onLogout = async () => {
             body: data.toString()
         })
         location.reload();
+        // test pull request
     }
 }
 
