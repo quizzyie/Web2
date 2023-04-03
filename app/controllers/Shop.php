@@ -11,6 +11,8 @@ class Shop extends Controller
     public $text = "";
     private $sort = 1;
     private $slgSPMT = 6;
+    private $min = 0;
+    private $max = 7000;
     private $tongSanPham = 0;
     public function __construct()
     {
@@ -19,8 +21,9 @@ class Shop extends Controller
         $this->data['sub_data']['dsCategories'] = $this->__model->getRawModel("select * from categories");
         $this->data['sub_data']['dsBrands'] = $this->__model->getRawModel("select * from brands");
         $this->data['sub_data']['dsSizes'] = $this->__model->getRawModel("select * from sizes");
-        $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
-        
+        if(isLogin()){
+            $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+        }        
     }
 
     public function index($vtt = 0){
@@ -45,12 +48,14 @@ class Shop extends Controller
             $this->size = $data['size'];//Lay Size
             $this->text = $data['text'];//Lay tim kiem
             $this->sort = $data['sort'];//Lay Sort
+            $this->min = $data['min'];//Lay Min
+            $this->max = $data['max'];// Lay Max
             $vtt =0;
             if(isset($data['trang'])){
                 $vtt = $data['trang'];
             }
             $viTri = $vtt*$this->slgSPMT;// Cap Nhat vi tri trong sql
-            $this->sql = "select * from products inner join products_size on  id = id_product where quantity > 0 and products.name like '%$this->text%' ";
+            $this->sql = "select * from products inner join products_size on  id = id_product where quantity > 0 and sale >= $this->min and sale <= $this->max and products.name like '%$this->text%' ";
             
             if(!empty($this->category)){
                 $values = implode("','", $this->category);

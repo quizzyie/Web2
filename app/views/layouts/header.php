@@ -179,7 +179,7 @@
                         <nav class="navbar">
                             <ul class="navbar_menu">
                                 <li><a href="#">home page</a></li>
-                                <li><a href="#">shop</a></li>
+                                <li><a href="<?php echo HOST_ROOT ?>/shop">shop</a></li>
                                 <li><a href="#">promotion</a></li>
                                 <li><a href="#">pages</a></li>
                                 <li><a href="#">blog</a></li>

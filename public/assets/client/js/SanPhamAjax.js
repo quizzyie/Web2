@@ -115,6 +115,15 @@ function filter(vtt) {
   let search = document.getElementById("search").value;
   let sort = document.getElementById("sort").value;
   getValueofCheckBox(); //Lay gia tri cac checkBox
+
+  // select the input fields
+  let minInput = document.querySelector(".input-min");
+  let maxInput = document.querySelector(".input-max");
+
+  // get their values
+  let minValue = minInput.value;
+  let maxValue = maxInput.value;
+
   const data = {
     trang: vtt,
     category: categoryValues,
@@ -122,6 +131,8 @@ function filter(vtt) {
     size: sizeValues,
     text: search,
     sort: sort,
+    min: minValue,
+    max: maxValue,
   };
   console.log(fullUrl + "  +  " + search);
 

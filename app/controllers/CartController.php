@@ -6,7 +6,9 @@
         public function __construct(){
             $this->__model = $this->model("CartModel");
             $this->__request = new Request();
-            $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+            if(isLogin()){
+                $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+            }        
         }
         public function index(){
             $this->data['title'] = "Gio Hang";
@@ -69,8 +71,6 @@
             else {
                 Response::redirect(HOST_ROOT.'/shop');
             }
-            
-            
         }
         public function tongTien(){
             $tt =0;
@@ -78,8 +78,6 @@
                 $user_id = isLogin()['user_id'];
                 $tt = $this->__model->getFirstRaw("select sum(products.sale) as tongTien from cart inner join  products on cart.product_id = products.id INNER JOIN sizes on size_id=sizes.id where cart.user_id = ".$user_id."");
             }
-            
-            
             return $tt["tongTien"];
         }
         public function xoaSanPham(){
@@ -96,12 +94,10 @@
                     $dssp = $this->xemGioHang();
                     $tt = $this->tongTien();
                     $return = ["dsgh"=>$dssp,"tt"=>$tt];
-                    
                 }
                 $return = json_encode($return);
                 echo $return;
             }
-            
         }
         public function capNhatSanPham(){
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -122,9 +118,7 @@
                         // handle the error
                     } else {
                         $return = ["ok"];
-                        
                     }
-                    
                 }
                 $return = json_encode($return);
                 echo $return;
