@@ -148,7 +148,7 @@
                                     <i class="fa fa-star-o"></i>
                                     <i class="fa fa-star-o"></i>
                                 </div>
-                                <h5>$<?php echo $sp['price'] ?></h5>
+                                <h5>$<?php echo $sp['sale'] ?></h5>
                             </div>
                         </div>
                     </div>
