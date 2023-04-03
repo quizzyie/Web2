@@ -31,8 +31,8 @@ class Shop extends Controller
         $this->data['content'] = 'blocks/shop';
         
         $this->data[''] = '';
-        $this->data['sub_data']['dsProducts'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where quantity > 0 and products.name like '%%' GROUP BY products.id ORDER BY sale ASC limit $vtt,".$this->slgSPMT);
-        $this->data['sub_data']['dsProductsFull'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where quantity > 0 and products.name like '%%' GROUP BY products.id ");
+        $this->data['sub_data']['dsProducts'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where status = 1 and quantity > 0 and products.name like '%%' GROUP BY products.id ORDER BY sale ASC limit $vtt,".$this->slgSPMT);
+        $this->data['sub_data']['dsProductsFull'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where status = 1 and quantity > 0 and products.name like '%%' GROUP BY products.id ");
         $this->data['sub_data']['soTrang'] = $this->tongSoTrang($this->data['sub_data']['dsProductsFull']);
         $this->data['sub_data']['tongSp'] = count($this->data['sub_data']['dsProductsFull']) ;
         // echo "<pre>";
@@ -55,7 +55,7 @@ class Shop extends Controller
                 $vtt = $data['trang'];
             }
             $viTri = $vtt*$this->slgSPMT;// Cap Nhat vi tri trong sql
-            $this->sql = "select * from products inner join products_size on  id = id_product where quantity > 0 and sale >= $this->min and sale <= $this->max and products.name like '%$this->text%' ";
+            $this->sql = "select * from products inner join products_size on  id = id_product where status = 1 and quantity > 0 and sale >= $this->min and sale <= $this->max and products.name like '%$this->text%' ";
             
             if(!empty($this->category)){
                 $values = implode("','", $this->category);

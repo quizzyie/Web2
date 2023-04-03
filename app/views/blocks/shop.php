@@ -138,6 +138,10 @@
                         <div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="<?php echo $linkImage ?>"
                                 style="background-image: url('<?php echo $linkImage ?>');">
+                                <?php if($sp["type"]!="normal"){  ?>
+                                <span class="label"><?php echo $sp["type"]  ?></span>
+
+                                <?php }  ?>
                                 <ul class="product__hover">
                                     <li><a href="#"><img
                                                 src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/heart.png"

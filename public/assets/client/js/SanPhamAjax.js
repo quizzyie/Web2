@@ -80,6 +80,15 @@ function giaoDienSanPham(products, htmlSize) {
     <div class="product__item">
       <a class="link-product" href="${HOST_ROOT}/chi-tiet">
         <div class="product__item__pic set-bg" style="background-image: url('${HOST_ROOT}/uploads/${product.img}');"  >
+        
+        <?php if($sp["type"]!="normal"){  ?>
+          <span class="label"><?php echo $sp["type"]  ?></span>
+
+          <?php }  ?>
+          if(product.type!="normal") {
+            <span class="label">product.type</span>
+          }
+        
           <ul class="product__hover">
             <li><a href="#"><img src="${HOST_ROOT}/public/assets/client/img/icon/heart.png" alt=""></a></li>
             <li><a href="#"><img src="${HOST_ROOT}/public/assets/client/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
