@@ -105,7 +105,7 @@
                         <li class="tab active" data-active-tab="tab_1"><span>Description</span></li>
                         <li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li>
                         <li class="tab" data-active-tab="tab_3"><span>Reviews
-                                (<?php echo $dsReview['soReview'] ?>)</span></li>
+                                (<?php echo $soReview ?>)</span></li>
                     </ul>
                 </div>
             </div>
@@ -174,54 +174,43 @@
 
                         <div class="col-lg-6 reviews_col">
                             <div class="tab_title reviews_title">
-                                <h4>Reviews (2)</h4>
+                                <h4>Reviews (<?php echo $soReview  ?>)</h4>
                             </div>
 
                             <!-- User Review -->
 
+                            <?php 
+                            for($i=0;$i<count($dsReview);$i++){
+                            ?>
                             <div class="user_review_container d-flex flex-column flex-sm-row">
                                 <div class="user">
                                     <div class="user_pic"></div>
                                     <div class="user_rating">
                                         <ul class="star_rating">
+                                            <?php for($j=1;$j<=5;$j++){ ?>
+
+                                            <?php  if($j<$dsReview[$i]['star']) {?>
                                             <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                                            <?php  }else{ ?>
                                             <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                            <?php  } ?>
+
+
+                                            <?php  } ?>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="review">
-                                    <div class="review_date">27 Aug 2016</div>
+                                    <div class="review_date"><?php echo $dsReview[$i]["create_at"]  ?></div>
                                     <div class="user_name">Brandon William</div>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                         incididunt ut labore et dolore magna aliqua.</p>
                                 </div>
                             </div>
-
+                            <?php } ?>
                             <!-- User Review -->
 
-                            <div class="user_review_container d-flex flex-column flex-sm-row">
-                                <div class="user">
-                                    <div class="user_pic"></div>
-                                    <div class="user_rating">
-                                        <ul class="star_rating">
-                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="review">
-                                    <div class="review_date">27 Aug 2016</div>
-                                    <div class="user_name">Brandon William</div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
+
                         </div>
 
                         <!-- Add Review -->
@@ -232,6 +221,7 @@
                                 <form id="review_form" action="post">
                                     <div>
                                         <h1>Add Review</h1>
+                                        <?php echo $_GET["idsp"] ?>
                                         <input id="review_name" class="form_input input_name" type="text" name="name"
                                             placeholder="Name*" required="required" data-error="Name is required.">
                                         <input id="review_email" class="form_input input_email" type="email"
