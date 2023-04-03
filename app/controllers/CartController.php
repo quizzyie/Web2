@@ -15,7 +15,7 @@
             $this->renderView('layouts/client_layout',$this->data);
         }
         public function themVaoGio(){
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (isPost()) {
                 $return =[];
                 if(isLogin()){
                     $data = json_decode(file_get_contents('php://input'), true);

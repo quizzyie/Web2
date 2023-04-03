@@ -10,17 +10,19 @@
                 <div class="shop__sidebar">
                     <div class="shop__sidebar__search">
 
-                        <input id="search" type="text" placeholder="Search...">
-                        <button onclick="filter()" type="button"><span class="icon_search"></span></button>
+                        <form>
+                            <input id="search" type="text" placeholder="Search...">
+                            <button onclick="filter(event)" type="button"><span class="icon_search"></span></button>
+                        </form>
 
                     </div>
                     <div class="shop__sidebar__accordion">
                         <div class="accordion" id="accordionExample">
                             <div class="card">
-                                <div class="card-heading">
+                                <div class="card-heading active">
                                     <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
                                 </div>
-                                <div id="collapseOne" class="collapse" data-parent="#accordionExample">
+                                <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="CategoryList" class="shop__sidebar__categories">
 
@@ -36,10 +38,10 @@
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="card-heading">
+                                <div class="card-heading active">
                                     <a data-toggle="collapse" data-target="#collapseTwo">Branding</a>
                                 </div>
-                                <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
+                                <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="BrandList" class="shop__sidebar__brand">
                                             <?php foreach($dsBrands as $th): ?>
@@ -52,10 +54,10 @@
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="card-heading">
+                                <div class="card-heading active">
                                     <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
                                 </div>
-                                <div id="collapseThree" class="collapse" data-parent="#accordionExample">
+                                <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__price">
                                             <ul>
@@ -71,10 +73,10 @@
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="card-heading">
+                                <div class="card-heading active">
                                     <a data-toggle="collapse" data-target="#collapseFour">Size</a>
                                 </div>
-                                <div id="collapseFour" class="collapse" data-parent="#accordionExample">
+                                <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="SizeList" class="shop__sidebar__size">
                                             <?php foreach($dsSizes as $s): ?>

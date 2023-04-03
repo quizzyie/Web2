@@ -26,10 +26,8 @@ class Detail extends Controller
         $idBrand = $this->data['sub_data']['sp']['id_brand'];
         $this->data["sub_data"]["dssplq"] = $this->sanPhamLienQuan($idsp,$idCategory,$idBrand);
         $this->data["sub_data"]["dsReview"] = $this->getReviews($idsp);
-        // echo "<pre>";
-        // print_r($this->data["sub_data"]["dssplq"]);
-        // echo "</pre>";
         $this->renderView('layouts/client_layout',$this->data);
+        Session::setSession("user_id_detail",$idsp);
         
     }
     public function showDetail($idsp){

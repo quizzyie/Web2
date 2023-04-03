@@ -288,10 +288,15 @@
                     <span class="error error-password"></span>
                 </div>
                 <div class="">
-                    <button class="btn btn-primary" onclick="checkLogin()">Đăng nhập</button>
-                    <button class="btn btn-success" onclick="onRegister()">Đăng kí</button>
+                    <button class="btn btn-primary btn-block" onclick="checkLogin()">Đăng nhập</button>
                 </div>
-                <a href="#" onclick="onForgot()">Quên mật khẩu</a>
+                <div class="text-center">
+                    <a href="#" onclick="onForgot()" class="center-block">Quên mật khẩu</a>
+                </div>
+                <hr>
+                <div>
+                    <button class="btn btn-success btn-sm" onclick="onRegister()">Đăng kí</button>
+                </div>
             </div>
         </div>
     </div>
@@ -326,9 +331,13 @@
                     <input spellcheck="false" type="password" class="form-control confirm_password">
                     <span class="error error-confirm_password"></span>
                 </div>
+
+                <div>
+                    <button class="btn btn-primary btn-block" onclick="checkRegister()">Đăng kí</button>
+                </div>
+                <hr>
                 <div class="">
-                    <button class="btn btn-primary" onclick="checkRegister()">Đăng kí</button>
-                    <button class="btn btn-success" onclick="onLogin()">Đăng nhập</button>
+                    <button class="btn btn-success btn-sm" onclick="onLogin()">Đăng nhập</button>
                 </div>
             </div>
         </div>
@@ -348,12 +357,12 @@
                 </div>
 
                 <div class="centered">
-                    <button class="btn btn-primary" onclick="checkForgot()">Xác nhận</button>
+                    <button class="btn btn-primary btn-block" onclick="checkForgot()">Xác nhận</button>
                 </div>
                 <hr>
                 <div class="">
-                    <button class="btn btn-danger" onclick="onRegister()">Đăng kí</button>
-                    <button class="btn btn-success" onclick="onLogin()">Đăng nhập</button>
+                    <button class="btn btn-success btn-sm" onclick="onLogin()">Đăng nhập</button>
+                    <button class="btn btn-danger btn-sm" onclick="onRegister()">Đăng kí</button>
                 </div>
             </div>
         </div>

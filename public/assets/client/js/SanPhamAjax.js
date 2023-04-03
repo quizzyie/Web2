@@ -289,13 +289,13 @@ function updateCart() {
 
     console.log(
       "Lan " +
-        i +
-        " co idsp la: " +
-        idsp +
-        " va tsl la: " +
-        tsl +
-        "  va size la " +
-        size
+      i +
+      " co idsp la: " +
+      idsp +
+      " va tsl la: " +
+      tsl +
+      "  va size la " +
+      size
     );
     idspArray.push(idsp);
     tslArray.push(tsl);
