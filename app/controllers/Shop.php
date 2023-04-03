@@ -11,6 +11,7 @@ class Shop extends Controller
     public $text = "";
     private $sort = 1;
     private $slgSPMT = 6;
+    private $tongSanPham = 0;
     public function __construct()
     {
         $this->__model = $this->model("ShopModel");
@@ -26,10 +27,12 @@ class Shop extends Controller
         $this->data['content'] = 'blocks/shop';
         
         $this->data[''] = '';
-        $this->data['sub_data']['dsProducts'] = $this->__model->getRawModel("select * from products limit $vtt,".$this->slgSPMT);
-        $this->data['sub_data']['dsProductsFull'] = $this->__model->getRawModel("select * from products ");
+        $this->data['sub_data']['dsProducts'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where quantity > 0 and products.name like '%%' GROUP BY products.id ORDER BY sale ASC limit $vtt,".$this->slgSPMT);
+        $this->data['sub_data']['dsProductsFull'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where quantity > 0 and products.name like '%%' GROUP BY products.id ");
         $this->data['sub_data']['soTrang'] = $this->tongSoTrang($this->data['sub_data']['dsProductsFull']);
-        // print_r($data);
+        // echo "<pre>";
+        // print_r($this->data['sub_data']['dsProductsFull']);
+        // echo "</pre>";
         $this->renderView('layouts/client_layout',$this->data);
     }
     public function filter(){
@@ -90,4 +93,5 @@ class Shop extends Controller
         $data['content'] = 'blocks/product_detail';
         $this->renderView('layouts/client_layout',$data);
     }
+    
 }
