@@ -6,14 +6,32 @@
                     <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
                         <div class="single_product_thumbnails">
                             <ul>
-
-                                <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/single/images/single_1_thumb.jpg"
-                                        alt="" data-image="images/single_1.jpg"></li>
-                                <li class="active"><img src="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"] ?>"
-                                        alt="" data-image="images/single_2.jpg"></li>
-                                <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/single/images/single_3_thumb.jpg"
-                                        alt="" data-image="images/single_3.jpg"></li>
-
+                                <?php $defaultActiveImg = 1;
+                                    for($i=0;$i<count($dsImage);$i++){
+                                        if($i==$defaultActiveImg-1){
+                                ?>
+                                <li class="active"><img
+                                        src="<?php echo HOST_ROOT ?>/uploads/<?php echo $dsImage[$i]["image"] ?>" alt=""
+                                        data-image="<?php echo HOST_ROOT ?>/uploads/<?php echo $dsImage[$i]["image"] ?>">
+                                </li>
+                                <?php    
+                                        }
+                                        else{
+                                ?>
+                                <li><img src="<?php echo HOST_ROOT ?>/uploads/<?php echo $dsImage[$i]["image"] ?>"
+                                        alt=""
+                                        data-image="<?php echo HOST_ROOT ?>/uploads/<?php echo $dsImage[$i]["image"] ?>">
+                                </li>
+                                <?php        
+                                            
+                                        }
+                                    }
+                                
+                                
+                                
+                                ?>
+                                <?php   ?>
+                                <?php   ?>
                             </ul>
                         </div>
                     </div>
@@ -31,7 +49,7 @@
             <div class="product_details">
                 <div class="product_details_title">
                     <h2><?php echo $sp['name']  ?></h2>
-                    <p><?php  echo $sp["description"] ?></p>
+                    <p><?php  echo $loai["name"]." - ".$thuongHieu["name"] ?></p>
                 </div>
                 <div class="free_delivery d-flex flex-row align-items-center justify-content-center">
                     <span class="ti-truck"></span><span>free delivery</span>
@@ -44,11 +62,18 @@
                 <?php } ?>
 
                 <ul class="star_rating">
-                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+
+                    <?php 
+                        for($i=1;$i<=5;$i++){
+                            if($i>$soSao){?>
                     <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                    <?php }else{ ?>
+                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                    <?php }
+                        }
+                    ?>
+                    <?php  ?>
+
                 </ul>
                 <div class="product__details__option__size">
                     <span>Size:</span>
@@ -132,30 +157,13 @@
                                 <h4>Description</h4>
                             </div>
                             <div class="tab_text_block">
-                                <h2>Pocket cotton sweatshirt</h2>
-                                <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis.
-                                    Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
-                            </div>
-                            <div class="tab_image">
-                                <img src="<?php echo HOST_ROOT ?>/public/assets/client/single/images/desc_1.jpg" alt="">
-                            </div>
-                            <div class="tab_text_block">
-                                <h2>Pocket cotton sweatshirt</h2>
-                                <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis.
-                                    Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
+                                <h2><?php echo $sp["name"] ?></h2>
+                                <p><?php echo $sp["description"] ?></p>
                             </div>
                         </div>
                         <div class="col-lg-5 offset-lg-2 desc_col">
                             <div class="tab_image">
                                 <img src="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"] ?>" alt="">
-                            </div>
-                            <div class="tab_text_block">
-                                <h2>Pocket cotton sweatshirt</h2>
-                                <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis.
-                                    Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
-                            </div>
-                            <div class="tab_image desc_last">
-                                <img src="<?php echo HOST_ROOT ?>/public/assets/client/single/images/desc_3.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -169,8 +177,15 @@
                             <div class="tab_title additional_info_title">
                                 <h4>Additional Information</h4>
                             </div>
-                            <p>COLOR:<span>Gold, Red</span></p>
-                            <p>SIZE:<span>L,M,XL</span></p>
+                            <p>BRAND:<span><?php  echo $loai["name"] ?></span></p>
+                            <p>CATEGORY:<span><?php  echo $thuongHieu["name"] ?></span></p>
+                            <p>SIZE:<span>
+                                    <?php  foreach ($dsSizes as $s):
+                                        if($s["quantity"]>0){ 
+                                            echo $s["name"]." ; ";
+                                        }
+                                    endforeach ?>
+                                </span></p>
                         </div>
                     </div>
                 </div>
@@ -214,10 +229,9 @@
                                     </div>
                                 </div>
                                 <div class="review">
-                                    <div class="review_date">27 Aug 2016</div>
-                                    <div class="user_name">Brandon William</div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.</p>
+                                    <div class="review_date"><?php echo $dsReview[$i]["create_at"]  ?></div>
+                                    <div class="user_name"><?php echo $dsReview[$i]["name"]  ?></div>
+                                    <p><?php echo $dsReview[$i]["message"]  ?></p>
                                 </div>
                             </div>
                             <?php } ?>

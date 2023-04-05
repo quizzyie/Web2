@@ -167,7 +167,15 @@
                                     <i class="fa fa-star-o"></i>
                                     <i class="fa fa-star-o"></i>
                                 </div>
+                                <?php if($sp['sale']<$sp['price']){  ?>
+                                <del><?php echo $sp['price'] ?></del>
+
+                                <span>
+                                    <h5> <?php echo $sp['sale'] ?></h5>
+                                </span>
+                                <?php }else{   ?>
                                 <h5>$<?php echo $sp['sale'] ?></h5>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
