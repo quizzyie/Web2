@@ -79,15 +79,16 @@ function giaoDienSanPham(products, htmlSize) {
     html += `<div class="col-lg-4 col-md-6 col-sm-6">
     <div class="product__item">
       <a class="link-product" href="${HOST_ROOT}/chi-tiet">
-        <div class="product__item__pic set-bg" style="background-image: url('${HOST_ROOT}/uploads/${product.img}');"  >
+        <div class="product__item__pic set-bg" style="background-image: url('${HOST_ROOT}/uploads/${
+      product.img
+    }');"  >
         
-        <?php if($sp["type"]!="normal"){  ?>
-          <span class="label"><?php echo $sp["type"]  ?></span>
-
-          <?php }  ?>
-          if(product.type!="normal") {
-            <span class="label">product.type</span>
-          }
+        ${
+          product.type !== "normal"
+            ? '<span class="label">' + product.type + "</span>"
+            : ""
+          // Hien thi type
+        } 
         
           <ul class="product__hover">
             <li><a href="#"><img src="${HOST_ROOT}/public/assets/client/img/icon/heart.png" alt=""></a></li>
@@ -98,7 +99,9 @@ function giaoDienSanPham(products, htmlSize) {
       </a>
       <div class="product__item__text">
         <h6>${product.name}</h6>
-        <a href="detail?idsp=${product.id} " class="add-cart" data-product-id=${product.id}>+ SEE DETAIL</a>
+        <a href="detail?idsp=${product.id} " class="add-cart" data-product-id=${
+      product.id
+    }>+ SEE DETAIL</a>
         <div class="rating">
           <i class="fa fa-star-o"></i>
           <i class="fa fa-star-o"></i>
@@ -106,7 +109,18 @@ function giaoDienSanPham(products, htmlSize) {
           <i class="fa fa-star-o"></i>
           <i class="fa fa-star-o"></i>
         </div>
+        ${
+          // Xử lý giá sale và price
+          product.sale < product.price
+            ? `
+        <del>$${product.price}</del>
         <h5>$${product.sale}</h5>
+      `
+            : `
+        <h5>$${product.price}</h5>
+      `
+        }
+        
         
       </div>
     </div>
@@ -377,3 +391,5 @@ function updateCart() {
       console.error("Error:", error);
     });
 }
+
+function tangGiam() {}
