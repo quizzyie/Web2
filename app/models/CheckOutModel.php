@@ -39,7 +39,7 @@ class CheckOutModel extends Model {
         WHERE cart.user_id = $idUser ";
         return $this->getFirstRaw($sql)['tongTien'];
     }
-    public function insertBillDetail($dsgh,$idBill){
+    public function insertBillDetail($dsgh,$idBill,$idUser){
         foreach($dsgh as $sp){
             $idsp = $sp["idsp"];
             $idSize = $sp["idSize"];
@@ -48,13 +48,20 @@ class CheckOutModel extends Model {
             $sqlDetailBill = "INSERT INTO `bill_detail`(`bill_id`, `product_id`, `size_id`, `total`, `quantity`) 
             VALUES ($idBill,$idsp,$idSize,$total,$slm)"; 
             $result = $this->getFirstRaw($sqlDetailBill);
+            $this->giamSlg($idsp,$idSize,$slm);
         }
+        $this->xoaKhoiGio($idUser);
     }
     public function giamSlg($idsp,$idSize,$slm){
         // update trong bang product_size
+        $sql = "UPDATE `products_size` SET `quantity`=(quantity-$slm) 
+        WHERE `id_product`= $idsp and `id_size`= $idSize";
+        $this->getFirstRaw($sql);
     }
-    public function xoaKhoiGio($idsp){
+    public function xoaKhoiGio($idUser){
         // remove trong bang cart
+        $sql = "DELETE FROM `cart` WHERE user_id = $idUser";
+        $this->getFirstRaw($sql);
     }
     
 }

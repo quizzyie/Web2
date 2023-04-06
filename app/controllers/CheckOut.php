@@ -44,7 +44,7 @@ class CheckOut extends Controller{
             
             $idBill = $this->__model->getFirstRaw("SELECT LAST_INSERT_ID() as id")['id'];
             $dsgh = $this->__model->getGioHang($user_id);
-            $this->__model->insertBillDetail($dsgh,$idBill);
+            $this->__model->insertBillDetail($dsgh,$idBill,$user_id);
             
             Response::redirect(HOST_ROOT.'/cart');
         }
