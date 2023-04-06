@@ -260,24 +260,29 @@ rangeInput.forEach((input) => {
     $button.parent().find("input").val(newVal);
   });
 
-  var proQty = $(".pro-qty-2");
-  proQty.prepend('<span class="fa fa-angle-left dec qtybtn"></span>');
-  proQty.append('<span class="fa fa-angle-right inc qtybtn"></span>');
-  proQty.on("click", ".qtybtn", function () {
-    var $button = $(this);
-    var oldValue = $button.parent().find("input").val();
-    if ($button.hasClass("inc")) {
-      var newVal = parseFloat(oldValue) + 1;
-    } else {
-      // Don't allow decrementing below zero
-      if (oldValue > 0) {
-        var newVal = parseFloat(oldValue) - 1;
-      } else {
-        newVal = 0;
-      }
-    }
-    $button.parent().find("input").val(newVal);
-  });
+  // var proQty = $(".pro-qty-2");
+  // proQty.on("click", ".qtybtn", function () {
+  //   var $button = $(this);
+  //   console.log($cartPrice.innerHtml);
+  //   //lay gia 1 sp va set tong gia
+
+  //   var oldValue = $button.parent().find("input").val(); //so luong
+  //   if ($button.hasClass("inc")) {
+  //     if (oldValue == 5) {
+  //       var newVal = 5;
+  //     } else {
+  //       var newVal = parseFloat(oldValue) + 1;
+  //     }
+  //   } else {
+  //     // Don't allow decrementing below zero
+  //     if (oldValue > 1) {
+  //       var newVal = parseFloat(oldValue) - 1;
+  //     } else {
+  //       newVal = 1;
+  //     }
+  //   }
+  //   $button.parent().find("input").val(newVal);
+  // });
 
   /*------------------
         Achieve Counter

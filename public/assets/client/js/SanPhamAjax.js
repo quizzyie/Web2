@@ -113,11 +113,11 @@ function giaoDienSanPham(products, htmlSize) {
           // Xử lý giá sale và price
           product.sale < product.price
             ? `
-        <del>$${product.price}</del>
-        <h5>$${product.sale}</h5>
+        <del>${product.price}</del>
+        <h5>${product.sale}</h5>
       `
             : `
-        <h5>$${product.price}</h5>
+        <h5>${product.price}</h5>
       `
         }
         
@@ -261,6 +261,7 @@ function addToCart(idsp) {
         } else if (data.login) {
           onLogin();
         } else {
+          document.getElementById("checkout_items").innerHTML = data.soSpTGh;
           alert("Them san pham thanh cong");
         }
       })
@@ -272,62 +273,75 @@ function addToCart(idsp) {
   //Remove
 }
 function remove(idsp, idSize) {
-  const currentUrl = HOST_ROOT;
-  const relativeUrl = "/cartcontroller/xoaSanPham";
-  const fullUrl = currentUrl + relativeUrl;
-  const data = {
-    idsp: idsp,
-    idSize: idSize,
-  };
-  fetch(fullUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) {
-        alert(data.error);
-      } else {
-        alert("Xoa San Pham thanh cong");
-        giaoDienGioHang(data.dsgh);
-        let tongTien = document.getElementById("tongTienGH");
-        tongTien.innerHTML = data.tt;
-      }
+  if (confirm("Bạn có chắc muốn xóa san phẩm này chứ ?")) {
+    const currentUrl = HOST_ROOT;
+    const relativeUrl = "/cartcontroller/xoaSanPham";
+    const fullUrl = currentUrl + relativeUrl;
+    const data = {
+      idsp: idsp,
+      idSize: idSize,
+    };
+    fetch(fullUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          alert(data.error);
+        } else {
+          alert("Xoa San Pham thanh cong");
+          giaoDienGioHang(data.dsgh);
+          let tongTien = document.getElementById("tongTienGH");
+          tongTien.innerHTML = data.tt;
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
 }
 
 function giaoDienGioHang(dsgh) {
   let html = "";
   dsgh.forEach(function (sp) {
-    html += `<tr>
+    html +=
+      `<tr class="ghsp">
     <td class="product__cart__item">
         <div class="product__cart__item__pic">
-            <img src="img/shopping-cart/cart-1.jpg" alt="">
+            <img src="${HOST_ROOT}/uploads/${sp.image}" alt="">
         </div>
         <div class="product__cart__item__text">
-            <h6>${sp.tensp}</h6>
-            <h5>${sp.sale}</h5>
+            <h6>${sp.tenSp}` +
+      " - " +
+      sp.tenSize +
+      `</h6>
+            <h5>${sp.giaSp}</h5>
         </div>
     </td>
     <td class="quantity__item">
         <div class="quantity">
           
             <div class="pro-qty-2">
-            <span class="fa fa-angle-left dec qtybtn"></span>
-              <input id="slg" type="text" value="${sp.tsl}">
-            <span class="fa fa-angle-right inc qtybtn"></span>
+            <span onclick="giamSlgMua(event)" class="fa fa-angle-left giam qtybtn"></span>
+              <input  class="slg"  type="text" value="${sp.slm}">
+              <input class="giaSp" type="hidden" value="${sp.giaSp}">
+            <span onclick="tangSlgMua(event, ${
+              sp.slgSp
+            })" class="fa fa-angle-right tang qtybtn"></span>
             </div>
+            <input class="idsp" type="hidden" value="${sp.idsp}">
+            <input class="idsize" type="hidden" value="${sp.idSize}">
         </div>
     </td>
-    <td class="cart__price">$${sp.sale * sp.tsl}</td>
-    <td>${sp.size}</td>
-    <td onclick="remove(${sp.product_id},${sp.idSize})" class="cart__close"><i
+    <td  class="cart__price">$${sp.giaSp * sp.slm}</td>
+      
+        
+    <td>${sp.tenSize}</td>
+    <td onclick="remove(${sp.idsp},${sp.idSize})" class="cart__close"><i
             class="fa fa-close"></i></td>
 
   </tr>`;
@@ -392,4 +406,42 @@ function updateCart() {
     });
 }
 
-function tangGiam() {}
+//Tang Giam So Luong Mua
+let tang = document.querySelectorAll(".tang");
+function tangSlgMua(event, max) {
+  let slm = event.target.parentNode.querySelector(".slg");
+  let gia1Sp = event.target.parentNode.querySelector(".giaSp").value;
+  let giaSp = event.target.parentNode.parentNode.parentNode.nextElementSibling;
+  console.log(parseInt(giaSp.innerHTML.replace("$", "")) + max);
+  if (slm.value < max) {
+    slm.value = parseInt(slm.value) + 1;
+  }
+
+  giaSp.innerHTML = "$" + parseInt(slm.value) * parseInt(gia1Sp);
+  tongTien();
+}
+function giamSlgMua(event) {
+  let slm = event.target.parentNode.querySelector(".slg");
+  let gia1Sp = event.target.parentNode.querySelector(".giaSp").value;
+  let giaSp = event.target.parentNode.parentNode.parentNode.nextElementSibling;
+  console.log(parseInt(giaSp.innerHTML.replace("$", "")));
+  if (slm.value > 1) {
+    slm.value = parseInt(slm.value) - 1;
+  }
+
+  giaSp.innerHTML = "$" + parseInt(slm.value) * parseInt(gia1Sp);
+  tongTien();
+}
+
+function tongTien() {
+  let tt = document.getElementById("tongTienGH");
+  let dsgh = document.querySelectorAll(".ghsp");
+  let total = 0;
+  for (let i = 0; i < dsgh.length; i++) {
+    const sp = dsgh[i];
+    let gia = sp.querySelector(".giaSp").value;
+    let slg = sp.querySelector(".slg").value;
+    total += gia * slg;
+  }
+  tt.innerHTML = "$" + total;
+}
