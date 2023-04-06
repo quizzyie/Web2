@@ -238,7 +238,7 @@ function addToCart(idsp) {
 
     // //fetch nè
     const currentUrl = HOST_ROOT;
-    const relativeUrl = "/cartcontroller/themVaoGio";
+    const relativeUrl = "/cart/themVaoGio";
     const fullUrl = currentUrl + relativeUrl;
 
     const data = {
@@ -275,7 +275,7 @@ function addToCart(idsp) {
 function remove(idsp, idSize) {
   if (confirm("Bạn có chắc muốn xóa san phẩm này chứ ?")) {
     const currentUrl = HOST_ROOT;
-    const relativeUrl = "/cartcontroller/xoaSanPham";
+    const relativeUrl = "/cart/xoaSanPham";
     const fullUrl = currentUrl + relativeUrl;
     const data = {
       idsp: idsp,
@@ -354,7 +354,7 @@ function giaoDienGioHang(dsgh) {
 function updateCart() {
   let dsspgh = document.querySelectorAll(".ghsp");
   const currentUrl = HOST_ROOT;
-  const relativeUrl = "/cartcontroller/capNhatSanPham";
+  const relativeUrl = "/cart/capNhatSanPham";
   const fullUrl = currentUrl + relativeUrl;
 
   let idspArray = [];
