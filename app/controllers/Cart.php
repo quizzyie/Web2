@@ -1,5 +1,5 @@
 <?php
-    class CartController extends Controller{
+    class Cart extends Controller{
         public $__model,$__request,$__dataForm;
         private $data = [];
     

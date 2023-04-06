@@ -190,7 +190,7 @@
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                                 <li class="checkout">
                                     <?php if(isLogin()){ ?>
-                                    <a href="<?php echo HOST_ROOT ?>/cartController">
+                                    <a href="<?php echo HOST_ROOT ?>/cart">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                         <span id="checkout_items" class="checkout_items"><?php echo $soSpGh  ?></span>
                                     </a>

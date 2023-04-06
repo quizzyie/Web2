@@ -46,7 +46,7 @@ class CheckOut extends Controller{
             $dsgh = $this->__model->getGioHang($user_id);
             $this->__model->insertBillDetail($dsgh,$idBill);
             
-            Response::redirect(HOST_ROOT.'/cartController');
+            Response::redirect(HOST_ROOT.'/cart');
         }
     }
     
