@@ -4,58 +4,34 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-            <form action="#">
+            <form action="checkout/themHoaDon" method="post">
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
                         <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
                                 here</a> to enter your code</h6>
                         <h6 class="checkout__title">Billing Details</h6>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="checkout__input">
-                                    <p>Fist Name<span>*</span></p>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="checkout__input">
-                                    <p>Last Name<span>*</span></p>
-                                    <input type="text">
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="checkout__input">
-                            <p>Country<span>*</span></p>
-                            <input type="text">
+                            <p>Full Name<span>*</span></p>
+                            <input type="text" name="fullname" value="<?php  echo $user["fullname"] ?>">
                         </div>
+
                         <div class="checkout__input">
                             <p>Address<span>*</span></p>
-                            <input type="text" placeholder="Street Address" class="checkout__input__add">
-                            <input type="text" placeholder="Apartment, suite, unite ect (optinal)">
+                            <input type="text" name="address" placeholder="Address" class="checkout__input__add">
                         </div>
-                        <div class="checkout__input">
-                            <p>Town/City<span>*</span></p>
-                            <input type="text">
-                        </div>
-                        <div class="checkout__input">
-                            <p>Country/State<span>*</span></p>
-                            <input type="text">
-                        </div>
-                        <div class="checkout__input">
-                            <p>Postcode / ZIP<span>*</span></p>
-                            <input type="text">
-                        </div>
+
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>Phone<span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" name="phone" value="<?php  echo $user['phone'] ?>">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>Email<span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" name="email" value="<?php echo $user['email']  ?>">
                                 </div>
                             </div>
                         </div>
@@ -68,10 +44,7 @@
                             <p>Create an account by entering the information below. If you are a returning customer
                                 please login at the top of the page</p>
                         </div>
-                        <div class="checkout__input">
-                            <p>Account Password<span>*</span></p>
-                            <input type="text">
-                        </div>
+
                         <div class="checkout__input__checkbox">
                             <label for="diff-acc">
                                 Note about your order, e.g, special noe for delivery
@@ -81,7 +54,8 @@
                         </div>
                         <div class="checkout__input">
                             <p>Order notes<span>*</span></p>
-                            <input type="text" placeholder="Notes about your order, e.g. special notes for delivery.">
+                            <input name="note" type="text"
+                                placeholder="Notes about your order, e.g. special notes for delivery.">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
@@ -89,14 +63,13 @@
                             <h4 class="order__title">Your order</h4>
                             <div class="checkout__order__products">Product <span>Total</span></div>
                             <ul class="checkout__total__products">
-                                <li>01. Vanilla salted caramel <span>$ 300.0</span></li>
-                                <li>02. German chocolate <span>$ 170.0</span></li>
-                                <li>03. Sweet autumn <span>$ 170.0</span></li>
-                                <li>04. Cluten free mini dozen <span>$ 110.0</span></li>
+                                <?php for($i=0;$i<count($dsgh);$i++){  ?>
+                                <li><?php echo ($i+1).". ".$dsgh[$i]["tenSp"]." - ".$dsgh[$i]["tenSize"]  ?> <span>$
+                                        <?php echo $dsgh[$i]['totalSp'] ?></span></li>
+                                <?php } ?>
                             </ul>
                             <ul class="checkout__total__all">
-                                <li>Subtotal <span>$750.99</span></li>
-                                <li>Total <span>$750.99</span></li>
+                                <li>Total <span>$<?php echo $tongTien ?></span></li>
                             </ul>
                             <div class="checkout__input__checkbox">
                                 <label for="acc-or">

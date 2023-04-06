@@ -1,5 +1,5 @@
 <?php
-    class CartController extends Controller{
+    class Cart extends Controller{
         public $__model,$__request,$__dataForm;
         private $data = [];
     
@@ -13,9 +13,16 @@
         public function index(){
             $this->data['title'] = "Gio Hang";
             $this->data['content'] = 'blocks/cart';
-            $this->data['sub_data']['dsgh'] = $this->xemGioHang();
-            $this->data['sub_data']['tongTien'] = $this->tongTien();
-            $this->renderView('layouts/client_layout',$this->data);
+            if(isLogin()){
+                $idUser = isLogin()['user_id'];
+                $this->data['sub_data']['dsgh'] = $this->__model->xemGioHang($idUser);
+                $this->data['sub_data']['tongTien'] = $this->__model->tongTien($idUser);
+                $this->renderView('layouts/client_layout',$this->data);
+            }
+            else{
+                Response::redirect(HOST_ROOT.'/shop');
+            }
+            
         }
         public function themVaoGio(){
             if (isPost()) {
@@ -39,6 +46,9 @@
                             $result = $this->__model->getRawModel("INSERT INTO cart (user_id, product_id, amount, size_id) VALUES ('$user_id', '$idsp', '$slm', '$idSize')");
                             if($result){
                                 $return = ['error'=>"Có lỗi khi thêm sản phẩm"];
+                            }
+                            else{
+                                $return = ['soSpTGh'=>count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"))];
                             }
                         }
                         else{
@@ -90,9 +100,8 @@
                     $return = [$error];
                     // handle the error
                 } else {
-                    $user_id = Session::getSession('id_user');
-                    $dssp = $this->xemGioHang();
-                    $tt = $this->tongTien();
+                    $dssp = $this->__model->xemGioHang($user_id);
+                    $tt = $this->__model->tongTien($user_id);
                     $return = ["dsgh"=>$dssp,"tt"=>$tt];
                 }
                 $return = json_encode($return);
@@ -106,6 +115,7 @@
                 $dsTSL = $data["dstsl"];
                 $dsSize = $data["dssize"];
                 $user_id = isLogin()['user_id'];
+                $return = array();
                 for($i=0;$i<count($dsIDsp);$i++){
                     $idsp = $dsIDsp[$i];
                     $tsl = $dsTSL[$i];
@@ -115,7 +125,6 @@
                     if ($result === false) {
                         $error = $this->__model->getError();
                         $return = [$error];
-                        // handle the error
                     } else {
                         $return = ["ok"];
                     }

@@ -167,6 +167,29 @@ rangeInput.forEach((input) => {
     autoHeight: false,
     autoplay: false,
   });
+  $(document).ready(function () {
+    // Select the minus and plus buttons
+    var minusButton = $(".minus");
+    var plusButton = $(".plus");
+
+    // Get the quantity value span
+    var quantityValue = $("#quantity_value");
+
+    // Attach click event listeners to the buttons
+    minusButton.click(function () {
+      var currentValue = parseFloat(quantityValue.text());
+      if (currentValue > 1) {
+      }
+    });
+
+    plusButton.click(function () {
+      var currentValue = parseFloat(quantityValue.text());
+      if (currentValue >= 4) {
+        currentValue = 4;
+        quantityValue.text(currentValue);
+      }
+    });
+  });
 
   /*--------------------------
         Select
