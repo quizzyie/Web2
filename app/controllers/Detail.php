@@ -13,7 +13,7 @@ class Detail extends Controller
         } 
     }
     public function index($idsp = null){
-        $this->data['title'] = "Chi tiet san pham";
+        $this->data["sub_data"]['title'] = "Chi tiet san pham";
         $this->data['content'] = 'blocks/product_detail';
         
         

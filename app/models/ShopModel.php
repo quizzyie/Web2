@@ -20,4 +20,7 @@ class ShopModel extends Model {
     public function getCategories(){
         
     }
+    public function getStars($idsp){
+        
+    }
 }
