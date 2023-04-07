@@ -167,6 +167,29 @@ rangeInput.forEach((input) => {
     autoHeight: false,
     autoplay: false,
   });
+  $(document).ready(function () {
+    // Select the minus and plus buttons
+    var minusButton = $(".minus");
+    var plusButton = $(".plus");
+
+    // Get the quantity value span
+    var quantityValue = $("#quantity_value");
+
+    // Attach click event listeners to the buttons
+    minusButton.click(function () {
+      var currentValue = parseFloat(quantityValue.text());
+      if (currentValue > 1) {
+      }
+    });
+
+    plusButton.click(function () {
+      var currentValue = parseFloat(quantityValue.text());
+      if (currentValue >= 4) {
+        currentValue = 4;
+        quantityValue.text(currentValue);
+      }
+    });
+  });
 
   /*--------------------------
         Select
@@ -259,30 +282,6 @@ rangeInput.forEach((input) => {
     }
     $button.parent().find("input").val(newVal);
   });
-
-  // var proQty = $(".pro-qty-2");
-  // proQty.on("click", ".qtybtn", function () {
-  //   var $button = $(this);
-  //   console.log($cartPrice.innerHtml);
-  //   //lay gia 1 sp va set tong gia
-
-  //   var oldValue = $button.parent().find("input").val(); //so luong
-  //   if ($button.hasClass("inc")) {
-  //     if (oldValue == 5) {
-  //       var newVal = 5;
-  //     } else {
-  //       var newVal = parseFloat(oldValue) + 1;
-  //     }
-  //   } else {
-  //     // Don't allow decrementing below zero
-  //     if (oldValue > 1) {
-  //       var newVal = parseFloat(oldValue) - 1;
-  //     } else {
-  //       newVal = 1;
-  //     }
-  //   }
-  //   $button.parent().find("input").val(newVal);
-  // });
 
   /*------------------
         Achieve Counter

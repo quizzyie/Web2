@@ -1741,7 +1741,17 @@ ol {
 .product__details__text p {
   margin-bottom: 35px;
 }
-
+.free_delivery {
+  background-color: #eeadaf;
+}
+.free_delivery span:last-child {
+  font-size: 18px;
+  font-weight: 600;
+}
+.product_price {
+  font-weight: 600;
+  font-size: 32px;
+}
 .product__details__option {
   margin-bottom: 30px;
 }
@@ -1751,13 +1761,18 @@ ol {
   margin-right: 50px;
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  align-items: center;
 }
 .size-custom {
   width: 60px;
-  height: 30px;
+  height: 38px;
   margin: 2px;
   cursor: pointer;
   /* background-color: #ccc; */
+  display: flex;
+  align-items: center;
+  font-weight: 600;
   border: 1px solid #ccc;
 }
 .size-custom.active {
@@ -1921,6 +1936,9 @@ ol {
   text-transform: uppercase;
   font-weight: 700;
   margin-right: 20px;
+}
+.navbar_menu li a:hover {
+  color: #fe4c50;
 }
 
 .product__details__btns__option a:last-child {
@@ -2465,7 +2483,14 @@ ol {
   float: left;
   margin-right: 30px;
 }
-
+.product__cart__item__pic img {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+}
+/* .ghsp {
+  display: flex;
+} */
 .shopping__cart__table
   table
   tbody
@@ -2473,7 +2498,8 @@ ol {
   td.product__cart__item
   .product__cart__item__text {
   overflow: hidden;
-  padding-top: 21px;
+  padding-top: 29px;
+  width: 230px;
 }
 
 .shopping__cart__table
@@ -2535,6 +2561,9 @@ ol {
   color: #888888;
   width: 10px;
   cursor: pointer;
+}
+.pro-qty-2 {
+  display: flex;
 }
 
 .shopping__cart__table table tbody tr td.cart__price {

@@ -48,8 +48,7 @@
 
                                 <td onclick="remove(<?php echo $sp['idsp'] ?>,<?php echo $sp['idSize'] ?>)"
                                     class="cart__close"><i class="fa fa-close"></i></td>
-
-                            </tr>
+                                    </tr>
                             <?php endforeach;} ?>
                         </tbody>
                     </table>
