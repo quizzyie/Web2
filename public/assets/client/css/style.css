@@ -45,8 +45,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .slider .progress {
   height: 5px;
-  left: 5%;
-  right: 5%;
+  left: 0%;
+  right: 0%;
   position: absolute;
   border-radius: 5px;
   background-color: #17a2b8;
@@ -84,37 +84,6 @@ input[type="range"]::-moz-rang-thumb {
   border-radius: 50%;
   background: #17a2b8;
 }
-/******************************************************************
-  Template Name: Male Fashion
-  Description: Male Fashion - ecommerce teplate
-  Author: Colorib
-  Author URI: https://www.colorib.com/
-  Version: 1.0
-  Created: Colorib 
-******************************************************************/
-
-/*------------------------------------------------------------------
-[Table of contents]
-
-1.  Template default CSS
-	1.1	Variables
-	1.2	Mixins
-	1.3	Flexbox
-	1.4	Reset
-2.  Helper Css
-3.  Header Section
-4.  Hero Section
-5.  Banner Section
-6.  Product Section
-7.  Intagram Section
-8.  Latest Section
-9.  Contact
-10.  Footer Style
--------------------------------------------------------------------*/
-
-/*----------------------------------------*/
-/* Template default CSS
-/*----------------------------------------*/
 
 html,
 body {
@@ -1066,6 +1035,8 @@ ol {
   height: 260px;
   position: relative;
   background-position: center center;
+  border-radius: 10px;
+  transition: all 0.3s;
 }
 
 .product__item__pic .label {
@@ -1138,7 +1109,11 @@ ol {
   padding: 10px;
   display: inline-block;
 }
-
+.product__item__pic:hover {
+  transform: scale(1.1);
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
 .product__item__text {
   padding-top: 25px;
   position: relative;
@@ -1181,6 +1156,7 @@ ol {
 .product__item__text h5 {
   color: #0d0d0d;
   font-weight: 700;
+  font-size: 18px;
 }
 
 .product__item__text .product__color__select {
@@ -1557,6 +1533,9 @@ ol {
 .product__pagination {
   padding-top: 25px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .product__pagination a {
@@ -1564,20 +1543,27 @@ ol {
   font-size: 16px;
   font-weight: 700;
   color: #111111;
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   border: 1px solid transparent;
   border-radius: 50%;
   line-height: 30px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .product__pagination a.active {
   border-color: #111111;
+  background-color: #fe4c50;
+  color: #fff;
+  opacity: 0.7;
 }
 
 .product__pagination a:hover {
   border-color: #111111;
+  cursor: pointer;
 }
 
 .product__pagination span {
@@ -2487,6 +2473,7 @@ ol {
   height: 100px;
   width: 100px;
   object-fit: cover;
+  border-radius: 10px;
 }
 /* .ghsp {
   display: flex;
@@ -2546,7 +2533,8 @@ ol {
   border: none;
   text-align: center;
   color: #111111;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .shopping__cart__table
@@ -2557,7 +2545,7 @@ ol {
   .quantity
   .pro-qty-2
   .qtybtn {
-  font-size: 16px;
+  font-size: 22px;
   color: #888888;
   width: 10px;
   cursor: pointer;
@@ -2582,6 +2570,7 @@ ol {
   border-radius: 50%;
   line-height: 40px;
   text-align: center;
+  cursor: pointer;
 }
 
 .continue__btn.update__btn {
@@ -2597,7 +2586,11 @@ ol {
 .continue__btn.update__btn a i {
   margin-right: 5px;
 }
-
+a:not([href]):not([tabindex]):focus,
+a:not([href]):not([tabindex]):hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
 .continue__btn a {
   color: #111111;
   font-size: 14px;

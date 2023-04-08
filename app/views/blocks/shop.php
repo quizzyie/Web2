@@ -24,7 +24,7 @@
                                 <div class="card-heading active">
                                     <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
                                 </div>
-                                <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                <div id="collapseOne" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="CategoryList" class="shop__sidebar__categories">
 
@@ -43,7 +43,7 @@
                                 <div class="card-heading active">
                                     <a data-toggle="collapse" data-target="#collapseTwo">Branding</a>
                                 </div>
-                                <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
+                                <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="BrandList" class="shop__sidebar__brand">
                                             <?php foreach($dsBrands as $th): ?>
@@ -59,7 +59,7 @@
                                 <div class="card-heading active">
                                     <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
                                 </div>
-                                <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
+                                <div id="collapseThree" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="shop__sidebar__price" style="display: flex;
                                                             width: 100%;  justify-content: center;
@@ -89,7 +89,7 @@
                                 <div class="card-heading active">
                                     <a data-toggle="collapse" data-target="#collapseFour">Size</a>
                                 </div>
-                                <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
+                                <div id="collapseFour" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="SizeList" class="shop__sidebar__size">
                                             <?php foreach($dsSizes as $s): ?>
