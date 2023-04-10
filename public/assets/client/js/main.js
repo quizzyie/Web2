@@ -63,14 +63,6 @@ rangeInput.forEach((input) => {
     filter(0);
   });
 });
-/*  ---------------------------------------------------
-    Template Name: Male Fashion
-    Description: Male Fashion - ecommerce teplate
-    Author: Colorib
-    Author URI: https://www.colorib.com/
-    Version: 1.0
-    Created: Colorib
----------------------------------------------------------  */
 
 // sizeCustom.addEventListener("click", function () {
 //   alert("123");
@@ -165,7 +157,7 @@ rangeInput.forEach((input) => {
     animateIn: "fadeIn",
     smartSpeed: 1200,
     autoHeight: false,
-    autoplay: false,
+    autoplay: true,
   });
   $(document).ready(function () {
     // Select the minus and plus buttons
