@@ -692,23 +692,33 @@ async function fetchData(page) {
       item.classList.add('active');
     }
   })
-  document.querySelector('.btn-pre').onclick = (e) => {
-    e.preventDefault();
-    if (page == 1) {
-      page++;
+  if (document.querySelector('.btn-pre')) {
+
+    document.querySelector('.btn-pre').onclick = (e) => {
+      e.preventDefault();
+      if (page == 1) {
+        page++;
+      }
+      fetchData(page - 1);
     }
-    fetchData(page - 1);
   }
-  document.querySelector('.btn-next').onclick = (e) => {
-    e.preventDefault();
-    if (page == document.querySelector('.max-page').value) {
-      page--;
+  if (document.querySelector('.btn-next')) {
+
+    document.querySelector('.btn-next').onclick = (e) => {
+      e.preventDefault();
+      if (page == document.querySelector('.max-page').value) {
+        page--;
+      }
+      fetchData(parseInt(page) + 1);
     }
-    fetchData(parseInt(page) + 1);
   }
-  document.querySelector('.btn-search').onclick = async function () {
-    await fetchPagination(1);
-    await fetchData(1);
+
+  if (document.querySelector('.btn-search')) {
+    document.querySelector('.btn-search').onclick = async function () {
+      await fetchPagination(1);
+      await fetchData(1);
+    }
+
   }
 }
 
@@ -749,23 +759,33 @@ async function fetchPagination(page) {
       fetchData(page);
     }
   })
-  document.querySelector('.btn-pre').onclick = (e) => {
-    e.preventDefault();
-    if (page == 1) {
-      page++;
+  if (document.querySelector('.btn-pre')) {
+
+    document.querySelector('.btn-pre').onclick = (e) => {
+      e.preventDefault();
+      if (page == 1) {
+        page++;
+      }
+      fetchData(page - 1);
     }
-    fetchData(page - 1);
   }
-  document.querySelector('.btn-next').onclick = (e) => {
-    e.preventDefault();
-    if (page == document.querySelector('.max-page').value) {
-      page--;
+  if (document.querySelector('.btn-next')) {
+
+    document.querySelector('.btn-next').onclick = (e) => {
+      e.preventDefault();
+      if (page == document.querySelector('.max-page').value) {
+        page--;
+      }
+      fetchData(parseInt(page) + 1);
     }
-    fetchData(parseInt(page) + 1);
   }
-  document.querySelector('.btn-search').onclick = async function () {
-    await fetchPagination(1);
-    await fetchData(1);
+
+  if (document.querySelector('.btn-search')) {
+    document.querySelector('.btn-search').onclick = async function () {
+      await fetchPagination(1);
+      await fetchData(1);
+    }
+
   }
 
 }
