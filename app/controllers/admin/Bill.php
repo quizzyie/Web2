@@ -17,7 +17,7 @@ class Bill extends Controller
             return;
         }
 
-        if(!isPermission('bill','update')){
+        if (!isPermission('bill', 'update')) {
             App::$app->loadError('permission');
             return;
         }
@@ -39,7 +39,7 @@ class Bill extends Controller
             return;
         }
 
-        if(!isPermission('bill','update')){
+        if (!isPermission('bill', 'update')) {
             App::$app->loadError('permission');
             return;
         }
@@ -94,26 +94,31 @@ class Bill extends Controller
                     'update_at' => date('Y-m-d H:i:s')
                 ];
 
-                $order_status = $this->__model->getFirstRaw("select * from bill where id = ".$data['id'])['id_order_status'];
+                $order_status = $this->__model->getFirstRaw("select * from bill where id = " . $data['id'])['id_order_status'];
                 $cart = $this->__model->getRawModel("select * from bill_detail where 
-                bill_id = ".$data['id']);
-                if($data['id_order_status']==4 and $order_status!=4){
+                bill_id = " . $data['id']);
+                if ($data['id_order_status'] == 4 and $order_status != 4) {
                     foreach ($cart as $key => $value) {
-                        $product_id = $value['product_id'];
-                        $size_id = $value['size_id'];
-                        $product = $this->__model->getFirstRaw("select * from products_size where id_product = $product_id and id_size = $size_id");
-                        $dataUpdate = [
-                            'quantity'=>$product['quantity']+$value['quantity']
-                        ];
-                        $this->__model->addTableData("products_size",$dataUpdate,"id_product = $product_id and id_size = $size_id");
-                    }
-                }else if($data['id_order_status']!=4 and $order_status==4){
+                        if (!empty($value)) {
+                            $product_id = $value['product_id'];
+                            $size_id = $value['size_id'];
+                            $product = $this->__model->getFirstRaw("select * from products_size where id_product = $product_id and id_size = $size_id");
+                            $dataUpdateQuantity = [];
+                            if (!empty($product['quantity']) && !empty($value['quantity'])) {
+                                $dataUpdateQuantity = [
+                                    'quantity' => $product['quantity'] + $value['quantity'],
+                                    'update_at' => date('Y-m-d H:i:s')
+                                ];
+                            }
 
+                            $this->__model->updateTableData("products_size", $dataUpdateQuantity, "id_product = $product_id and id_size = $size_id");
+                        }
+                    }
                 }
 
                 $status = $this->__model->updateData($dataUpdate, "id = " . $data['id']);
 
-                
+
                 if ($status) {
                     Session::setFlashData('msg', 'Cập nhập trạng thái thành công!');
                     Session::setFlashData('msg_type', 'success');
@@ -140,7 +145,7 @@ class Bill extends Controller
                     Response::redirect('admin/bill/');
                 } else {
                     $data['sub_data']['bill'] = $this->__model->getFirstRaw("select bill.*,order_status.name as status_name from bill,order_status where bill.id = $id and bill.id_order_status = order_status.id");
-                    $data['sub_data']['bill_detail'] = $this->__model->getRawModel("SELECT quantity,sizes.name AS size_name,total,products.name AS product_name,products.sale FROM bill_detail,products,sizes 
+                    $data['sub_data']['bill_detail'] = $this->__model->getRawModel("SELECT quantity,products.img,sizes.name AS size_name,total,products.name AS product_name,products.sale FROM bill_detail,products,sizes 
                     WHERE bill_detail.bill_id = $id and bill_detail.product_id = products.id AND bill_detail.size_id = sizes.id
                     ");
                     $data['title'] = "Chi tiết hóa đơn";
@@ -245,7 +250,7 @@ class Bill extends Controller
             </tr>
             ";
 
-            
+
 
             $i++;
         }

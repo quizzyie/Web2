@@ -339,7 +339,7 @@ class Statistics extends Controller
             $linkDelete = _WEB_HOST_ROOT_ADMIN . "/products/delete/$id";
             $linkImage = HOST_ROOT . "/uploads/$img";
 
-            $total = $da_ban * $so_luong;
+            $total = $da_ban * $sale;
             $data .= "<tr>
           <td>$i</td>
             <td>$name</td>

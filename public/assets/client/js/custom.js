@@ -157,8 +157,16 @@ async function checkLogin() {
         console.log(jsonData);
         if (jsonData['check']) {
             offForm();
-            alert("Đăng nhập thành công!");
-            location.reload();
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Đăng nhập thành công!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
         } else {
             showErr.textContent = jsonData['msg'];
             showErr.classList.remove('hidden');
@@ -352,23 +360,40 @@ const checkForgot = async () => {
     }
 }
 
+function sweetConfirm(title, message, callback) {
+    Swal.fire({
+        title,
+        text: message,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Đồng ý!'
+    }).then((confirmed) => {
+        callback(confirmed && confirmed.value == true);
+    });
+}
+
+
 const onLogout = async () => {
-    if (confirm("Bạn có chắc chắn muốn đăng xuất!")) {
-        let data = new URLSearchParams();
-        let host_root = "";
-        if (document.querySelector('.url_hoot_root')) {
-            host_root = document.querySelector('.url_hoot_root').value;
+    sweetConfirm('Đăng xuất?', 'Bạn có chắc chắn muốn đăng xuất!', async function (confirmed) {
+        if (confirmed) {
+            let data = new URLSearchParams();
+            let host_root = "";
+            if (document.querySelector('.url_hoot_root')) {
+                host_root = document.querySelector('.url_hoot_root').value;
+            }
+            let response = await fetch(host_root + "/auth/logout", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: data.toString()
+            })
+            location.reload();
         }
-        let response = await fetch(host_root + "/auth/logout", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: data.toString()
-        })
-        location.reload();
-        //vai dan
-    }
+    });
+
 }
 
 const handleSubcribe = async (event) => {
