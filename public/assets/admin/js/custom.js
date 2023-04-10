@@ -706,11 +706,9 @@ async function fetchData(page) {
     }
     fetchData(parseInt(page) + 1);
   }
-  if (document.querySelector('.btn-search')) {
-    document.querySelector('.btn-search').onclick = async function () {
-      await fetchPagination(1);
-      await fetchData(1);
-    }
+  document.querySelector('.btn-search').onclick = async function () {
+    await fetchPagination(1);
+    await fetchData(1);
   }
 }
 
@@ -741,6 +739,7 @@ async function fetchPagination(page) {
     body: data.toString()
   })
   let jsonData = await response.json();
+
   document.querySelector('.fetch-pagination').innerHTML = jsonData; // outputs an array of user objects
   groupBtnPage = document.querySelectorAll('.btn-page');
   groupBtnPage.forEach(item => {
@@ -764,11 +763,9 @@ async function fetchPagination(page) {
     }
     fetchData(parseInt(page) + 1);
   }
-  if (document.querySelector('.btn-search')) {
-    document.querySelector('.btn-search').onclick = async function () {
-      await fetchPagination(1);
-      await fetchData(1);
-    }
+  document.querySelector('.btn-search').onclick = async function () {
+    await fetchPagination(1);
+    await fetchData(1);
   }
 
 }
@@ -776,8 +773,6 @@ async function fetchPagination(page) {
 
 fetchPagination(1)
 fetchData(1)
-
-
 function generateRandomColor() {
   let maxVal = 0xFFFFFF; // 16777215
   let randomNumber = Math.random() * maxVal;

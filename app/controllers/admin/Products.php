@@ -409,7 +409,7 @@ class Products extends Controller
             return;
         }
 
-        if(!isPermission('products','view')){
+        if(!isPermission('products','add')&&!isPermission('products','update')){
             App::$app->loadError('permission');
             return;
         }
@@ -429,6 +429,7 @@ class Products extends Controller
                     ON products.id = temp.id_product 
                     LEFT JOIN (SELECT product_id,SUM(quantity) AS da_ban 
                     FROM bill_detail,bill where bill.id = bill_detail.bill_id  
+                    and bill.id_order_status <> 4
                     GROUP BY product_id) AS temp2
                     ON products.id = temp2.product_id
                     JOIN categories ON products.id_category = categories.id 
@@ -553,7 +554,8 @@ class Products extends Controller
         }
 
         $products = $this->__model->getRawModel("SELECT * FROM products LEFT JOIN (SELECT id_product,SUM(quantity) AS con_hang FROM products_size GROUP BY id_product) AS temp 
-        ON products.id = temp.id_product LEFT JOIN (SELECT product_id,SUM(quantity) AS da_ban FROM bill_detail,bill where bill.id = bill_detail.bill_id $conditionBill  GROUP BY product_id) AS temp2
+        ON products.id = temp.id_product LEFT JOIN (SELECT product_id,SUM(quantity) AS da_ban FROM bill_detail,bill where bill.id = bill_detail.bill_id $conditionBill
+        and bill.id_order_status <> 4 GROUP BY product_id) AS temp2
         ON products.id = temp2.product_id $condition order by $sortBy create_at desc  limit $indexPage,$per_page");
 
         $data = "";
@@ -596,19 +598,14 @@ class Products extends Controller
             ";
             $i++;
 
-            if(isPermission('products','view')){
+            if(isPermission('products','add')||isPermission('products','update')||isPermission('products','delete')){
                 $data .= "<a href='$linkDetail' class='btn btn-primary btn-sm'>Chi tiết</a>";
-            }else{
-                $data .= "<td></td>";
             }
 
             if(isPermission('products','update')){
                 $data .= "<a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a>";
-            }else{
-                $data .= "<td></td>";
             }
-            $data .= "</td>
-            </tr>";
+            $data .= "</td></tr>";
 
             // <td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
             //     btn-sm\"><i class=\"fa fa-trash\"></i>
