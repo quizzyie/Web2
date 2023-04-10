@@ -1,9 +1,3 @@
-<?php 
-// echo "<pre>";
-// print_r($list_img);
-// echo "<pre>";
-// die();
-?>
 <div class="container">
     <table class="table table-bordered">
         <thead>
