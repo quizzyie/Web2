@@ -1,3 +1,9 @@
+.scrolltable {
+  max-height: 60vh;
+  overflow-y: auto;
+  width: 100%;
+}
+
 .shop__sidebar__price .field {
   height: 45px;
   width: 100%;
