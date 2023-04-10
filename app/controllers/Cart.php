@@ -38,26 +38,53 @@
                     else{
                         $idSize = 1;
                     }
-                    $sp = $this->__model->getRawModel("select * from products_size where id_product = ".$idsp." and id_size = ".$idSize);
-                    if(!empty($sp)){
-                        //Lay  So Luong
-                        $quantities = array_column($sp, 'quantity');
-                        if($quantities[0]>0){
-                            $result = $this->__model->getRawModel("INSERT INTO cart (user_id, product_id, amount, size_id) VALUES ('$user_id', '$idsp', '$slm', '$idSize')");
-                            if($result){
-                                $return = ['error'=>"Có lỗi khi thêm sản phẩm"];
+                    if($this->__model->ktSoLuong($idsp,$idSize,$slm,$user_id)){
+                        $sp = $this->__model->getRawModel("select * from products_size where id_product = ".$idsp." and id_size = ".$idSize);
+                        if(!empty($sp)){
+                            //Lay  So Luong
+                            $quantities = array_column($sp, 'quantity');
+                            if($quantities[0]>0){
+                                //Kiem tra san pham da ton tai trong gio hang
+                                if($this->__model->ktSanPhamTrgGH($idsp,$user_id,$idSize)){
+                                    $slgSPTrgGh = $this->__model->getSoLuongTrgGH($idsp,$idSize,$user_id);
+                                    $amount = $slgSPTrgGh+$slm;
+                                    $dataUpdate = [
+                                        'amount' => $amount,
+                                    ];
+                                    $sql = "UPDATE `cart` SET `amount`= $amount WHERE `user_id`=$user_id and `product_id`=$idsp and`size_id`=$idSize";
+                                    // $result = $this->__model->getFirstRaw($sql);
+                                    $result = $this->__model->updateTableData("cart",$dataUpdate,"user_id=$user_id and product_id=$idsp and size_id=$idSize") ;
+                                }
+                                else{
+                                    // $result = $this->__model->getRawModel("INSERT INTO cart (user_id, product_id, amount, size_id) VALUES ('$user_id', '$idsp', '$slm', '$idSize')");
+                                    $dataInsert = [
+                                        'user_id' => $user_id,
+                                        'product_id' => $idsp,
+                                        'amount' => $slm,
+                                        'size_id'=> $idSize,
+                                        'created_at' => date('Y-m-d H:i:s')
+                                    ];
+                                    $result = $this->__model->addData($dataInsert);
+                                }
+                                if(!$result){
+                                    $return = ['error'=>"Có lỗi khi thêm sản phẩm"];
+                                }
+                                else{
+                                    $return = ['soSpTGh'=>count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"))];
+                                }
                             }
                             else{
-                                $return = ['soSpTGh'=>count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"))];
+                                echo "San pham nay da het hang";
                             }
                         }
                         else{
-                            echo "San pham nay da het hang";
+                            echo "khong ton tai idsp hoac idSize";
                         }
                     }
                     else{
-                        echo "khong ton tai idsp hoac idSize";
+                        $return = ['error'=>"Vượt quá số lượng sản phẩm"];
                     }
+                    
                     
                 }
                 else{
