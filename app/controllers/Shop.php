@@ -34,7 +34,7 @@ class Shop extends Controller
         $this->data['sub_data']['dsProducts'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where status = 1 and quantity > 0 and products.name like '%%' GROUP BY products.id ORDER BY sale ASC limit $vtt,".$this->slgSPMT);
         $this->data['sub_data']['dsProductsFull'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where status = 1 and quantity > 0 and products.name like '%%' GROUP BY products.id ");
         $this->data['sub_data']['soTrang'] = $this->tongSoTrang($this->data['sub_data']['dsProductsFull']);
-        
+        $this->data['sub_data']['dsStar'] = $this->__model->getStars    ($this->data['sub_data']['dsProducts']);
         $this->data['sub_data']['tongSp'] = count($this->data['sub_data']['dsProductsFull']);
         // echo "<pre>";
         // print_r($this->data['sub_data']['dsProductsFull']);
@@ -83,12 +83,14 @@ class Shop extends Controller
             $dsspFull = $this->__model->getRawModel($this->sql);
             $ds = $this->__model->getRawModel($this->sql."limit $viTri,".$this->slgSPMT);
             $soTrang = $this->tongSoTrang($dsspFull);//Lay So Trang
+            $dsStar = $this->__model->getStars($ds);
             $data = array(
                 'ds' => $ds,
                 'soTrang' => $soTrang,
                 'sql'=>$this->sql,
                 'dsSize'=>$this->data['sub_data']['dsSizes'],
                 'tongsp'=>count($dsspFull),
+                'dsStar'=>$dsStar,
             );
             $data = json_encode($data);
             echo $data;

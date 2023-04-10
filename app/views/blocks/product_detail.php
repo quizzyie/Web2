@@ -79,15 +79,7 @@
                     <span>Size:</span>
 
                     <!-- Giai thich: Cho mặc định size S được chọn. Nếu như size S hết hàng thì cộng defaultSize lên -->
-                    <?php $defaultSize = 1;  foreach ($dsSizes as $s): ?>
-                    <?php if($s['id']==$defaultSize && $s["quantity"]>0){  ?>
-                    <div class="size-custom">
-                        <input type="radio" name="size" value="<?php  echo $s["id"] ?>" checked>
-                        <?php echo $s["name"]  ?>
-
-                    </div>
-
-                    <?php } else{ $defaultSize += 1; ?>
+                    <?php  foreach ($dsSizes as $s): ?>
 
                     <?php if($s["quantity"]>0){?>
                     <div class="size-custom">
@@ -106,10 +98,13 @@
 
                     <?php } ?>
 
-                    <?php } ?>
+                    <?php  ?>
 
                     <?php endforeach ?>
+                    <input id="idspTemp" type="hidden" value="<?php echo $sp['id'] ?>">
                 </div>
+                <div style="display: ;"></div>
+                <span>So Luong San Pham: </span><span id="slgSpTD"><?php echo $slg ?></span>
                 <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                     <span>Quantity:</span>
                     <div class="quantity_selector">
