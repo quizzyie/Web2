@@ -38,8 +38,8 @@ class CheckOut extends Controller{
             $currentDateTime = date('Y-m-d H:i:s');
             $totalBill = $this->__model->tongTien($user_id);
             
-            $sqlBill = "INSERT INTO `bill`( `user_id`, `resipient_name`, `resipient_phonenumber`, `delivery_address`, `note`, `total_bill`, `id_order_status`, `create_at`) 
-            VALUES ($user_id,'$fullName','$phone','$address','$note',$totalBill,$id_order_status,'$currentDateTime')";
+            $sqlBill = "INSERT INTO `bill`( `user_id`, `resipient_name`, `resipient_phonenumber`, `delivery_address`, `note`, `id_order_status`, `create_at`) 
+            VALUES ($user_id,'$fullName','$phone','$address','$note',$id_order_status,'$currentDateTime')";
             $result = $this->__model->getFirstRaw($sqlBill);
             
             $idBill = $this->__model->getFirstRaw("SELECT LAST_INSERT_ID() as id")['id'];
