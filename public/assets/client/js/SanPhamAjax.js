@@ -8,7 +8,7 @@ const brands = document.getElementsByName("brands");
 const brandValues = [];
 const sizes = document.getElementsByName("sizes");
 const sizeValues = [];
-
+let listSize = document.querySelectorAll(".lblSize");
 // Allo
 const categoryCheckbox = document.querySelectorAll('input[name="categories"]');
 for (var i = 0; i < categoryCheckbox.length; i++) {
@@ -22,6 +22,7 @@ const sizeCheckbox = document.querySelectorAll('input[name="sizes"]');
 for (var i = 0; i < sizeCheckbox.length; i++) {
   sizeCheckbox[i].addEventListener("change", filter);
 }
+
 function checkedCategories() {
   for (var i = 0; i < categories.length; i++) {
     if (categories[i].checked) {
@@ -36,9 +37,10 @@ function checkedBrands() {
     }
   }
 }
+
 function checkSizes() {
-  for (var i = 0; i < sizes.length; i++) {
-    if (sizes[i].checked) {
+  for (var i = 0; i < listSize.length; i++) {
+    if (listSize[i].classList.contains("active")) {
       sizeValues.push(sizes[i].value);
     }
   }
@@ -73,15 +75,17 @@ function printRadioSize(dsSizes) {
   return html;
 }
 
-function giaoDienSanPham(products, htmlSize) {
+function giaoDienSanPham(products, dsStar) {
   var html = "";
+  let k = 0;
   products.forEach(function (product) {
-    html += `<div class="col-lg-4 col-md-6 col-sm-6">
+    html +=
+      `<div class="col-lg-4 col-md-6 col-sm-6">
     <div class="product__item">
       <a class="link-product" href="${HOST_ROOT}/chi-tiet">
         <div class="product__item__pic set-bg" style="background-image: url('${HOST_ROOT}/uploads/${
-      product.img
-    }');"  >
+        product.img
+      }');"  >
         
         ${
           product.type !== "normal"
@@ -100,14 +104,11 @@ function giaoDienSanPham(products, htmlSize) {
       <div class="product__item__text">
         <h6>${product.name}</h6>
         <a href="detail?idsp=${product.id} " class="add-cart" data-product-id=${
-      product.id
-    }>+ SEE DETAIL</a>
-        <div class="rating">
-          <i class="fa fa-star-o"></i>
-          <i class="fa fa-star-o"></i>
-          <i class="fa fa-star-o"></i>
-          <i class="fa fa-star-o"></i>
-          <i class="fa fa-star-o"></i>
+        product.id
+      }>+ SEE DETAIL</a>
+        <div class="rating">` +
+      dsStar[k++] +
+      `
         </div>
         ${
           // Xử lý giá sale và price
@@ -127,6 +128,21 @@ function giaoDienSanPham(products, htmlSize) {
   </div>`;
   });
   gdsp.innerHTML = html;
+}
+
+function gdSao(dsSao) {
+  let htmlSao = [];
+  for (i = 0; i < dsSao.length; i++) {
+    htmlSao[i] = "";
+    for (j = 1; j <= 5; j++) {
+      if (j <= dsSao[i]) {
+        htmlSao[i] += `<i class="fa fa-star" aria-hidden="true"></i> `;
+      } else {
+        htmlSao[i] += `<i class="fa fa-star-o" aria-hidden="true"></i> `;
+      }
+    }
+  }
+  return htmlSao;
 }
 
 function filter(vtt) {
@@ -170,7 +186,10 @@ function filter(vtt) {
     .then((response) => response.json())
     .then((data) => {
       var products = data.ds;
-      giaoDienSanPham(products); //In ra giao dien San Pham
+
+      let htmlSao = gdSao(data.dsStar);
+
+      giaoDienSanPham(products, htmlSao); //In ra giao dien San Pham
       var trang = data.soTrang;
       var htmlTrang = "";
       for (let i = 1; i <= trang; i++) {
@@ -186,6 +205,7 @@ function filter(vtt) {
       } results</p>`;
       // console.log(data);
       // console.log(htmlTrang);
+      console.log(data.dsStar[1]);
       dsSoTrang.innerHTML = htmlTrang;
     })
     .catch((error) => {
@@ -203,6 +223,7 @@ function activeSize() {
           sizeCustom[j].classList.remove("active");
         }
         sizeCustom[i].classList.add("active");
+        sendSlgSp();
       });
     }
   });
@@ -228,7 +249,7 @@ function addToCart(idsp) {
       selectedSize = radio.value;
     }
   });
-
+  console.log(selectedSize);
   if (selectedSize == 0) {
     alert("Can chon size truoc khi dat hang");
   } else {
@@ -294,6 +315,7 @@ function remove(idsp, idSize) {
           alert(data.error);
         } else {
           alert("Xoa San Pham thanh cong");
+          document.getElementById("checkout_items").innerHTML = data.soSpTGh;
           giaoDienGioHang(data.dsgh);
           let tongTien = document.getElementById("tongTienGH");
           tongTien.innerHTML = data.tt;
@@ -444,4 +466,46 @@ function tongTien() {
     total += gia * slg;
   }
   tt.innerHTML = "$" + total;
+}
+
+function sendSlgSp() {
+  let sizeCustom = document.querySelectorAll(".size-custom");
+  let selectedSize = 0;
+  document.getElementById("quantity_value").innerHTML = 1;
+  sizeCustom.forEach((size) => {
+    let radio = size.querySelector('input[type="radio"]');
+    if (size.classList.contains("active")) {
+      selectedSize = radio.value;
+    }
+  });
+  console.log(selectedSize);
+  const currentUrl = HOST_ROOT;
+  const relativeUrl = "/Detail/getSoLuong";
+  const fullUrl = currentUrl + relativeUrl;
+  let idsp = document.getElementById("idspTemp").value;
+  const data = {
+    idsp: idsp,
+    idSize: selectedSize,
+  };
+
+  fetch(fullUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        alert(data.error);
+      } else if (data.login) {
+        onLogin();
+      } else {
+        document.getElementById("slgSpTD").innerHTML = +data.slg;
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }

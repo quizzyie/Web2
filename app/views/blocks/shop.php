@@ -93,7 +93,7 @@
                                     <div class="card-body">
                                         <div id="SizeList" class="shop__sidebar__size">
                                             <?php foreach($dsSizes as $s): ?>
-                                            <label><?php echo $s['name'] ?>
+                                            <label class="lblSize"><?php echo $s['name'] ?>
                                                 <input type="checkbox" name="sizes" value="<?php echo $s['id'] ?>">
                                             </label>
                                             <?php endforeach ?>
@@ -130,6 +130,7 @@
                 </div>
                 <div id="dsProducts" class="row">
                     <?php 
+                        $i = 0;
                         foreach($dsProducts as $sp): 
                         $linkImage = HOST_ROOT .'/uploads/'.$sp['img'];
                     ?>
@@ -161,11 +162,15 @@
                                 <a href="detail?idsp=<?php echo $sp['id'] ?>"
                                     data-product-id="<?php echo $sp['id'] ?>">+ SEE DETAIL</a>
                                 <div class="rating">
+                                    <?php  for($j=1;$j<=5;$j++){ ?>
+                                    <?php if($j<=$dsStar[$i]){ ?>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <?php } else{?>
                                     <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
+                                    <?php } ?>
+                                    <?php }  ?>
+                                    <?php $i++ ?>
+
                                 </div>
                                 <?php if($sp['sale']<$sp['price']){  ?>
                                 <del><?php echo $sp['price'] ?></del>

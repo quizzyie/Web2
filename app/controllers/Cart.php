@@ -102,7 +102,9 @@
                 } else {
                     $dssp = $this->__model->xemGioHang($user_id);
                     $tt = $this->__model->tongTien($user_id);
-                    $return = ["dsgh"=>$dssp,"tt"=>$tt];
+                    $soSpTGh=count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+
+                    $return = ["dsgh"=>$dssp,"tt"=>$tt,"soSpTGh"=>$soSpTGh];
                 }
                 $return = json_encode($return);
                 echo $return;

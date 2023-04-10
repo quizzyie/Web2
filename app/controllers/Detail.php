@@ -38,6 +38,7 @@ class Detail extends Controller
         $this->data["sub_data"]["dsImage"] = $this->__model->getImages($idsp);
         $this->data["sub_data"]["soReview"] = $this->__model->soReviews($idsp)['soReview'];
         $this->data["sub_data"]["soSao"] = $this->__model->getSoSao($this->data["sub_data"]["dsReview"]);
+        $this->data["sub_data"]["slg"] = $this->__model->getSoLuong($idsp)['slg'];
         // echo "<pre>";
         // print_r($this->data["sub_data"]["soSao"]);
         // echo "</pre>";
@@ -66,7 +67,17 @@ class Detail extends Controller
         $dssp = $this->__model->getRawModel($sql);
         return $dssp;
     }
-    
+    public function getSoLuong(){
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $idSize = $data["idSize"];
+            $idsp = $data["idsp"];
+            $slg = $this->__model->getSoLuong($idsp,$idSize)["quantity"];
+            $return =["slg"=>$slg];
+            $return = json_encode($return);
+            echo $return;
+        }
+    }
 }
 
 ?>

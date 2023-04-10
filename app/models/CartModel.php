@@ -45,6 +45,13 @@ class CartModel extends Model{
         
         return $tt["tongTien"];
     }
+    public function xemLaiHoaDon($idUser){
+        $sql = "select * from bill where user_id = ".$idUser;
+        return $this->getRawModel($sql);
+    }
+    public function xemLaiChiTietHoaDon($idBill){
+        $sql = "select * from bill_detail where bill_id = ".$idBill;
+    }
 }
 
 ?>

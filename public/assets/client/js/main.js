@@ -175,9 +175,10 @@ rangeInput.forEach((input) => {
     });
 
     plusButton.click(function () {
+      var slg = document.getElementById("slgSpTD").innerHTML;
       var currentValue = parseFloat(quantityValue.text());
-      if (currentValue >= 4) {
-        currentValue = 4;
+      if (currentValue >= slg - 1) {
+        currentValue = slg - 1;
         quantityValue.text(currentValue);
       }
     });

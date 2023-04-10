@@ -61,5 +61,14 @@ class DetailModel extends Model {
         }
         
     }
+    public function getSoLuong($idsp,$idSize = null){
+        if(empty($idSize)){
+            $sql = "SELECT Sum(quantity) as slg FROM `products_size` WHERE id_product=$idsp";
+        }
+        else{
+            $sql ="SELECT quantity FROM `products_size` WHERE id_product=$idsp and id_size = $idSize";
+        }
+        return $this->getFirstRaw($sql);
+    }
     
 }
