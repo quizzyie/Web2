@@ -237,7 +237,17 @@
                             }
                             
                             ?>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="soTrang" class="product__pagination">
 
+                                        <a onclick="" class="active"><?php echo 1?> </a>
+                                        <a onclick=""><?php echo 2?> </a>
+
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Add Review -->

@@ -78,6 +78,15 @@ class Detail extends Controller
             echo $return;
         }
     }
+    public function phanTrang($vtt = null,$idsp){
+        if(empty($vtt)){
+            $vtt = 0;
+        }
+        $sql = "select * from reviews where product_id = $idsp";
+    }
+    public function tongSoTrang($dsReview){
+        
+    }
 }
 
 ?>
