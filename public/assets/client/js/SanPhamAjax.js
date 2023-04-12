@@ -283,7 +283,7 @@ function addToCart(idsp) {
           onLogin();
         } else {
           document.getElementById("checkout_items").innerHTML = data.soSpTGh;
-          alert("Them san pham thanh cong");
+          Swal.fire("ADD TO CART!", "ADD TO CART SUCCESS!", "success");
         }
       })
       .catch((error) => {
@@ -294,37 +294,47 @@ function addToCart(idsp) {
   //Remove
 }
 function remove(idsp, idSize) {
-  if (confirm("Bạn có chắc muốn xóa san phẩm này chứ ?")) {
-    const currentUrl = HOST_ROOT;
-    const relativeUrl = "/cart/xoaSanPham";
-    const fullUrl = currentUrl + relativeUrl;
-    const data = {
-      idsp: idsp,
-      idSize: idSize,
-    };
-    fetch(fullUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          alert(data.error);
-        } else {
-          alert("Xoa San Pham thanh cong");
-          document.getElementById("checkout_items").innerHTML = data.soSpTGh;
-          giaoDienGioHang(data.dsgh);
-          let tongTien = document.getElementById("tongTienGH");
-          tongTien.innerHTML = data.tt;
-        }
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Do you want to remove it!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const currentUrl = HOST_ROOT;
+      const relativeUrl = "/cart/xoaSanPham";
+      const fullUrl = currentUrl + relativeUrl;
+      const data = {
+        idsp: idsp,
+        idSize: idSize,
+      };
+      fetch(fullUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            alert(data.error);
+          } else {
+            document.getElementById("checkout_items").innerHTML = data.soSpTGh;
+            giaoDienGioHang(data.dsgh);
+            let tongTien = document.getElementById("tongTienGH");
+            tongTien.innerHTML = data.tt;
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+      Swal.fire("Deleted!", "Your file has been deleted.", "success");
+    }
+  });
 }
 
 function giaoDienGioHang(dsgh) {
@@ -374,58 +384,71 @@ function giaoDienGioHang(dsgh) {
 }
 
 function updateCart() {
-  let dsspgh = document.querySelectorAll(".ghsp");
-  const currentUrl = HOST_ROOT;
-  const relativeUrl = "/cart/capNhatSanPham";
-  const fullUrl = currentUrl + relativeUrl;
+  Swal.fire({
+    title: "Do you want to save the changes?",
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: "Save",
+    denyButtonText: `Don't save`,
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      let dsspgh = document.querySelectorAll(".ghsp");
+      const currentUrl = HOST_ROOT;
+      const relativeUrl = "/cart/capNhatSanPham";
+      const fullUrl = currentUrl + relativeUrl;
 
-  let idspArray = [];
-  let tslArray = [];
-  let sizeArray = [];
+      let idspArray = [];
+      let tslArray = [];
+      let sizeArray = [];
 
-  for (i = 0; i < dsspgh.length; i++) {
-    let sp = dsspgh[i];
-    let idsp = sp.querySelector(".idsp").value;
-    let tsl = sp.querySelector(".slg").value;
-    let size = sp.querySelector(".idsize").value;
+      for (i = 0; i < dsspgh.length; i++) {
+        let sp = dsspgh[i];
+        let idsp = sp.querySelector(".idsp").value;
+        let tsl = sp.querySelector(".slg").value;
+        let size = sp.querySelector(".idsize").value;
 
-    console.log(
-      "Lan " +
-        i +
-        " co idsp la: " +
-        idsp +
-        " va tsl la: " +
-        tsl +
-        "  va size la " +
-        size
-    );
-    idspArray.push(idsp);
-    tslArray.push(tsl);
-    sizeArray.push(size);
-  }
-  const data = {
-    dsidsp: idspArray,
-    dstsl: tslArray,
-    dssize: sizeArray,
-  };
-  fetch(fullUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) {
-        alert(data.error);
-      } else {
-        alert("Cap Nhat thanh cong");
+        console.log(
+          "Lan " +
+            i +
+            " co idsp la: " +
+            idsp +
+            " va tsl la: " +
+            tsl +
+            "  va size la " +
+            size
+        );
+        idspArray.push(idsp);
+        tslArray.push(tsl);
+        sizeArray.push(size);
       }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+      const data = {
+        dsidsp: idspArray,
+        dstsl: tslArray,
+        dssize: sizeArray,
+      };
+      fetch(fullUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            alert(data.error);
+          } else {
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+      Swal.fire("Saved!", "", "success");
+    } else if (result.isDenied) {
+      Swal.fire("Changes are not saved", "", "info");
+    }
+  });
 }
 
 //Tang Giam So Luong Mua
@@ -509,3 +532,5 @@ function sendSlgSp() {
       console.error("Error:", error);
     });
 }
+
+function phanTrangReview(vtt) {}
