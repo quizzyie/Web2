@@ -137,6 +137,8 @@
 
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
+                        <a href="detail?idsp=<?php echo $sp['id'] ?>"
+                                    data-product-id="<?php echo $sp['id'] ?>">
                             <div class="product__item__pic set-bg" data-setbg="<?php echo $linkImage ?>"
                                 style="background-image: url('<?php echo $linkImage ?>');">
                                 <?php if($sp["type"]!="normal"){  ?>
@@ -144,19 +146,20 @@
 
                                 <?php }  ?>
                                 <ul class="product__hover">
-                                    <li><a href="#"><img
+                                    <li><img
                                                 src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/heart.png"
-                                                alt=""></a></li>
-                                    <li><a href="#"><img
+                                                alt=""></li>
+                                    <li><img
                                                 src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/compare.png"
-                                                alt=""> <span>Compare</span></a>
+                                                alt=""> <span>Compare</span>
                                     </li>
-                                    <li><a href="#"><img
+                                    <li><img
                                                 src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/search.png"
-                                                alt=""></a></li>
+                                                alt=""></li>
                                 </ul>
 
                             </div>
+                            </a>
                             <div class="product__item__text">
                                 <h6><?php echo $sp['name'] ?></h6>
                                 <a href="detail?idsp=<?php echo $sp['id'] ?>"

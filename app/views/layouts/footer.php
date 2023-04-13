@@ -60,7 +60,7 @@
                         document.write(new Date().getFullYear());
                         </script>2020
                         All rights reserved | This template is made with <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            aria-hidden="true"></i> by CoLoShop</a>
                     </p>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </div>
@@ -97,6 +97,7 @@
 <script src="<?php echo HOST_ROOT ?>/public/assets/client/js/owl.carousel.min.js?ver=<?php echo rand() ?>"></script>
 <script src="<?php echo HOST_ROOT ?>/public/assets/client/js/main.js?ver=<?php echo rand() ?>"></script>
 <script src="<?php echo HOST_ROOT ?>/public/assets/client/js/SanPhamAjax.js?ver=<?php echo rand() ?>"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
