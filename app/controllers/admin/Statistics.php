@@ -49,7 +49,9 @@ class Statistics extends Controller
         LEFT JOIN (SELECT products.id_category,product_id,quantity 
         FROM products LEFT JOIN 
         (SELECT product_id,quantity FROM bill,bill_detail
-        WHERE bill.id = bill_detail.bill_id $condition) AS temp
+        WHERE bill.id = bill_detail.bill_id $condition
+        and bill.id_order_status <> 4)
+        AS temp
         ON temp.product_id = products.id
         ) AS temp2
         ON categories.id = temp2.id_category
@@ -64,9 +66,10 @@ class Statistics extends Controller
             $condition = " and products.id_category = $category_id";
         }
         $data = $this->__model->getFirstRaw("SELECT SUM(quantity) AS so_luong FROM bill,
-        (SELECT bill_detail.bill_id,bill_detail.quantity FROM products,bill_detail
-        WHERE products.id = bill_detail.product_id
-        $condition) AS temp
+        (SELECT bill_detail.bill_id,bill_detail.quantity FROM products,bill_detail,bill
+        WHERE products.id = bill_detail.product_id and bill.id = bill_detail.bill_id and 
+        bill.id_order_status <> 4
+        $condition ) AS temp
         WHERE bill.id = temp.bill_id 
         AND  MONTH(create_at) = $month 
         AND year(create_at) = $year");
@@ -238,14 +241,14 @@ class Statistics extends Controller
             $data['bill_quantity_cancel'] = $this->__model->getRowsModel("select * from bill where id_order_status = 4 and $conditionDate");
             $data['bill_quantity'] = $this->__model->getRowsModel("select * from bill where  $conditionDate");
             $data['total_revenue'] = $this->__model->getFirstRaw("SELECT SUM(bill_detail.total) AS total FROM bill,bill_detail,products
-            WHERE bill.id_order_status = 6 AND bill.id = bill_detail.bill_id 
+            WHERE bill.id_order_status <> 4 AND bill.id = bill_detail.bill_id 
             AND bill_detail.product_id = products.id $conditionCate and $conditionDateTotal")['total'];
         }else{
             $data['new_users'] = $this->__model->getRowsModel("select * from users where group_id = 2");
             $data['bill_quantity_cancel'] = $this->__model->getRowsModel("select * from bill where id_order_status = 4");
             $data['bill_quantity'] = $this->__model->getRowsModel("select * from bill ");
             $data['total_revenue'] = $this->__model->getFirstRaw("SELECT SUM(bill_detail.total) AS total FROM bill,bill_detail,products
-            WHERE bill.id_order_status = 6 AND bill.id = bill_detail.bill_id 
+            WHERE bill.id_order_status <> 4 AND bill.id = bill_detail.bill_id 
             AND bill_detail.product_id = products.id $conditionCate ")['total'];
         }
 
@@ -310,7 +313,7 @@ class Statistics extends Controller
         }
 
         $products = $this->__model->getRawModel("SELECT * FROM products LEFT JOIN (SELECT id_product,SUM(quantity) AS con_hang FROM products_size GROUP BY id_product) AS temp 
-        ON products.id = temp.id_product LEFT JOIN (SELECT product_id,SUM(quantity) AS da_ban FROM bill_detail,bill where bill.id = bill_detail.bill_id $conditionBill  GROUP BY product_id) AS temp2
+        ON products.id = temp.id_product LEFT JOIN (SELECT product_id,SUM(quantity) AS da_ban FROM bill_detail,bill where bill.id = bill_detail.bill_id $conditionBill and bill.id_order_status <> 4  GROUP BY product_id) AS temp2
         ON products.id = temp2.product_id $condition order by $sortBy create_at desc  limit $indexPage,$per_page");
 
         $data = "";

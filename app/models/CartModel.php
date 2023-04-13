@@ -2,7 +2,7 @@
 class CartModel extends Model{
     public $category = null;
     public $brand = null;
-    protected $_table = 'products';
+    protected $_table = 'cart';
 
     function __construct()
     {
@@ -11,7 +11,7 @@ class CartModel extends Model{
 
     function tableFill()
     {
-        return 'products';
+        return 'cart';
     }
 
     function fieldFill(){
@@ -52,6 +52,34 @@ class CartModel extends Model{
     public function xemLaiChiTietHoaDon($idBill){
         $sql = "select * from bill_detail where bill_id = ".$idBill;
     }
+    
+    public function ktSoLuong($idsp,$idSize,$slm,$idUser){
+        $sql = "SELECT quantity FROM `products_size` WHERE id_product = $idsp and id_size = $idSize";
+        $slSpMax = intval($this->getFirstRaw($sql)["quantity"]) ;
+        $sql = "SELECT SUM(amount) as slg FROM `cart` WHERE user_id = $idUser and product_id = $idsp and size_id = $idSize";
+        $slgTrgGH = intval( $this->getFirstRaw($sql)["slg"]);
+        if($slgTrgGH+$slm > $slSpMax){
+            return false;
+        }
+        return true;
+    }
+    
+    public function getSoLuongTrgGH($idsp,$idSize,$idUser){
+        $sql = "SELECT SUM(amount) as slg FROM `cart` WHERE user_id = $idUser and product_id = $idsp and size_id = $idSize";
+        $slgTrgGH = intval( $this->getFirstRaw($sql)["slg"]);
+        return $slgTrgGH;
+    }
+    
+    public function ktSanPhamTrgGH($idsp,$idUser,$idSize){
+        $sql ="SELECT * FROM `cart` WHERE user_id = $idUser and product_id = $idsp and size_id = $idSize";
+        $dssp = $this->getFirstRaw($sql);
+        if(empty($dssp)){
+            return false;//true laf insert
+        }
+        return true;//false laf update
+    }
+    
+    
 }
 
 ?>

@@ -3,6 +3,7 @@ class DetailModel extends Model {
     public $category = null;
     public $brand = null;
     protected $_table = 'products';
+    private $soReviewMT = 3;
 
     function __construct()
     {
@@ -70,5 +71,11 @@ class DetailModel extends Model {
         }
         return $this->getFirstRaw($sql);
     }
-    
+    public function tongSoTrang($idsp){
+        $soReview = $this->getReviews($idsp);
+        return (int)($soReview%$this->soReviewMT==0?$soReview/$this->soReviewMT:($soReview/$this->soReviewMT)+1);
+    }
+    public function phanTrangReview($vtt,$idsp){
+        $sql = "select * from reviews where product_id = ".$idsp." limit ".$vtt.",".$vtt*3;
+    }
 }

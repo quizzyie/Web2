@@ -93,7 +93,27 @@ class Bill extends Controller
                     'note' => $data['note'],
                     'update_at' => date('Y-m-d H:i:s')
                 ];
+
+                $order_status = $this->__model->getFirstRaw("select * from bill where id = ".$data['id'])['id_order_status'];
+                $cart = $this->__model->getRawModel("select * from bill_detail where 
+                bill_id = ".$data['id']);
+                if($data['id_order_status']==4 and $order_status!=4){
+                    foreach ($cart as $key => $value) {
+                        $product_id = $value['product_id'];
+                        $size_id = $value['size_id'];
+                        $product = $this->__model->getFirstRaw("select * from products_size where id_product = $product_id and id_size = $size_id");
+                        $dataUpdate = [
+                            'quantity'=>$product['quantity']+$value['quantity']
+                        ];
+                        $this->__model->addTableData("products_size",$dataUpdate,"id_product = $product_id and id_size = $size_id");
+                    }
+                }else if($data['id_order_status']!=4 and $order_status==4){
+
+                }
+
                 $status = $this->__model->updateData($dataUpdate, "id = " . $data['id']);
+
+                
                 if ($status) {
                     Session::setFlashData('msg', 'Cập nhập trạng thái thành công!');
                     Session::setFlashData('msg_type', 'success');
