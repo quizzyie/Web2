@@ -517,7 +517,7 @@ const sendMessage = async (event) => {
             showErr.textContent = jsonData['msg'];
             showErr.classList.remove('hidden');
             Swal.fire({
-                position: 'success',
+                position: 'center',
                 icon: "error",
                 title: jsonData['msg'],
                 showConfirmButton: false,
