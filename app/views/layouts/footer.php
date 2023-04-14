@@ -98,6 +98,8 @@
 <script src="<?php echo HOST_ROOT ?>/public/assets/client/js/main.js?ver=<?php echo rand() ?>"></script>
 <script src="<?php echo HOST_ROOT ?>/public/assets/client/js/SanPhamAjax.js?ver=<?php echo rand() ?>"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="<?php echo HOST_ROOT ?>/public/assets/client/js/DonHangAjax.js?ver=<?php echo rand() ?>"></script>
+
 </body>
 
 </html>
