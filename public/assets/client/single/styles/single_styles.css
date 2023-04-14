@@ -470,6 +470,7 @@ section
 	visibility: visible;
 	opacity: 1;
 	top: 100%;
+	z-index: 999;
 }
 .account_selection
 {

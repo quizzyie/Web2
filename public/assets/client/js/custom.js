@@ -595,3 +595,92 @@ const onSubmitReview = async (event) => {
         showErr.textContent = "Vui lòng kiểm tra lại dữ liệu!";
     }
 }
+
+
+async function onCheckout(event) {
+    event.preventDefault();
+    const form_checkout = document.querySelector('.checkout__form');
+
+    const showErr = form_checkout.querySelector('.alert-checkout');
+    const input_fullname = form_checkout.querySelector('.fullname-checkout');
+    const input_address = form_checkout.querySelector('.address-checkout');
+    const input_phone = form_checkout.querySelector('.phone-checkout');
+    const input_note = form_checkout.querySelector('.note-checkout');
+
+    const error_input_fullname = form_checkout.querySelector('.error-fullname-checkout');
+    const error_input_address = form_checkout.querySelector('.error-address-checkout');
+    const error_input_phone = form_checkout.querySelector('.error-phone-checkout');
+    const error_input_note = form_checkout.querySelector('.error-note-checkout');
+
+    let fullname = input_fullname.value;
+    let address = input_address.value;
+    let phone = input_phone.value;
+    let note = input_note.value;
+
+    let validate = true;
+    if (!fullname) {
+        error_input_fullname.textContent = "Vui lòng nhập vào họ tên!";
+        validate = false;
+    } else if (fullname.length < 6) {
+        error_input_fullname.textContent = "Họ tên ít nhất 6 kí tự!";
+        validate = false;
+    } else {
+        error_input_fullname.textContent = "";
+    }
+
+    if (!phone) {
+        error_input_phone.textContent = "Vui lòng nhập số điện thoại!";
+        validate = false;
+    } else if (!/(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/.test(phone)) {
+        error_input_phone.textContent = "Số điện thoại không hợp lệ không hợp lệ!";
+        validate = false;
+    } else {
+        error_input_phone.textContent = "";
+    }
+
+
+    if (!address) {
+        error_input_address.textContent = "Vui lòng nhập vào địa chỉ!";
+        validate = false;
+    } else if (address.length < 10) {
+        error_input_address.textContent = "Địa chỉ ít nhất 10 kí tự!";
+        validate = false;
+    } else {
+        error_input_address.textContent = "";
+    }
+
+    if (validate) {
+        let data = new URLSearchParams();
+        data.append('fullname', fullname);
+        data.append('phone', phone);
+        data.append('address', address);
+        data.append('note', note);
+
+        let host_root = "";
+        if (document.querySelector('.url_hoot_root')) {
+            host_root = document.querySelector('.url_hoot_root').value;
+        }
+        let response = await fetch(host_root + "/checkout/themHoaDon", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data.toString()
+        })
+        let jsonData = await response.json();
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: jsonData['msg'],
+            showConfirmButton: false,
+            timer: 1500
+        })
+        setTimeout(() => {
+            location.assign('cart');
+        }, 1500);
+
+    } else {
+        showErr.classList.remove('hidden');
+        showErr.textContent = "Vui lòng kiểm tra lại dữ liệu!";
+    }
+}
