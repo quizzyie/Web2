@@ -60,6 +60,7 @@ rangeInput.forEach((input) => {
       progress.style.left = (minVal / rangeInput[0].max) * 100 + "%";
       progress.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
     }
+
     filter(0);
   });
 });
