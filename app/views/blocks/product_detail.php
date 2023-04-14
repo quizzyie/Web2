@@ -7,28 +7,27 @@
                         <div class="single_product_thumbnails">
                             <ul>
                                 <?php $defaultActiveImg = 1;
-                                    for($i=0;$i<count($dsImage);$i++){
-                                        if($i==$defaultActiveImg-1){
+                                for ($i = 0; $i < count($dsImage); $i++) {
+                                    if ($i == $defaultActiveImg - 1) {
                                 ?>
                                 <li class="active"><img
                                         src="<?php echo HOST_ROOT ?>/uploads/<?php echo $dsImage[$i]["image"] ?>" alt=""
                                         data-image="<?php echo HOST_ROOT ?>/uploads/<?php echo $dsImage[$i]["image"] ?>">
                                 </li>
-                                <?php    
-                                        }
-                                        else{
-                                ?>
+                                <?php
+                                    } else {
+                                    ?>
                                 <li><img src="<?php echo HOST_ROOT ?>/uploads/<?php echo $dsImage[$i]["image"] ?>"
                                         alt=""
                                         data-image="<?php echo HOST_ROOT ?>/uploads/<?php echo $dsImage[$i]["image"] ?>">
                                 </li>
-                                <?php        
-                                            
-                                        }
+                                <?php
+
                                     }
-                                
-                                
-                                
+                                }
+
+
+
                                 ?>
                                 <?php   ?>
                                 <?php   ?>
@@ -49,28 +48,28 @@
             <div class="product_details">
                 <div class="product_details_title">
                     <h2><?php echo $sp['name']  ?></h2>
-                    <p><?php  echo $loai["name"]." - ".$thuongHieu["name"] ?></p>
+                    <p><?php echo $loai["name"] . " - " . $thuongHieu["name"] ?></p>
                 </div>
                 <div class="free_delivery d-flex flex-row align-items-center justify-content-center">
                     <span class="ti-truck"></span><span>free delivery</span>
                 </div>
-                <?php if($sp['sale']<$sp['price']){ ?>
+                <?php if ($sp['sale'] < $sp['price']) { ?>
                 <div class="original_price">$<?php echo $sp["price"] ?></div>
                 <div class="product_price">$<?php echo $sp["sale"] ?></div>
-                <?php }else{  ?>
+                <?php } else {  ?>
                 <div class="product_price">$<?php echo $sp["price"] ?></div>
                 <?php } ?>
 
                 <ul class="star_rating">
 
-                    <?php 
-                        for($i=1;$i<=5;$i++){
-                            if($i>$soSao){?>
+                    <?php
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($i > $soSao) { ?>
                     <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                    <?php }else{ ?>
+                    <?php } else { ?>
                     <li><i class="fa fa-star" aria-hidden="true"></i></li>
                     <?php }
-                        }
+                    }
                     ?>
                     <?php  ?>
 
@@ -79,18 +78,18 @@
                     <span>Size:</span>
 
                     <!-- Giai thich: Cho mặc định size S được chọn. Nếu như size S hết hàng thì cộng defaultSize lên -->
-                    <?php  foreach ($dsSizes as $s): ?>
+                    <?php foreach ($dsSizes as $s) : ?>
 
-                    <?php if($s["quantity"]>0){?>
+                    <?php if ($s["quantity"] > 0) { ?>
                     <div class="size-custom">
-                        <input type="radio" name="size" value="<?php  echo $s["id"] ?>">
+                        <input type="radio" name="size" value="<?php echo $s["id"] ?>">
                         <?php echo $s["name"]  ?>
                     </div>
 
 
-                    <?php }else { ?>
+                    <?php } else { ?>
                     <div class="size-custom disabled">
-                        <input type="radio" name="size" value="<?php  echo $s["id"] ?>" disabled>
+                        <input type="radio" name="size" value="<?php echo $s["id"] ?>" disabled>
                         <?php echo $s["name"]  ?>
                     </div>
 
@@ -103,7 +102,7 @@
                     <?php endforeach ?>
                     <input id="idspTemp" type="hidden" value="<?php echo $sp['id'] ?>">
                 </div>
-                <div style="display: ;"></div>
+                <div></div>
                 <span>So Luong San Pham: </span><span id="slgSpTD"><?php echo $slg ?></span>
                 <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                     <span>Quantity:</span>
@@ -172,12 +171,12 @@
                             <div class="tab_title additional_info_title">
                                 <h4>Additional Information</h4>
                             </div>
-                            <p>BRAND:<span><?php  echo $loai["name"] ?></span></p>
-                            <p>CATEGORY:<span><?php  echo $thuongHieu["name"] ?></span></p>
+                            <p>BRAND:<span><?php echo $loai["name"] ?></span></p>
+                            <p>CATEGORY:<span><?php echo $thuongHieu["name"] ?></span></p>
                             <p>SIZE:<span>
-                                    <?php  foreach ($dsSizes as $s):
-                                        if($s["quantity"]>0){ 
-                                            echo $s["name"]." ; ";
+                                    <?php foreach ($dsSizes as $s) :
+                                        if ($s["quantity"] > 0) {
+                                            echo $s["name"] . " ; ";
                                         }
                                     endforeach ?>
                                 </span></p>
@@ -189,6 +188,7 @@
 
                 <div id="tab_3" class="tab_container ">
                     <div class="row">
+                        <input type="hidden" class="url_module" value="<?php echo HOST_ROOT.'/detail' ?>">
 
                         <!-- User Reviews -->
 
@@ -197,54 +197,16 @@
                                 <h4>Reviews (<?php echo $soReview  ?>)</h4>
                             </div>
 
-                            <!-- User Review -->
-                            <?php 
-                            for($i=0;$i<count($dsReview);$i++){
-                            ?>
-                            <div class="user_review_container d-flex flex-column flex-sm-row">
-                                <div class="user">
-                                    <div class="user_pic">
-                                        <img style="width: 70px;  border-radius: 50%;"
-                                            src="https://tse4.explicit.bing.net/th?id=OIP.euqcyHvusXHENYgYwF-C5wHaFh&pid=Api&P=0"
-                                            alt="">
-                                    </div>
-                                    <div class="user_rating">
-                                        <ul class="star_rating">
-                                            <?php for($j=1;$j<=5;$j++){ ?>
-
-                                            <?php  if($j<=$dsReview[$i]['star']) {?>
-                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                            <?php  }else{ ?>
-                                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                                            <?php  } ?>
+                            <div class="fetch-data-table">
 
 
-                                            <?php  } ?>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="review">
-                                    <div class="review_date"><?php echo $dsReview[$i]["create_at"]  ?></div>
-                                    <div class="user_name"><?php echo $dsReview[$i]["name"]  ?></div>
-                                    <p><?php echo $dsReview[$i]["message"]  ?></p>
-                                </div>
                             </div>
-                            <?php } ?>
                             <!-- User Review -->
-                            <?php 
-                            if($soReview == 0){
-                                echo "<div class='alert alert-danger btn-block'>Chưa có bình luận nào!</div>";
-                            }
-                            
-                            ?>
+
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div id="soTrang" class="product__pagination">
-
-                                        <a onclick="" class="active"><?php echo 1?> </a>
-                                        <a onclick=""><?php echo 2?> </a>
-
-
+                                    <div class="fetch-pagination">
+                                        <!-- render pagination -->
                                     </div>
                                 </div>
                             </div>
@@ -315,13 +277,13 @@
             </div>
         </div>
         <div class="row">
-            <?php foreach($dssplq as $sp):  ?>
+            <?php foreach ($dssplq as $sp) :  ?>
             <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
                 <div class="product__item">
                     <div class="product__item__pic set-bg"
-                        data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php  echo $sp["img"] ?>">
+                        data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"] ?>">
 
-                        <?php if($sp["type"]!="normal"){  ?>
+                        <?php if ($sp["type"] != "normal") {  ?>
                         <span class="label"><?php echo $sp["type"]  ?></span>
 
                         <?php }  ?>
@@ -335,7 +297,7 @@
                     </div>
                     <div class="product__item__text">
                         <h6><?php echo $sp['name'] ?></h6>
-                        <a href="detail?idsp=<?php echo $sp['id']?>" class="add-cart">SEE DETAIL</a>
+                        <a href="detail?idsp=<?php echo $sp['id'] ?>" class="add-cart">SEE DETAIL</a>
                         <div class="rating">
                             <i class="fa fa-star-o"></i>
                             <i class="fa fa-star-o"></i>

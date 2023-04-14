@@ -511,6 +511,64 @@ const sendMessage = async (event) => {
     }
 }
 
+// fetch data pagination
+async function fetchData(page) {
+    let data = new URLSearchParams();
+    data.append('page', page);
+    let url_module = document.querySelector('.url_module').value + '/phan_trang';
+
+    let response = await fetch(url_module, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: data.toString()
+    })
+    let jsonData = await response.json();
+    document.querySelector('.fetch-data-table').innerHTML = jsonData; // outputs an array of user objects
+    groupBtnPage = document.querySelectorAll('.btn-page');
+    groupBtnPage.forEach(item => {
+        const btn = item.querySelector('a');
+        if (btn.textContent != page) {
+            btn.classList.remove('active');
+        } else {
+            btn.classList.add('active');
+        }
+    })
+}
+
+async function fetchPagination(page) {
+    let data = new URLSearchParams();
+    data.append('page', page);
+
+    let url_module = document.querySelector('.url_module').value + '/pagination';
+
+    let response = await fetch(url_module, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: data.toString()
+    })
+    let jsonData = await response.json();
+
+    document.querySelector('.fetch-pagination').innerHTML = jsonData; // outputs an array of user objects
+    groupBtnPage = document.querySelectorAll('.btn-page');
+    groupBtnPage.forEach(item => {
+        const btn = item.querySelector('a');
+        item.onclick = (e) => {
+            e.preventDefault();
+            let page = btn.textContent;
+            fetchData(page);
+        }
+    })
+}
+
+if (document.querySelector('.url_module')) {
+    fetchPagination(1)
+    fetchData(1)
+}
+
 const onSubmitReview = async (event) => {
     event.preventDefault();
     const showErr = document.querySelector('.alert-review');
@@ -575,20 +633,17 @@ const onSubmitReview = async (event) => {
             body: data.toString()
         })
         let jsonData = await response.json();
-        console.log(jsonData);
 
         document.querySelector('#review_name').value = "";
         document.querySelector('#review_email').value = "";
         document.querySelector('#review_message').value = "";
-        if (jsonData['check']) {
-            showErr.textContent = jsonData['msg'];
-            showErr.classList.remove('hidden');
-        } else {
-            showErr.textContent = jsonData['msg'];
-            showErr.classList.remove('hidden');
-        }
+        showErr.textContent = jsonData['msg'];
+        showErr.classList.remove('hidden');
 
-        location.reload();
+        await fetchData(1);
+        await fetchPagination(1);
+
+
 
     } else {
         showErr.classList.remove('hidden');
@@ -684,3 +739,5 @@ async function onCheckout(event) {
         showErr.textContent = "Vui lòng kiểm tra lại dữ liệu!";
     }
 }
+
+

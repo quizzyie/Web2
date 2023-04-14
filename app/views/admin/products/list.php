@@ -97,7 +97,8 @@
                     <th width="">Đã bán</th>
                     <th width="">Hàng còn</th>
                     <th width="">Thời gian</th>
-                    <th width="8%">Sửa</th>
+
+                    <th width="8%">Thông tin</th>
                     <!-- <th width="8%">Xóa</th> -->
                 </tr>
             </thead>

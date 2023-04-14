@@ -80,8 +80,14 @@ class Sizes extends Controller
         }
     }
 
-    public function update($id)
+    public function update($id = "")
     {
+        if(empty($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/sizes/');
+            return;
+        }
         if (isLogin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại size!');
@@ -148,7 +154,7 @@ class Sizes extends Controller
         }
     }
 
-    // public function delete($id)
+    // public function delete($id = "")
     // {
     //     if (isLogin()) {
     //         if (!empty($id)) {
@@ -198,7 +204,7 @@ class Sizes extends Controller
             $linkUpdate = _WEB_HOST_ROOT_ADMIN . "/sizes/update/$id";
             $linkDelete = _WEB_HOST_ROOT_ADMIN . "/sizes/delete/$id";
             $data .= "<tr>
-          <td>$i</td>
+            <td>$i</td>
             <td>$name</td>
             <td>$description</td>
             <td>$create_at</td>
@@ -207,9 +213,7 @@ class Sizes extends Controller
             ";
 
             if(isPermission('products','update')){
-                $data  = "<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
-            }else{
-                $data .= "<td></td>";
+                $data  .= "<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
             }
 
             $data .= "</tr>";

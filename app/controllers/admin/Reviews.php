@@ -32,7 +32,7 @@ class Reviews extends Controller
         }
     }
 
-    public function update($id)
+    public function update($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -41,6 +41,13 @@ class Reviews extends Controller
 
         if(!isPermission('reviews','update')){
             App::$app->loadError('permission');
+            return;
+        }
+
+        if(empty($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/reviews/');
             return;
         }
         if (isLogin()) {
@@ -107,7 +114,7 @@ class Reviews extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -116,6 +123,13 @@ class Reviews extends Controller
 
         if(!isPermission('reviews','delete')){
             App::$app->loadError('permission');
+            return;
+        }
+
+        if(empty($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/reviews/');
             return;
         }
         if (isLogin()) {
@@ -140,6 +154,45 @@ class Reviews extends Controller
         } else {
             Response::redirect('admin/auth/login');
         }
+    }
+
+    public function change_status($id = "")
+    {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('reviews','update')){
+            App::$app->loadError('permission');
+            return;
+        }
+
+        if(empty($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/reviews/');
+            return;
+        }
+        
+        $review = $this->__model->getFirstData("id = $id");
+        if (empty($review)) {
+            Session::setFlashData('msg', 'Không tồn tại đánh giá!');
+            Session::setFlashData('msg_type', 'danger');
+        } else {
+            $dataUpdate = [
+                'status' => $review['status'] == 1 ? 2 : 1,
+            ];
+            $status = $this->__model->updateData($dataUpdate, "id = " . $id);
+            if ($status) {
+                Session::setFlashData('msg', 'Cập nhập đánh giá thành công!');
+                Session::setFlashData('msg_type', 'success');
+            } else {
+                Session::setFlashData('msg', 'Cập nhập đánh giá không thành công!');
+                Session::setFlashData('msg_type', 'danger');
+            }
+        }
+        Response::redirect('admin/reviews/');
     }
 
     public function phan_trang()
@@ -205,7 +258,11 @@ class Reviews extends Controller
             $product_id = $item['product_id'];
             $productName = $this->__model->getFirstTableData('products',"id = $product_id")['name'];
 
-            $btnStatus = $status == 1 ? "<a href='' class='btn btn-warning btn-sm'>Ẩn</a>" : "<a href='' class='btn btn-primary btn-sm'>Hiển thị</a>";
+            $linkChangeStatus = "#";
+            if(isPermission('reviews','update')){
+                $linkChangeStatus = _WEB_HOST_ROOT_ADMIN.'/reviews/change_status/'.$id;
+            }
+            $btnStatus = $status == 1 ? "<a href='$linkChangeStatus' class='btn btn-danger btn-sm'>Ẩn</a>" : "<a href='$linkChangeStatus' class='btn btn-primary btn-sm'>Hiển thị</a>";
             $data .= "<tr>
           <td>$i</td>
             <td>$name</td>
@@ -216,22 +273,16 @@ class Reviews extends Controller
             <td>$btnStatus</td>
             <td>$note</td>
             <td>$create_at</td>
-            
-            
             ";
 
-            if(isPermission('contacts','update')){
+            if(isPermission('reviews','update')){
                 $data .= "<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
-            }else{
-                $data .= "<td></td>";
             }
 
-            if(isPermission('contacts','delete')){
+            if(isPermission('reviews','delete')){
                 $data .= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
                 btn-sm\"><i class=\"fa fa-trash\"></i>
                 Xóa</a></td>";
-            }else{
-                $data .= "<td></td>";
             }
 
             $data .= "</tr>";

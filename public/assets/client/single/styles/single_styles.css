@@ -1278,7 +1278,7 @@ section
 }
 .user_rating .star_rating li
 {
-	margin-right: -3px;
+	margin-right: 1px;
 }
 .user_rating .star_rating li i
 {

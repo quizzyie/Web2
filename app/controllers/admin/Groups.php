@@ -89,7 +89,7 @@ class Groups extends Controller
         }
     }
 
-    public function update($id)
+    public function update($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -98,6 +98,13 @@ class Groups extends Controller
 
         if(!isPermission('groups','update')){
             App::$app->loadError('permission');
+            return;
+        }
+
+        if(empty($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/groups/');
             return;
         }
         if (empty($this->__model->getFirstData("id = $id"))) {
@@ -188,7 +195,7 @@ class Groups extends Controller
         Response::redirect('admin/groups/');
     }
 
-    public function permission($id)
+    public function permission($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -273,20 +280,14 @@ class Groups extends Controller
             
             if(isPermission('groups','permission')){
                 $data .= "<td><a href='$linkPermission' class='btn btn-primary btn-sm'>Phân quyền</a></td>";
-            }else{
-                $data .= "<td></td>";
             }
             if(isPermission('groups','update')){
                 $data .= "<td><a href='$linkUpdate' class='btn btn-warning btn-sm'><i class='fa fa-edit'></i> Sửa</a></td>";
-            }else{
-                $data .= "<td></td>";
             }
             if(isPermission('groups','delete')&&$this->__model->getRowsModel("select * from users where group_id = $id")==0){
                 $data .= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class='btn btn-danger btn-sm'><i
                 class='fa fa-trash'></i>
             Xóa</a></td>";
-            }else{
-                $data .= "<td></td>";
             }
             
             $data .= "</tr>";

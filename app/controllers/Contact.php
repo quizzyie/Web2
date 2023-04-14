@@ -91,30 +91,42 @@ class Contact extends Controller
             $email = $_POST['email'];
             $message = $_POST['message'];
             $star = $_POST['star'];
+
             $check = false;
             $msg = "";
 
-            $dataInsert = [
-                'product_id'=>Session::getSession('user_id_detail'),
-                'name'=>$name,
-                'email'=>$email,
-                'message'=>$message,
-                'status'=>2,
-                'note'=>'Vua gui',
-                'star'=>$star,
-                'create_at'=>date('Y-m-d H:i:s'),
-            ];
+            $product_id = Session::getSession('user_id_detail');
 
-            $status = $this->__model->addTableData('reviews',$dataInsert);
-            Session::removeSession('user_id_detail');
-            
-            if($status){
-                $msg = "Đánh giá thành công";
+            $checkReview = $this->__model->getRawModel("SELECT * FROM users,bill,bill_detail
+            WHERE users.id = bill.user_id AND users.email = '$email'
+            AND bill_detail.bill_id = bill.id AND bill_detail.product_id = $product_id");
+
+            $review_product = $this->__model->getRawModel("select * from reviews where email = '$email' and product_id = $product_id");
+            if(empty($checkReview)){
+                $msg = "Bạn chưa mua sản phẩm hoặc chưa hoàn tất nhận hàng!";
+            }else if(!empty($review_product)){
+                $msg = "Bạn đã đánh giá sản phẩm!";
             }else{
-                $msg = "Hệ thống lỗi vui lòng thử lại";
+                $check = true;
+                $dataInsert = [
+                    'product_id'=>$product_id,
+                    'name'=>$name,
+                    'email'=>$email,
+                    'message'=>$message,
+                    'status'=>2,
+                    'note'=>'Vua gui',
+                    'star'=>$star,
+                    'create_at'=>date('Y-m-d H:i:s'),
+                ];
+    
+                $status = $this->__model->addTableData('reviews',$dataInsert);
+                
+                if($status){
+                    $msg = "Đánh giá thành công";
+                }else{
+                    $msg = "Hệ thống lỗi vui lòng thử lại";
+                }
             }
-
-            
 
             echo json_encode([
                 'check' => $check,
