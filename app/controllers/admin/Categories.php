@@ -85,7 +85,7 @@ class Categories extends Controller {
         }
     }
 
-    public function update($id){
+    public function update($id = ""){
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
             return;
@@ -93,6 +93,13 @@ class Categories extends Controller {
 
         if(!isPermission('products','update')){
             App::$app->loadError('permission');
+            return;
+        }
+
+        if(empty($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/categories/');
             return;
         }
         if(empty($this->__model->getFirstData("id = $id"))){
@@ -156,7 +163,7 @@ class Categories extends Controller {
         }
     }
 
-    public function delete($id){
+    public function delete($id = ""){
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
             return;
@@ -226,8 +233,6 @@ class Categories extends Controller {
 
             if(isPermission('products','update')){
                 $data .= "<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
-            }else{
-                $data .= "<td></td>";
             }
             if($this->__model->getRowsModel("select * from products where id_category = $id")==0&& isPermission('products','delete')){
                 $data.= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger

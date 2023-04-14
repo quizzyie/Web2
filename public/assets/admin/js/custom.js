@@ -790,9 +790,11 @@ async function fetchPagination(page) {
 
 }
 
+if (document.querySelector('.url_module')) {
+  fetchPagination(1)
+  fetchData(1)
+}
 
-fetchPagination(1)
-fetchData(1)
 function generateRandomColor() {
   let maxVal = 0xFFFFFF; // 16777215
   let randomNumber = Math.random() * maxVal;

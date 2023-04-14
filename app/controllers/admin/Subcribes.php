@@ -31,7 +31,7 @@ class Subcribes extends Controller
         }
     }
 
-    public function update($id)
+    public function update($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -40,6 +40,13 @@ class Subcribes extends Controller
 
         if(!isPermission('contacts','update')){
             App::$app->loadError('permission');
+            return;
+        }
+
+        if(empty($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/subcribes/');
             return;
         }
         if (isLogin()) {
@@ -106,7 +113,7 @@ class Subcribes extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -202,16 +209,12 @@ class Subcribes extends Controller
 
             if(isPermission('contacts','update')){
                 $data .= "<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
-            }else{
-                $data .= "<td></td>";
             }
 
             if(isPermission('contacts','delete')){
                 $data .= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
                 btn-sm\"><i class=\"fa fa-trash\"></i>
                 Xóa</a></td>";
-            }else{
-                $data .= "<td></td>";
             }
 
             $data .= "</tr>";

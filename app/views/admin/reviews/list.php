@@ -60,8 +60,17 @@
                     <th width="">Trạng thái</th>
                     <th width="">Ghi chú</th>
                     <th width="">Thời gian</th>
-                    <th width="">Sửa</th>
-                    <th width="">Xóa</th>
+
+                    <?php 
+                    if(isPermission('reviews','update')){
+                        echo '<th width="">Sửa</th>';
+                    }
+                    if(isPermission('reviews','delete')){
+                        echo '<th width="">Xóa</th>';
+                        
+                    }
+                    ?>
+
                 </tr>
             </thead>
             <tbody class="fetch-data-table">

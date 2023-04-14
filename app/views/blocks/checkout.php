@@ -4,44 +4,44 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-            <form action="checkout/themHoaDon" method="post">
+            <form>
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
-                        <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
-                                here</a> to enter your code</h6>
                         <h6 class="checkout__title">Billing Details</h6>
 
+                        <div class="alert alert-danger btn-block alert-checkout hidden">
+                        </div>
                         <div class="checkout__input">
                             <p>Full Name<span>*</span></p>
-                            <input required type="text" name="fullname" value="<?php  echo $user["fullname"] ?>">
+                            <input type="text" name="fullname" value="<?php  echo $user["fullname"] ?>"
+                                class="fullname-checkout">
+                            <span class="error error-fullname-checkout">
+                            </span>
                         </div>
 
                         <div class="checkout__input">
                             <p>Address<span>*</span></p>
-                            <input required type="text" name="address" placeholder="Address"
-                                class="checkout__input__add">
+                            <input type="text" name="address" placeholder="Address"
+                                class="checkout__input__add address-checkout">
+                            <span class="error error-address-checkout">
+                            </span>
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>Phone<span>*</span></p>
-                                    <input pattern="^(03[2-9]|05[689]|07[06789]|08[1-9]|09[0-9]|01[2-9])+([0-9]{7})$"
-                                        required type="text" name="phone" value="<?php  echo $user['phone'] ?>">
+                                    <input type="text" name="phone" value="<?php  echo $user['phone'] ?>"
+                                        class="phone-checkout">
+                                    <span class="error error-phone-checkout"></span>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="checkout__input">
-                                    <p>Email<span>*</span></p>
-                                    <input required type="email" name="email" value="<?php echo $user['email']  ?>">
-                                </div>
-                            </div>
+
                         </div>
 
                         <div class="checkout__input">
                             <p>Order notes<span>*</span></p>
-                            <input name="note" type="text"
-                                placeholder="Notes about your order, e.g. special notes for delivery.">
+                            <input name="note" type="text" placeholder="Note..." class="note-checkout">
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
@@ -53,7 +53,7 @@
                                 <li style="display: flex;">
                                     <?php echo ($i+1).". ".$dsgh[$i]["tenSp"]." - ".$dsgh[$i]["tenSize"]  ?>
                                     <span
-                                        style="display: flex; width: 59px;padding: 0 0 0 20px;">$<?php echo $dsgh[$i]['totalSp'] ?></span>
+                                        style="display: flex; width: 80px;justify-content: end;padding: 0 0 0 20px;">$<?php echo $dsgh[$i]['totalSp'] ?></span>
                                 </li>
 
                                 <?php } ?>
@@ -62,7 +62,7 @@
                                 <li>Total <span>$<?php echo $tongTien ?></span></li>
                             </ul>
 
-                            <button type="submit" class="site-btn">PLACE ORDER</button>
+                            <button class="site-btn" onclick="onCheckout(event)">PLACE ORDER</button>
                         </div>
                     </div>
                 </div>

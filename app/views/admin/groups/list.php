@@ -28,9 +28,17 @@
                     <th width="5%">STT</th>
                     <th>Tên</th>
                     <th>Thời gian</th>
-                    <th width="15%">Phân quyền</th>
-                    <th width="10%">Sửa</th>
-                    <th width="10%">Xóa</th>
+                    <?php 
+                    if(isPermission('groups','permission')){
+                        echo '<th width="15%">Phân quyền</th>';
+                    }
+                    if(isPermission('groups','update')){
+                        echo '<th width="10%">Sửa</th>';
+                    }
+                    if(isPermission('groups','delete')){
+                        echo '<th width="10%">Xóa</th>';
+                    }
+                    ?>
                 </tr>
             </thead>
             <tbody class="fetch-data-table">
