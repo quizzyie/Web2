@@ -432,6 +432,22 @@ const handleSubcribe = async (event) => {
         document.querySelector('.error-subcribe').textContent = "";
         document.querySelector('.success-subcribe').textContent = jsonData['msg'];
         document.querySelector('.subcribe').value = "";
+
+        Swal.fire({
+            position: 'center',
+            icon: jsonData['type'],
+            title: jsonData['msg'],
+            showConfirmButton: false,
+            timer: 1500
+        })
+    } else {
+        Swal.fire({
+            position: 'center',
+            icon: "error",
+            title: "Vui lòng kiểm tra lại dữ liệu!",
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
 }
 
@@ -500,15 +516,56 @@ const sendMessage = async (event) => {
         if (jsonData['check']) {
             showErr.textContent = jsonData['msg'];
             showErr.classList.remove('hidden');
+            Swal.fire({
+                position: 'success',
+                icon: "error",
+                title: jsonData['msg'],
+                showConfirmButton: false,
+                timer: 1500
+            })
         } else {
             showErr.textContent = jsonData['msg'];
             showErr.classList.remove('hidden');
+            Swal.fire({
+                position: 'center',
+                icon: "error",
+                title: jsonData['msg'],
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
 
     } else {
         showErr.classList.remove('hidden');
         showErr.textContent = "Vui lòng kiểm tra lại dữ liệu!";
+        Swal.fire({
+            position: 'center',
+            icon: "error",
+            title: "Vui lòng kiểm tra lại dữ liệu!",
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
+}
+
+async function fetchCountReview() {
+    let data = new URLSearchParams();
+    let host_root = "";
+    if (document.querySelector('.url_hoot_root')) {
+        host_root = document.querySelector('.url_hoot_root').value;
+    }
+
+    let response = await fetch(host_root + "/admin/reviews/get_quantity", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: data.toString()
+    })
+    let jsonData = await response.json();
+
+    const items = document.querySelectorAll(".count-review");
+    items.forEach(item => item.textContent = jsonData['quantity']);
 }
 
 // fetch data pagination
@@ -535,6 +592,8 @@ async function fetchData(page) {
             btn.classList.add('active');
         }
     })
+
+    await fetchCountReview();
 }
 
 async function fetchPagination(page) {
@@ -640,6 +699,14 @@ const onSubmitReview = async (event) => {
         showErr.textContent = jsonData['msg'];
         showErr.classList.remove('hidden');
 
+        Swal.fire({
+            position: 'center',
+            icon: jsonData['type'],
+            title: jsonData['msg'],
+            showConfirmButton: false,
+            timer: 1500
+        })
+
         await fetchData(1);
         await fetchPagination(1);
 
@@ -648,6 +715,13 @@ const onSubmitReview = async (event) => {
     } else {
         showErr.classList.remove('hidden');
         showErr.textContent = "Vui lòng kiểm tra lại dữ liệu!";
+        Swal.fire({
+            position: 'center',
+            icon: "error",
+            title: "Vui lòng kiểm tra lại dữ liệu!",
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
 }
 

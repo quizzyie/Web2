@@ -388,4 +388,16 @@ class Reviews extends Controller
         }
         echo json_encode($data);
     }
+
+    public function get_quantity(){
+        if(isPost()){
+            $product_id = Session::getSession('user_id_detail');
+            $quantity = $this->__model->getRowsModel("select * from reviews where status = 2 and product_id = ".$product_id);
+            echo json_encode(['quantity'=>$quantity]);
+        }else{
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');           
+            Response::redirect('admin/reviews/');
+        }
+    }
 }

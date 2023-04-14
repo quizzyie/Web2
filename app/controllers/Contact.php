@@ -22,6 +22,7 @@ class Contact extends Controller
             $email = $_POST['email'];
             $check = false;
             $msg = "";
+            $type = "";
 
             $dataInsert = [
                 'email'=>$email,
@@ -33,15 +34,16 @@ class Contact extends Controller
             $status = $this->__model->addTableData('subcribes',$dataInsert);
             if($status){
                 $msg = "Gửi email thành công!";
+                $type = "success";
             }else{
                 $msg = "Hệ thống lỗi vui lòng thử lại sau!";
+                $type = "error";
             }
-
-            
 
             echo json_encode([
                 'check' => $check,
                 'msg' => $msg,
+                'type' => $type,
             ]);
         } else {
             Response::redirect("");
@@ -94,6 +96,7 @@ class Contact extends Controller
 
             $check = false;
             $msg = "";
+            $type = "";
 
             $product_id = Session::getSession('user_id_detail');
 
@@ -104,9 +107,12 @@ class Contact extends Controller
             $review_product = $this->__model->getRawModel("select * from reviews where email = '$email' and product_id = $product_id");
             if(empty($checkReview)){
                 $msg = "Bạn chưa mua sản phẩm hoặc chưa hoàn tất nhận hàng!";
+                $type = "warning";
             }else if(!empty($review_product)){
                 $msg = "Bạn đã đánh giá sản phẩm!";
+                $type = "warning";
             }else{
+                
                 $check = true;
                 $dataInsert = [
                     'product_id'=>$product_id,
@@ -114,7 +120,7 @@ class Contact extends Controller
                     'email'=>$email,
                     'message'=>$message,
                     'status'=>2,
-                    'note'=>'Vua gui',
+                    'note'=>'Chưa xử lý',
                     'star'=>$star,
                     'create_at'=>date('Y-m-d H:i:s'),
                 ];
@@ -123,14 +129,17 @@ class Contact extends Controller
                 
                 if($status){
                     $msg = "Đánh giá thành công";
+                    $type = "success";
                 }else{
                     $msg = "Hệ thống lỗi vui lòng thử lại";
+                    $type = "error";
                 }
             }
 
             echo json_encode([
                 'check' => $check,
                 'msg' => $msg,
+                'type' => $type,
             ]);
         } else {
             Response::redirect();

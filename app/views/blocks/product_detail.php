@@ -134,7 +134,7 @@
                         <li class="tab active" data-active-tab="tab_1"><span>Description</span></li>
                         <li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li>
                         <li class="tab " data-active-tab="tab_3"><span>Reviews
-                                (<?php echo $soReview ?>)</span></li>
+                                (<span class="count-review"><?php echo $soReview ?></span>)</span></li>
                     </ul>
                 </div>
             </div>
@@ -194,7 +194,7 @@
 
                         <div class="col-lg-6 reviews_col">
                             <div class="tab_title reviews_title">
-                                <h4>Reviews (<?php echo $soReview  ?>)</h4>
+                                <h4>Reviews (<span class="count-review"><?php echo $soReview  ?></span>)</h4>
                             </div>
 
                             <div class="fetch-data-table">

@@ -95,7 +95,7 @@ class Detail extends Controller
         $per_page = 3;
         $indexPage = ($page - 1) * $per_page;
 
-        $reviews = $this->__model->getRawModel("select * from reviews where product_id = $product_id order by create_at desc limit $indexPage,$per_page");
+        $reviews = $this->__model->getRawModel("select * from reviews where status = 2 and product_id = $product_id order by create_at desc limit $indexPage,$per_page");
 
         $data = "";
         $i = 1;
@@ -134,8 +134,9 @@ class Detail extends Controller
                     </div>
                 </div>
                 <div class=\"review\">
-                    <div class=\"review_date\">$create_at</div>
-                    <div class=\"user_name\">$name</div>
+                    <div class=\"review_date\" >$create_at</div>
+                    <div class=\"user_name\" style='margin-bottom: 0;'><b>$name</b></div>
+                    <div class=\"user_name\">$email</div>
                     <p>$message</p>
                 </div>
             </div>";
@@ -155,7 +156,7 @@ class Detail extends Controller
         $page = $_POST['page'];
         $product_id = Session::getSession('user_id_detail');
 
-        $users = $this->__model->getTableData("reviews","product_id = $product_id");
+        $users = $this->__model->getTableData("reviews","status = 2 and product_id = $product_id");
         $n = count($users);
         $maxpage = ceil($n / 3);
         $data = "";
