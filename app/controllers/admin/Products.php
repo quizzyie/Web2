@@ -17,16 +17,16 @@ class Products extends Controller
             return;
         }
 
-        if(!isPermission('products','add')&&!isPermission('products','update')&&!isPermission('products','delete')){
+        if (!isPermission('products', 'add') && !isPermission('products', 'update') && !isPermission('products', 'delete')) {
             App::$app->loadError('permission');
             return;
         }
         $data['sub_data']['list_brand'] = $this->__model->getRawModel("select * from brands");
-            $data['sub_data']['list_category'] = $this->__model->getRawModel("select * from categories");
-            $data['title'] = "Danh sách sản phẩm";
-            $data['content'] = 'admin/products/list';
+        $data['sub_data']['list_category'] = $this->__model->getRawModel("select * from categories");
+        $data['title'] = "Danh sách sản phẩm";
+        $data['content'] = 'admin/products/list';
 
-            $this->renderView('admin/layouts/admin_layout', $data);
+        $this->renderView('admin/layouts/admin_layout', $data);
     }
 
     public function add()
@@ -36,16 +36,16 @@ class Products extends Controller
             return;
         }
 
-        if(!isPermission('products','add')){
+        if (!isPermission('products', 'add')) {
             App::$app->loadError('permission');
             return;
         }
         $data['title'] = "Thêm sản phẩm";
-            $data['sub_data']['list_brand'] = $this->__model->getRawModel("select * from brands");
-            $data['sub_data']['list_category'] = $this->__model->getRawModel("select * from categories");
-            $data['content'] = 'admin/products/add';
+        $data['sub_data']['list_brand'] = $this->__model->getRawModel("select * from brands");
+        $data['sub_data']['list_category'] = $this->__model->getRawModel("select * from categories");
+        $data['content'] = 'admin/products/add';
 
-            $this->renderView('admin/layouts/admin_layout', $data);
+        $this->renderView('admin/layouts/admin_layout', $data);
     }
 
     public function post_add()
@@ -186,14 +186,14 @@ class Products extends Controller
         }
     }
 
-    public function update($id)
+    public function update($id = '')
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
             return;
         }
 
-        if(!isPermission('products','update')){
+        if (!isPermission('products', 'update')) {
             App::$app->loadError('permission');
             return;
         }
@@ -375,7 +375,7 @@ class Products extends Controller
         }
     }
 
-    // public function delete($id)
+    // public function delete($id = "")
     // {
     //     if (isLogin()) {
     //         if (!empty($id)) {
@@ -403,16 +403,19 @@ class Products extends Controller
     //     }
     // }
 
-    public function detail($id){
+    public function detail($id = "")
+    {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
             return;
         }
 
-        if(!isPermission('products','add')&&!isPermission('products','update')){
+        if (!isPermission('products', 'add') && !isPermission('products', 'update')) {
             App::$app->loadError('permission');
             return;
         }
+
+
         if (isLogin()) {
             if (!empty($id)) {
                 if (empty($this->__model->getFirstData("id = $id"))) {
@@ -420,7 +423,7 @@ class Products extends Controller
                     Session::setFlashData('msg_type', 'danger');
                     Response::redirect('admin/bill/');
                 } else {
-                    
+
                     $data['title'] = "Chi tiết sản phẩm";
                     $data['content'] = 'admin/products/detail';
                     $data["sub_data"]['product_detail'] = $this->__model->getFirstRaw("SELECT products.*,da_ban,con_hang,categories.name AS cate_name,brands.name AS brand_name
@@ -447,19 +450,61 @@ class Products extends Controller
         } else {
             Response::redirect('admin/auth/login');
         }
-
     }
 
-    public function updateTotalBillDetail(){
+    public function updateTotalBillDetail()
+    {
         $detail = $this->__model->getRawModel("select * from bill_detail");
         foreach ($detail as $key => $value) {
             $id = $value['id'];
             $product_id = $value['product_id'];
             $quantity = $value['quantity'];
             $price = $this->__model->getFirstRaw("select * from products where id = $product_id")['sale'];
-            $total =  $quantity*$price;
-            $this->__model->updateTableData('bill_detail',['total'=>$total],"id = $id");
+            $total =  $quantity * $price;
+            $this->__model->updateTableData('bill_detail', ['total' => $total], "id = $id");
         }
+    }
+
+    public function change_status($id = "")
+    {
+        if (!isLogin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if (!isPermission('products', 'update')) {
+            App::$app->loadError('permission');
+            return;
+        }
+
+        
+        
+
+        if (!empty($id)) {
+            $product = $this->__model->getFirstRaw("select * from products where id = " . $id);
+            if (empty($product)) {
+                Session::setFlashData('msg', 'Không tồn tại sản phẩm!');
+                Session::setFlashData('msg_type', 'danger');
+            } else {
+                $dataUpdate = [
+                    'status' => $product['status'] == 1 ? 2 : 1,
+                    'update_at' => date('Y-m-d H:i:s')
+                ];
+                $status = $this->__model->updateData($dataUpdate, "id = " . $id);
+                if ($status) {
+                    Session::setFlashData('msg', 'Cập nhập sản phẩm thành công!');
+                    Session::setFlashData('msg_type', 'success');
+                } else {
+                    Session::setFlashData('msg', 'Cập nhập sản phẩm không thành công!');
+                    Session::setFlashData('msg_type', 'danger');
+                }
+            }
+        } else {
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+        }
+        Response::redirect('admin/products/');
+
     }
 
     public function phan_trang()
@@ -532,7 +577,7 @@ class Products extends Controller
             }
         }
 
-        if(!empty($conditionBill)){
+        if (!empty($conditionBill)) {
             $conditionBill = " and $conditionBill";
         }
 
@@ -542,9 +587,9 @@ class Products extends Controller
                 $sortBy = "name asc,";
             } else if ($sort_by == 2) {
                 $sortBy = "name desc,";
-            }else if ($sort_by == 3) {
+            } else if ($sort_by == 3) {
                 $sortBy = "temp2.da_ban desc,";
-            }else if ($sort_by == 4) {
+            } else if ($sort_by == 4) {
                 $sortBy = "temp.con_hang desc,";
             }
         }
@@ -566,7 +611,13 @@ class Products extends Controller
             $img = $product['img'];
             $price = $product['price'];
             $sale = $product['sale'];
-            $status = $product['status'] == 1 ? "<span class='btn btn-primary'>Mở bán</span>" : "<span class='btn btn-warning'>Ẩn</span>";
+
+            $linkChangeStatus = _WEB_HOST_ROOT_ADMIN . '/products/change_status/' . $id;
+            if (!isPermission('products', 'update')) {
+                $linkChangeStatus = "";
+            }
+            $status = $product['status'] == 1 ? "<a href='$linkChangeStatus' class='btn btn-primary'>Mở bán</a>" : "<a href='$linkChangeStatus' class='btn btn-danger'>Ẩn</a>";
+
             $type = $product['type'];
             $so_luong = !empty($product['con_hang']) ? $product['con_hang'] : 0;
             $da_ban = !empty($product['da_ban']) ? $product['da_ban'] : 0;
@@ -598,11 +649,11 @@ class Products extends Controller
             ";
             $i++;
 
-            if(isPermission('products','add')||isPermission('products','update')||isPermission('products','delete')){
+            if (isPermission('products', 'add') || isPermission('products', 'update') || isPermission('products', 'delete')) {
                 $data .= "<a href='$linkDetail' class='btn btn-primary btn-sm'>Chi tiết</a>";
             }
 
-            if(isPermission('products','update')){
+            if (isPermission('products', 'update')) {
                 $data .= "<a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a>";
             }
             $data .= "</td></tr>";
@@ -610,7 +661,7 @@ class Products extends Controller
             // <td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
             //     btn-sm\"><i class=\"fa fa-trash\"></i>
             //     Xóa</a></td>
-            
+
         }
 
         if (empty($data)) {

@@ -98,7 +98,7 @@ class Order_Status extends Controller
         }
     }
 
-    public function update($id)
+    public function update($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -107,6 +107,13 @@ class Order_Status extends Controller
 
         if(!isPermission('bill','update')){
             App::$app->loadError('permission');
+            return;
+        }
+
+        if(empty($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/order_status/');
             return;
         }
         if (isLogin()) {
@@ -175,7 +182,7 @@ class Order_Status extends Controller
         }
     }
 
-    // public function delete($id)
+    // public function delete($id = "")
     // {
     //     if (isLogin()) {
     //         if (!empty($id)) {

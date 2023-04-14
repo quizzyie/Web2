@@ -48,7 +48,7 @@ abstract class Model extends Database
         return $this->db->getRaw($sql);
     }
 
-    public  function getTableData($table,$condition = "",$orderBy = "",$limit){
+    public  function getTableData($table,$condition = "",$orderBy = "",$limit=""){
         $fieldSelect = $this->fieldFill();
         $sql = "select $fieldSelect from $table $orderBy $limit";
         if(!empty($condition)){

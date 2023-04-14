@@ -1,7 +1,18 @@
 <!-- Shopping Cart Section Begin -->
 <section class="shopping-cart spad">
     <div class="container">
+        <?php 
+            if(!empty(Session::getSession('msg'))){
+                $msg = Session::getSession('msg');
+                $msg_type = !empty(Session::getSession('msg_type')) ? Session::getSession('msg_type') : "danger";
+                Session::removeSession('msg');
+                Session::removeSession('msg_type');
+                echo "<div class='alert alert-$msg_type'>$msg</div>";
+            }
+            ?>
         <div class="row">
+
+
             <div class="col-lg-8">
                 <div class="shopping__cart__table">
                     <table>
@@ -48,7 +59,7 @@
 
                                 <td onclick="remove(<?php echo $sp['idsp'] ?>,<?php echo $sp['idSize'] ?>)"
                                     class="cart__close"><i class="fa fa-close"></i></td>
-                                    </tr>
+                            </tr>
                             <?php endforeach;} ?>
                         </tbody>
                     </table>
@@ -67,18 +78,10 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="cart__discount">
-                    <h6>Discount codes</h6>
-                    <form action="#">
-                        <input type="text" placeholder="Coupon code">
-                        <button type="submit">Apply</button>
-                    </form>
-                </div>
                 <div class="cart__total">
                     <h6>Cart total</h6>
                     <ul>
-                        <li>Subtotal <span>$ 169.50</span></li>
-                        <li>Total <span id="tongTienGH">$ <?php echo $tongTien ?></span></li>
+                        <li>Total <span id="tongTienGH">$ <?php echo !empty($tongTien) ? $tongTien :0 ?></span></li>
                     </ul>
                     <a href="<?php echo HOST_ROOT ?>/checkout" class="primary-btn">Proceed to checkout</a>
                 </div>

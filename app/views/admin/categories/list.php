@@ -29,7 +29,12 @@
                     <th width="">Tên danh mục</th>
                     <th width="">Hình ảnh</th>
                     <th width="">Thời gian</th>
-                    <th width="8%">Sửa</th>
+                    <?php 
+                    if(isPermission('products','update')){
+                        echo '<th width="8%">Sửa</th>';
+                    }
+                    ?>
+
                     <th width="8%">Xóa</th>
                 </tr>
             </thead>
