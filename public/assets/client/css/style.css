@@ -1003,6 +1003,7 @@ ol {
 .product__item {
   overflow: hidden;
   margin-bottom: 40px;
+  border-radius: 10px;
 }
 
 .product__item.sale .product__item__pic .label {
@@ -2734,7 +2735,7 @@ a:not([href]):not([tabindex]):hover {
 }
 
 .checkout__input {
-  margin-bottom: 6px;
+  margin-bottom: 26px;
 }
 
 .checkout__input p {
@@ -2751,9 +2752,7 @@ a:not([href]):not([tabindex]):hover {
   width: 100%;
   border: 1px solid #e1e1e1;
   font-size: 14px;
-  color: #b7b7b7;
   padding-left: 20px;
-  margin-bottom: 20px;
 }
 
 .checkout__input input::-webkit-input-placeholder {

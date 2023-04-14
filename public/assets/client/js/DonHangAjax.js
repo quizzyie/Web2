@@ -5,7 +5,7 @@ function giaoDienHoaDon(dshd) {
     let huyDHButton = "";
     if (dh.ttDH == 1 || dh.ttDH == 2) {
       huyDHButton =
-        '<input onclick="huyDonHang(event)" type="button" value="HUY DON HANG"></input>';
+        '<button onclick="huyDonHang(event)" type="button" class="btn btn-primary" style="margin-right:12px">Hủy đơn hàng</button>';
     }
 
     html += `<tr>
@@ -29,8 +29,8 @@ function giaoDienHoaDon(dshd) {
     <td>${dh.tongBill}</td>
 
     <td>
+    ${huyDHButton}
         <a href="#">Detail</a>
-        ${huyDHButton}
         <input class="idDH" type="hidden" value="${dh.idDH}">
     </td>
 </tr>`;
