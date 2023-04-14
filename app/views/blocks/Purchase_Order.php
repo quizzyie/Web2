@@ -6,11 +6,12 @@
                 <th>Name</th>
                 <th>Delivery Address</th>
                 <th>Date Order</th>
+                <th>Trang thai DH </th>
                 <th>Total</th>
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="xemLaiHoaDon">
             <?php foreach($dshd as $hd):  ?>
             <?php  ?>
 
@@ -21,23 +22,29 @@
                         <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
                             style="width: 45px; height: 45px" />
                         <div class="ms-3">
-                            <p class="fw-bold mb-1"><?php echo $hd["resipient_name"] ?></p>
-                            <p class="text-muted mb-0"><?php  echo $hd["resipient_phonenumber"] ?></p>
+                            <p class="fw-bold mb-1"><?php echo $hd["tenNN"] ?></p>
+                            <p class="text-muted mb-0"><?php  echo $hd["sdt"] ?></p>
                         </div>
                     </div>
                 </td>
                 <td>
-                    <p class="fw-normal mb-1"><?php echo $hd["delivery_address"] ?></p>
+                    <p class="fw-normal mb-1"><?php echo $hd["diaChi"] ?></p>
                 </td>
                 <td>
-                    <p class="mb-1"><?php echo $hd["create_at"]  ?></p>
+                    <p class="mb-1"><?php echo $hd["dateOrder"]  ?></p>
                 </td>
-                <td>$<?php echo $hd["total_bill"] ?></td>
+                <td><?php echo $hd["tt"]  ?></td>
+                <td>$<?php echo $hd["tongBill"] ?></td>
+
                 <td>
                     <a href="#">Detail</a>
-                    <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">
+                    <?php if($hd["ttDH"] == 1 || $hd["ttDH"] == 2){?>
+                    <input onclick="huyDonHang(event)" type="button" value="HUY DON HANG">
+                    <!-- <input class="idDH" type="hidden" value="<?php echo $hd["idDH"] ?>"> -->
 
-                    </button>
+
+                    <?php } ?>
+                    <input class="idDH" type="text" value="<?php echo $hd["idDH"]  ?>">
                 </td>
             </tr>
             <?php endforeach  ?>
