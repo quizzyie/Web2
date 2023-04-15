@@ -44,7 +44,7 @@
 
 
                     <?php } ?>
-                    <input class="idDH" type="text" value="<?php echo $hd["idDH"]  ?>">
+                    <input class="idDH" type="hidden" value="<?php echo $hd["idDH"]  ?>">
                 </td>
             </tr>
             <?php endforeach  ?>
