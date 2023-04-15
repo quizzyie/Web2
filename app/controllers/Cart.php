@@ -84,8 +84,6 @@
                     else{
                         $return = ['error'=>"Vượt quá số lượng sản phẩm"];
                     }
-                    
-                    
                 }
                 else{
                     $return = ['login'=>"Cần đăng nhập mới được thêm giỏ hàng"];
