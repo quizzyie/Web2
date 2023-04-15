@@ -62,8 +62,15 @@
                     <th width="">Loại</th>
                     <th width="10%">Thời gian</th>
                     <th width="12%">Trạng thái</th>
-                    <th width="8%">Sửa</th>
-                    <th width="8%">Xóa</th>
+
+                    <?php  
+                    if(isPermission('users','update')){
+                        echo '<th width="8%">Sửa</th>';
+                    }
+                    if(isPermission('users','delete')){
+                        echo '<th width="8%">Xóa</th>';
+                    }
+                    ?>
                 </tr>
             </thead>
             <tbody class="fetch-data-table">

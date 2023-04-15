@@ -87,6 +87,100 @@ class Detail extends Controller
     public function tongSoTrang($dsReview){
         
     }
+
+    public function phan_trang()
+    {
+        $page = $_POST['page'];
+        $product_id = Session::getSession('user_id_detail');
+        $per_page = 3;
+        $indexPage = ($page - 1) * $per_page;
+
+        $reviews = $this->__model->getRawModel("select * from reviews where status = 2 and product_id = $product_id order by create_at desc limit $indexPage,$per_page");
+
+        $data = "";
+        $i = 1;
+        foreach ($reviews as $key => $item) {
+            $id = $item['id'];
+            $name = $item['name'];
+            $email = $item['email'];
+            $note = $item['note'];
+            $message = $item['message'];
+            $star = $item['star'];
+            $status = $item['status'];
+            $create_at = $item['create_at'];
+            $create_at = getDateFormat($create_at, 'd/m/Y H:i:s');
+
+            $starList = "";
+
+            for ($j = 1; $j <= 5; $j++) { 
+                if ($j <= $star) {
+                    $starList .= '<li><i class="fa fa-star" aria-hidden="true"></i></li>';
+                }else{
+                    $starList .= '<li><i class="fa fa-star-o" aria-hidden="true"></i></li>';
+                }
+             } 
+
+            $data .= "<div class=\"user_review_container d-flex flex-column flex-sm-row\">
+                <div class=\"user\">
+                    <div class=\"user_pic\">
+                        <img style=\"width: 70px;  border-radius: 50%;\"
+                            src=\"https://tse4.explicit.bing.net/th?id=OIP.euqcyHvusXHENYgYwF-C5wHaFh&pid=Api&P=0\"
+                            alt=\"\">
+                    </div>
+                    <div class=\"user_rating\">
+                        <ul class=\"star_rating\">
+                        $starList
+                        </ul>
+                    </div>
+                </div>
+                <div class=\"review\">
+                    <div class=\"review_date\" >$create_at</div>
+                    <div class=\"user_name\" style='margin-bottom: 0;'><b>$name</b></div>
+                    <div class=\"user_name\">$email</div>
+                    <p>$message</p>
+                </div>
+            </div>";
+
+            $i++;
+        }
+
+        if (empty($data)) {
+            $data = "<div class='alert alert-danger btn-block'>Chưa có bình luận nào!</div>";
+        }
+
+        echo json_encode($data);
+    }
+
+    public function pagination()
+    {
+        $page = $_POST['page'];
+        $product_id = Session::getSession('user_id_detail');
+
+        $users = $this->__model->getTableData("reviews","status = 2 and product_id = $product_id");
+        $n = count($users);
+        $maxpage = ceil($n / 3);
+        $data = "";
+
+        if ($n > 0) {
+            $start = $page - 2;
+            if ($start < 1) {
+                $start = 1;
+            }
+            $end = $start + 4;
+            if ($end > $maxpage) {
+                $end = $maxpage;
+            }
+                                    
+            $data .= "<div id='soTrang' class='product__pagination'>";
+            for ($i = $start; $i <= $end; $i++) {
+                $check = $page == $i ? "active" : "";
+                $data .= "<li class='btn-page' style='list-style:none;margin:0 2px;'><a  class='$check'>$i</a></li>";
+            }
+            $data .= "</div>";
+            $data .= "<input type='hidden' value='$maxpage' class='max-page'/>";
+        }
+        echo json_encode($data);
+    }
 }
 
 ?>

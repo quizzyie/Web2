@@ -94,7 +94,7 @@ class Brands extends Controller
         }
     }
 
-    public function update($id)
+    public function update($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -103,6 +103,13 @@ class Brands extends Controller
 
         if(!isPermission('products','update')){
             App::$app->loadError('permission');
+            return;
+        }
+
+        if(empty($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/brands/');
             return;
         }
         if (isLogin()) {
@@ -171,7 +178,7 @@ class Brands extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -245,8 +252,6 @@ class Brands extends Controller
             ";
             if(isPermission('products','update')){
                 $data .="<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
-            }else{
-                $data .= "<td></td>";
             }
             if($this->__model->getRowsModel("select * from products where id_brand = $id")==0&& isPermission('products','delete')){
                 $data .= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger

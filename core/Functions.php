@@ -165,28 +165,7 @@ function isEmail($email){
 
 // }
 
-// //Kiểm tra số điện thoại (0123456789 - Bắt đầu bằng số 0, nối tiếp là 9 số)
-// function isPhone($phone){
 
-//     $checkFirstZero = false;
-
-//     if ($phone[0]=='0'){
-//         $checkFirstZero = true;
-//         $phone = substr($phone, 1);
-//     }
-
-//     $checkNumberLast = false;
-
-//     if (isNumberInt($phone) && strlen($phone)==9){
-//         $checkNumberLast = true;
-//     }
-
-//     if ($checkFirstZero && $checkNumberLast){
-//         return true;
-//     }
-
-//     return false;
-// }
 
 //Hàm tạo thông báo
 function getMsg($msg, $type='danger'){

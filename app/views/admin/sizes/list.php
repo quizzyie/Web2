@@ -19,8 +19,12 @@
                     <th width="">Size</th>
                     <th width="">Mô tả</th>
                     <th width="">Thời gian</th>
-                    <th width="8%">Sửa</th>
-                    <!-- <th width="8%">Xóa</th> -->
+                    <?php 
+                    if(isPermission('products','update')){
+                        echo '<th width="8%">Sửa</th>';
+                    }
+                    ?>
+
                 </tr>
             </thead>
             <tbody class="fetch-data-table">

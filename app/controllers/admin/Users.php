@@ -116,7 +116,7 @@ class Users extends Controller
         }
     }
 
-    public function update($id)
+    public function update($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -125,6 +125,12 @@ class Users extends Controller
 
         if (!isPermission('users', 'update')) {
             App::$app->loadError('permission');
+            return;
+        }
+        if(empty($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/users/');
             return;
         }
         if (empty($this->__model->getFirstData("id = $id"))) {
@@ -225,7 +231,7 @@ class Users extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -261,7 +267,7 @@ class Users extends Controller
         Response::redirect('admin/users/');
     }
 
-    public function change_status($id)
+    public function change_status($id = "")
     {
         if (!isLogin()) {
             Response::redirect('admin/auth/login');
@@ -519,17 +525,13 @@ class Users extends Controller
 
             if (isPermission('users', 'update')) {
                 $data .= "<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
-            }else{
-                $data .= "<td></td>";
             }
 
             if (isLogin()['user_id'] != $id and isPermission('users', 'delete') and $this->__model->getRowsModel("select * from bill where user_id = $id") == 0) {
                 $data .= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
                 btn-sm\"><i class=\"fa fa-trash\"></i>
                 Xóa</a></td>";
-            } else{
-                $data .= "<td></td>";
-            }
+            } 
             $data .= "</tr>";
             $i++;
         }
