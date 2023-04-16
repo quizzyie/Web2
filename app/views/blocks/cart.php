@@ -9,7 +9,7 @@
                 Session::removeSession('msg_type');
                 echo "<div class='alert alert-$msg_type'>$msg</div>";
             }
-            ?>
+        ?>
         <div class="row">
 
 
