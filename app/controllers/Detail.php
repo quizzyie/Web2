@@ -26,27 +26,36 @@ class Detail extends Controller
             }
         }
         
-        $this->data['sub_data']['dsSizes'] = $this->__model->getRawModel("select * from sizes inner join products_size on id = id_size where id_product = ".$idsp);
-        $this->data['sub_data']['sp'] = $this->showDetail($idsp);
-        $this->data['sub_data']['images'] = $this->showImg($idsp);
-        $idCategory = $this->data['sub_data']['sp']['id_category'];
-        $idBrand = $this->data['sub_data']['sp']['id_brand'];
-        $this->data["sub_data"]["loai"] = $this->__model->getCategory($idCategory);
-        $this->data["sub_data"]["thuongHieu"] = $this->__model->getBrand($idBrand);
-        $this->data["sub_data"]["dssplq"] = $this->sanPhamLienQuan($idsp,$idCategory,$idBrand);
-        $this->data["sub_data"]["dsReview"] = $this->__model->getReviews($idsp);
-        $this->data["sub_data"]["dsImage"] = $this->__model->getImages($idsp);
-        $this->data["sub_data"]["soReview"] = $this->__model->soReviews($idsp)['soReview'];
-        $this->data["sub_data"]["soSao"] = $this->__model->getSoSao($this->data["sub_data"]["dsReview"]);
-        $this->data["sub_data"]["slg"] = $this->__model->getSoLuong($idsp)['slg'];
+        $sql = "select * from sizes inner join products_size on id = id_size where id_product = ".$idsp;
+        if(!empty($this->__model->getRawModel($sql))){
+            $this->data['sub_data']['dsSizes'] = $this->__model->getRawModel($sql);
+            $this->data['sub_data']['sp'] = $this->showDetail($idsp);
+            $this->data['sub_data']['images'] = $this->showImg($idsp);
+            $idCategory = $this->data['sub_data']['sp']['id_category'];
+            $idBrand = $this->data['sub_data']['sp']['id_brand'];
+            $this->data["sub_data"]["loai"] = $this->__model->getCategory($idCategory);
+            $this->data["sub_data"]["thuongHieu"] = $this->__model->getBrand($idBrand);
+            $this->data["sub_data"]["dssplq"] = $this->sanPhamLienQuan($idsp,$idCategory,$idBrand);
+            $this->data["sub_data"]["dsReview"] = $this->__model->getReviews($idsp);
+            $this->data["sub_data"]["dsImage"] = $this->__model->getImages($idsp);
+            $this->data["sub_data"]["soReview"] = $this->__model->soReviews($idsp)['soReview'];
+            $this->data["sub_data"]["soSao"] = $this->__model->getSoSao($this->data["sub_data"]["dsReview"]);
+            $this->data["sub_data"]["slg"] = $this->__model->getSoLuong($idsp)['slg'];
+            $this->renderView('layouts/client_layout',$this->data);
+            Session::setSession("user_id_detail",$idsp);
+        }
+        else{
+            Response::redirect(HOST_ROOT.'/shop');
+        }
+        
+        
         // echo "<pre>";
         // print_r($this->data["sub_data"]["soSao"]);
         // echo "</pre>";
 
         
   
-        $this->renderView('layouts/client_layout',$this->data);
-        Session::setSession("user_id_detail",$idsp);
+        
         
     }
     public function showDetail($idsp){

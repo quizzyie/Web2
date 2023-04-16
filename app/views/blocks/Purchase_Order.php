@@ -33,7 +33,7 @@
                         </div>
                     </td>
                     <td>
-                     
+
                         <p class="fw-normal mb-1"><?php echo $hd["diaChi"] ?></p>
                     </td>
                     <td>
@@ -42,15 +42,15 @@
                     <td><?php echo $hd["tt"]  ?></td>
                     <td>$<?php echo $hd["tongBill"] ?>
                     </td>
-                    <td style="display:flex;" >
-                        <button onclick="huyDonHang(event)" type="button" class="btn btn-primary" style="margin-right:12px">Hủy đơn hàng</button>
+                    <td style="display:flex;">
+                        <button onclick="huyDonHang(event)" type="button" class="btn btn-primary"
+                            style="margin-right:12px">Hủy đơn hàng</button>
                         <a href="#" style="margin:10px;">Detail</a>
-                        <input class="idDH" style = "display:none;" type="text" value="<?php echo $hd["idDH"]  ?>">
+                        <input class="idDH" style="display:none;" type="text" value="<?php echo $hd["idDH"]  ?>">
+
                     </td>
                 </tr>
                 <?php endforeach  ?>
-
             </tbody>
         </table>
     </div>
-</div>
