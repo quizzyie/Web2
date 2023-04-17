@@ -43,9 +43,11 @@
                     <td>$<?php echo $hd["tongBill"] ?>
                     </td>
                     <td style="display:flex;">
+                        <?php if($hd["ttDH"]==1||$hd["ttDH"]==2){  ?>
                         <button onclick="huyDonHang(event)" type="button" class="btn btn-primary"
                             style="margin-right:12px">Hủy đơn hàng</button>
-                        <a href="#" style="margin:10px;">Detail</a>
+                        <?php } ?>
+                        <a href="purchase_Order_Detail?idhd=<?php echo $hd["idDH"]  ?>" style="margin:10px;">Detail</a>
                         <input class="idDH" style="display:none;" type="text" value="<?php echo $hd["idDH"]  ?>">
 
                     </td>
@@ -54,3 +56,4 @@
             </tbody>
         </table>
     </div>
+</div>

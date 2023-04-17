@@ -8,37 +8,36 @@
                         <a href="#"><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/footer-logo.png"
                                 alt=""></a>
                     </div>
-                    <p>The customer is at the heart of our unique business model, which includes design.</p>
-                    <a href="#"><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/payment.png" alt=""></a>
+                    <p><?php echo $footer["des_1"] ?></p>
                 </div>
             </div>
             <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
                 <div class="footer__widget">
-                    <h6>Shopping</h6>
+                    <h6><?php echo $footer["title_2"]  ?></h6>
                     <ul>
-                        <li><a href="#">Clothing Store</a></li>
-                        <li><a href="#">Trending Shoes</a></li>
-                        <li><a href="#">Accessories</a></li>
-                        <li><a href="#">Sale</a></li>
+                        <?php for($i=0;$i<count($footer["name_quicklink"]);$i++){  ?>
+                        <li><a href="<?php echo $footer["link_quicklink"][$i]  ?>">
+                                <?php echo $footer["name_quicklink"][$i]  ?></a></li>
+                        <?php  } ?>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-2 col-md-3 col-sm-6">
                 <div class="footer__widget">
-                    <h6>Shopping</h6>
+                    <h6><?php echo $footer["title_3"]  ?></h6>
                     <ul>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Payment Methods</a></li>
-                        <li><a href="#">Delivary</a></li>
-                        <li><a href="#">Return & Exchanges</a></li>
+                        <?php for($i=0;$i<count($footer["name_quicklink2"]);$i++){  ?>
+                        <li><a href="<?php echo $footer["link_quicklink2"][$i]  ?>">
+                                <?php echo $footer["name_quicklink2"][$i]  ?></a></li>
+                        <?php  } ?>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
                 <div class="footer__widget">
-                    <h6>NewLetter</h6>
+                    <h6><?php echo $footer["title_4"]  ?></h6>
                     <div class="footer__newslatter">
-                        <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                        <p><?php echo $footer["des_4"]  ?></p>
                         <form>
                             <input class="subcribe" type="text" spellcheck="false" placeholder="Your email"
                                 style="color: white;">
@@ -55,12 +54,7 @@
             <div class="col-lg-12 text-center">
                 <div class="footer__copyright__text">
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    <p>Copyright ©
-                        <script>
-                        document.write(new Date().getFullYear());
-                        </script>2020
-                        All rights reserved | This template is made with <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> by CoLoShop</a>
+                    <p><?php echo $footer["copy_right"]  ?>
                     </p>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </div>

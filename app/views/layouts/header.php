@@ -178,12 +178,11 @@
                         </div>
                         <nav class="navbar">
                             <ul class="navbar_menu">
-                                <li><a href="#">home page</a></li>
+                                <li><a href="<?php echo HOST_ROOT ?>/">home page</a></li>
                                 <li><a href="<?php echo HOST_ROOT ?>/shop">shop</a></li>
-                                <li><a href="#">promotion</a></li>
-                                <li><a href="#">pages</a></li>
-                                <li><a href="#">blog</a></li>
-                                <li><a href="contact.html">contact</a></li>
+                                <li><a href="<?php echo HOST_ROOT ?>/about">about</a></li>
+                                <li><a href="<?php echo HOST_ROOT ?>/purchase_order">purchase order</a></li>
+                                <li><a href="<?php echo HOST_ROOT ?>/contact">contact</a></li>
                             </ul>
                             <ul class="navbar_user">
                                 <li><a><i class="fa fa-search search-switch" aria-hidden="true"></i></a></li>

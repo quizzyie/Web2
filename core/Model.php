@@ -107,5 +107,8 @@ abstract class Model extends Database
     public function insertIdModel(){
         return $this->db->insertId();
     }
-    
+    public function getFooter(){
+        $sql = "SELECT opt_value FROM options WHERE opt_key = 'general_footer'";
+        return $this->getFirstRaw($sql);
+    }
 }

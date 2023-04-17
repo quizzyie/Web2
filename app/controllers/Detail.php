@@ -8,6 +8,8 @@ class Detail extends Controller
     {
         $this->__model = $this->model("DetailModel");
         $this->__request = new Request();
+        
+        $this->data["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"],true) ;
         if(isLogin()){
             $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
         } 
@@ -26,7 +28,10 @@ class Detail extends Controller
             }
         }
         
-        $sql = "select * from sizes inner join products_size on id = id_size where id_product = ".$idsp;
+        $sql = "SELECT sizes.name as name,sizes.id as id,products_size.quantity as quantity  FROM `products`
+         INNER JOIN products_size on products_size.id_product = products.id
+          INNER JOIN sizes on sizes.id = products_size.id_size
+           where products.id = ".$idsp;
         if(!empty($this->__model->getRawModel($sql))){
             $this->data['sub_data']['dsSizes'] = $this->__model->getRawModel($sql);
             $this->data['sub_data']['sp'] = $this->showDetail($idsp);
