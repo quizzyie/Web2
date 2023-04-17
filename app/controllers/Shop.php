@@ -21,6 +21,8 @@ class Shop extends Controller
         $this->data['sub_data']['dsCategories'] = $this->__model->getRawModel("select * from categories");
         $this->data['sub_data']['dsBrands'] = $this->__model->getRawModel("select * from brands");
         $this->data['sub_data']['dsSizes'] = $this->__model->getRawModel("select * from sizes");
+        
+        $this->data["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"],true) ;
         if(isLogin()){
             $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
         }        

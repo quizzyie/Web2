@@ -149,6 +149,7 @@ function filter(vtt) {
   if (typeof vtt === "object") {
     vtt = "0";
   }
+
   const currentUrl = HOST_ROOT;
   const relativeUrl = "/shop/filter";
   const fullUrl = currentUrl + relativeUrl;

@@ -30,7 +30,7 @@ function giaoDienHoaDon(dshd) {
 
     <td>
     ${huyDHButton}
-        <a href="#">Detail</a>
+        <a href="purchase_Order_Detail?idhd=${dh.idDH}">Detail</a>
         <input class="idDH" type="hidden" value="${dh.idDH}">
     </td>
 </tr>`;

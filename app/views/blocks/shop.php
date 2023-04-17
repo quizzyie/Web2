@@ -120,7 +120,7 @@
 
                             <div class="shop__product__option__right">
                                 <p>Sort by Price:</p>
-                                <select id="sort" onchange="filter()">
+                                <select id="sort" onchange="filter(0)">
                                     <option value="1">Low To High</option>
                                     <option value="2">High To Low</option>
                                 </select>
@@ -137,28 +137,24 @@
 
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
-                        <a href="detail?idsp=<?php echo $sp['id'] ?>"
-                                    data-product-id="<?php echo $sp['id'] ?>">
-                            <div class="product__item__pic set-bg" data-setbg="<?php echo $linkImage ?>"
-                                style="background-image: url('<?php echo $linkImage ?>');">
-                                <?php if($sp["type"]!="normal"){  ?>
-                                <span class="label"><?php echo $sp["type"]  ?></span>
+                            <a href="detail?idsp=<?php echo $sp['id'] ?>" data-product-id="<?php echo $sp['id'] ?>">
+                                <div class="product__item__pic set-bg" data-setbg="<?php echo $linkImage ?>"
+                                    style="background-image: url('<?php echo $linkImage ?>');">
+                                    <?php if($sp["type"]!="normal"){  ?>
+                                    <span class="label"><?php echo $sp["type"]  ?></span>
 
-                                <?php }  ?>
-                                <ul class="product__hover">
-                                    <li><img
-                                                src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/heart.png"
+                                    <?php }  ?>
+                                    <ul class="product__hover">
+                                        <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/heart.png"
                                                 alt=""></li>
-                                    <li><img
-                                                src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/compare.png"
+                                        <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/compare.png"
                                                 alt=""> <span>Compare</span>
-                                    </li>
-                                    <li><img
-                                                src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/search.png"
+                                        </li>
+                                        <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/search.png"
                                                 alt=""></li>
-                                </ul>
+                                    </ul>
 
-                            </div>
+                                </div>
                             </a>
                             <div class="product__item__text">
                                 <h6><?php echo $sp['name'] ?></h6>

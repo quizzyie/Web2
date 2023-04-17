@@ -18,7 +18,10 @@ class PurchaseOrderDetailModel extends Model{
         return "*";
     }
     function getCTHD($idHD){
-        $sql = "SELECT * FROM `bill_detail` WHERE bill_id = $idHD";
+        $sql = "SELECT  products.id as idSp,products.name as tenSP,sizes.name as tenSize,
+                bill_detail.total as total,products.img as img, bill_detail.quantity as quantity FROM `bill_detail` 
+                INNER JOIN products on bill_detail.product_id = products.id INNER JOIN sizes on size_id = sizes.id 
+                WHERE bill_id = $idHD";
         $dsCtdh = $this->getRawModel($sql);
         return $dsCtdh;
     }
