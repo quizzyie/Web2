@@ -112,7 +112,7 @@
                     <div class="col-md-6">
                         <div class="top_nav_left"><?php
                         $msgAlert = Session::getFlashData('msg');
-                        echo !empty($msgAlert) ? $msgAlert : "free shipping on all u.s orders over $50";
+                        echo !empty($msgAlert) ? $msgAlert : $delivery["opt_value"];
                         ?></div>
                     </div>
                     <div class="col-md-6 text-right">
@@ -257,12 +257,12 @@
                     ?>
                 </li>
 
-                <li class="menu_item"><a href="#">home</a></li>
-                <li class="menu_item"><a href="#">shop</a></li>
-                <li class="menu_item"><a href="#">promotion</a></li>
-                <li class="menu_item"><a href="#">pages</a></li>
-                <li class="menu_item"><a href="#">blog</a></li>
-                <li class="menu_item"><a href="#">contact</a></li>
+                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/">home</a></li>
+                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/shop">shop</a></li>
+                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/purchase_order">purchase order</a></li>
+                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/">pages</a></li>
+                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/blog">blog</a></li>
+                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/contact">contact</a></li>
             </ul>
         </div>
     </div>

@@ -144,15 +144,6 @@
                                     <span class="label"><?php echo $sp["type"]  ?></span>
 
                                     <?php }  ?>
-                                    <ul class="product__hover">
-                                        <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/heart.png"
-                                                alt=""></li>
-                                        <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/compare.png"
-                                                alt=""> <span>Compare</span>
-                                        </li>
-                                        <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/search.png"
-                                                alt=""></li>
-                                    </ul>
 
                                 </div>
                             </a>

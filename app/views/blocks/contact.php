@@ -1,8 +1,9 @@
 <!-- Map Begin -->
 <div class="map">
     <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d111551.9926412813!2d-90.27317134641879!3d38.606612219170856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54eab584e432360b%3A0x1c3bb99243deb742!2sUnited%20States!5e0!3m2!1sen!2sbd!4v1597926938024!5m2!1sen!2sbd"
-        height="500" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.6696584619303!2d106.67968337444285!3d10.759922359499164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1b7c3ed289%3A0xa06651894598e488!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBTw6BpIEfDsm4!5e0!3m2!1svi!2s!4v1681718127387!5m2!1svi!2s"
+        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
 </div>
 <!-- Map End -->
 
@@ -20,12 +21,8 @@
                     </div>
                     <ul>
                         <li>
-                            <h4>America</h4>
-                            <p>195 E Parker Square Dr, Parker, CO 801 <br />+43 982-314-0958</p>
-                        </li>
-                        <li>
-                            <h4>France</h4>
-                            <p>109 Avenue Léon, 63 Clermont-Ferrand <br />+12 345-423-9893</p>
+                            <h4>Viet Nam</h4>
+                            <p><?php echo $address["opt_value"] ?><br /><?php echo $hotline["opt_value"] ?></p>
                         </li>
                     </ul>
                 </div>

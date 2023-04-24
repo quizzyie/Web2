@@ -10,7 +10,10 @@ class Contact extends Controller
         $this->__model = $this->model("admin/ContactsModel");
         
         $this->__request = new Request();
-        
+        $this->data["sub_data"]["hotline"] = $this->__model->getHotline();
+        $this->data["sub_data"]["address"] = $this->__model->getAddress();
+        $this->data["sub_data"]["delivery"] = $this->__model->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_delivery'");
+
         $this->data["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"],true) ;
         if(isLogin()){
             $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
