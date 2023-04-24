@@ -252,7 +252,12 @@ function addToCart(idsp) {
   });
   console.log(selectedSize);
   if (selectedSize == 0) {
-    alert("Can chon size truoc khi dat hang");
+    Swal.fire({
+      position: "top",
+      icon: "error",
+      title: "CẦN CHỌN SIZE TRƯỚC KHI ĐẶT HÀNG",
+      showConfirmButton: true,
+    });
   } else {
     // Get the selected quantity
     let selectedQuantity =
@@ -279,12 +284,22 @@ function addToCart(idsp) {
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          alert(data.error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: data.error,
+          });
         } else if (data.login) {
           onLogin();
         } else {
           document.getElementById("checkout_items").innerHTML = data.soSpTGh;
-          Swal.fire("ADD TO CART!", "ADD TO CART SUCCESS!", "success");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "THÊM SẢN PHẨM THÀNH CÔNG",
+            showConfirmButton: false,
+            timer: 1000,
+          });
         }
       })
       .catch((error) => {

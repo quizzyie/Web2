@@ -12,10 +12,23 @@
                 <div class="shop__sidebar">
                     <div class="shop__sidebar__search">
 
-                        <form>
-                            <input id="search" type="text" placeholder="Search...">
-                            <button onclick="filter(event)" type="button"><span class="icon_search"></span></button>
-                        </form>
+                        <div style="position:relative;">
+                            <input id="search" type="text" placeholder="Search..." style="width: 100%;
+    font-size: 15px;
+    color: #b7b7b7;
+    padding-left: 20px;
+    border: 1px solid #e5e5e5;
+    height: 42px;">
+                            <button onclick="filter(event)" type="button" style="color: #b7b7b7;
+    font-size: 15px;
+    border: none;
+    background: transparent;
+    position: absolute;
+    right: 0;
+    padding: 0 15px;
+    top: 0;
+    height: 100%;"><span class="icon_search"></span></button>
+                        </div>
 
                     </div>
                     <div class="shop__sidebar__accordion">
@@ -30,8 +43,9 @@
 
                                             <?php foreach($dsCategories as $l): ?>
 
-                                            <input type="checkbox" name="categories" value="<?php echo $l['id'] ?>">
-                                            <label><?php echo $l['name'] ?></label>
+                                            <input id="loai<?php echo $l['id'] ?>" type="checkbox" name="categories"
+                                                value="<?php echo $l['id'] ?>">
+                                            <label for="loai<?php echo $l['id'] ?>"><?php echo $l['name'] ?></label>
                                             <br>
                                             <?php endforeach ?>
 
@@ -47,8 +61,9 @@
                                     <div class="card-body">
                                         <div id="BrandList" class="shop__sidebar__brand">
                                             <?php foreach($dsBrands as $th): ?>
-                                            <input type="checkbox" name="brands" value="<?php echo $th['id'] ?>">
-                                            <label><?php echo $th['name'] ?></label>
+                                            <input id="brand<?php  echo $th['id'] ?>" type="checkbox" name="brands"
+                                                value="<?php echo $th['id'] ?>">
+                                            <label for="brand<?php echo $th['id'] ?>"><?php echo $th['name'] ?></label>
                                             <br>
                                             <?php endforeach ?>
                                         </div>
@@ -130,6 +145,7 @@
                 </div>
                 <div id="dsProducts" class="row">
                     <?php 
+                    
                         $i = 0;
                         foreach($dsProducts as $sp): 
                         $linkImage = HOST_ROOT .'/uploads/'.$sp['img'];
@@ -175,8 +191,7 @@
                         </div>
                     </div>
 
-                    <?php endforeach?>
-
+                    <?php endforeach ?>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
