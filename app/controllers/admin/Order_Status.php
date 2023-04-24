@@ -12,7 +12,7 @@ class Order_Status extends Controller
 
     public function index()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -21,7 +21,7 @@ class Order_Status extends Controller
             App::$app->loadError('permission');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             $data['title'] = "Danh sách trạng thái đơn hàng";
             $data['content'] = 'admin/order_status/list';
 
@@ -33,7 +33,7 @@ class Order_Status extends Controller
 
     public function add()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -42,7 +42,7 @@ class Order_Status extends Controller
             App::$app->loadError('permission');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             $data['title'] = "Thêm trạng thái";
             $data['content'] = 'admin/order_status/add';
 
@@ -100,7 +100,7 @@ class Order_Status extends Controller
 
     public function update($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -116,7 +116,7 @@ class Order_Status extends Controller
             Response::redirect('admin/order_status/');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại trạng thái!');
                 Response::redirect('admin/order_status/');
@@ -184,7 +184,7 @@ class Order_Status extends Controller
 
     // public function delete($id = "")
     // {
-    //     if (isLogin()) {
+    //     if (isLoginAdmin()) {
     //         if (!empty($id)) {
     //             if (empty($this->__model->getFirstData("id = $id"))) {
     //                 Session::setFlashData('msg', 'Không tồn tại trạng thái!');

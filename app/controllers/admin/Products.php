@@ -12,7 +12,7 @@ class Products extends Controller
 
     public function index()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -31,7 +31,7 @@ class Products extends Controller
 
     public function add()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -188,7 +188,7 @@ class Products extends Controller
 
     public function update($id = '')
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -377,7 +377,7 @@ class Products extends Controller
 
     // public function delete($id = "")
     // {
-    //     if (isLogin()) {
+    //     if (isLoginAdmin()) {
     //         if (!empty($id)) {
     //             if (empty($this->__model->getFirstData("id = $id"))) {
     //                 Session::setFlashData('msg', 'Không tồn tại sản phẩm!');
@@ -405,7 +405,7 @@ class Products extends Controller
 
     public function detail($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -416,7 +416,7 @@ class Products extends Controller
         }
 
 
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (!empty($id)) {
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại sản phẩm!');
@@ -467,7 +467,7 @@ class Products extends Controller
 
     public function change_status($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }

@@ -12,7 +12,7 @@ class Sizes extends Controller
 
     public function index()
     {
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             $data['title'] = "Danh sách size";
             $data['content'] = 'admin/sizes/list';
 
@@ -24,7 +24,7 @@ class Sizes extends Controller
 
     public function add()
     {
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             $data['title'] = "Thêm size";
             $data['content'] = 'admin/sizes/add';
 
@@ -88,7 +88,7 @@ class Sizes extends Controller
             Response::redirect('admin/sizes/');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại size!');
                 Response::redirect('admin/sizes/');
@@ -156,7 +156,7 @@ class Sizes extends Controller
 
     // public function delete($id = "")
     // {
-    //     if (isLogin()) {
+    //     if (isLoginAdmin()) {
     //         if (!empty($id)) {
     //             if (empty($this->__model->getFirstData("id = $id"))) {
     //                 Session::setFlashData('msg', 'Không tồn tại size!');

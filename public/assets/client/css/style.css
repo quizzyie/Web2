@@ -1163,7 +1163,20 @@ ol {
 .product__item__text h5 {
   color: #0d0d0d;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 22px;
+}
+.product__item__text .price
+{
+  display: flex;
+  align-items: baseline;
+}
+
+.product__item__text .del-product {
+  margin-right: 10px;
+    font-size: 1.1rem;
+    text-decoration: line-through;
+    color: #929292;
+    margin-right: 10px;
 }
 
 .product__item__text .product__color__select {

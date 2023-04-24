@@ -14,7 +14,7 @@ class Groups extends Controller
 
     public function index()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -32,7 +32,7 @@ class Groups extends Controller
 
     public function add()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -91,7 +91,7 @@ class Groups extends Controller
 
     public function update($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -166,7 +166,7 @@ class Groups extends Controller
 
     public function delete($id = '')
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -197,7 +197,7 @@ class Groups extends Controller
 
     public function permission($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }

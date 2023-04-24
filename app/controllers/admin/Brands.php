@@ -12,7 +12,7 @@ class Brands extends Controller
 
     public function index()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -29,7 +29,7 @@ class Brands extends Controller
 
     public function add()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -38,7 +38,7 @@ class Brands extends Controller
             App::$app->loadError('permission');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             $data['title'] = "Thêm thương hiệu";
             $data['content'] = 'admin/brands/add';
 
@@ -96,7 +96,7 @@ class Brands extends Controller
 
     public function update($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -112,7 +112,7 @@ class Brands extends Controller
             Response::redirect('admin/brands/');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại thương hiệu!');
                 Response::redirect('admin/brands/');
@@ -180,7 +180,7 @@ class Brands extends Controller
 
     public function delete($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -189,7 +189,7 @@ class Brands extends Controller
             App::$app->loadError('permission');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (!empty($id)) {
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại thương hiệu!');

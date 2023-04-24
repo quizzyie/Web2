@@ -33,7 +33,7 @@ function sendMail($to, $subject, $content)
         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
         $mail->Username   = 'tienhai4888@gmail.com';                     //SMTP username
-        $mail->Password   = 'uybdaajoicwegzuk';                               //SMTP password
+        $mail->Password   = 'mnaefdylzkmrmgjl';                               //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -232,6 +232,24 @@ function isLogin(){
             $checkLogin = $queryToken;
         }else{
             Session::removeSession('login_token');
+        }
+    }
+
+    return $checkLogin;
+}
+
+function isLoginAdmin(){
+    $checkLogin = false;
+    if (Session::getSession('login_token')){
+        $tokenLogin = Session::getSession('login_token');
+
+        $db = new Database();
+        $queryToken = $db->firstRaw("SELECT user_id FROM login_token,users WHERE
+        users.id = login_token.user_id and users.type = 'member' and login_token.token='$tokenLogin'");
+
+        if (!empty($queryToken)){
+            //$checkLogin = true;
+            $checkLogin = $queryToken;
         }
     }
 

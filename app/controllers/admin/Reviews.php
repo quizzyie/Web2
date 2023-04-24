@@ -12,7 +12,7 @@ class Reviews extends Controller
 
     public function index()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -21,7 +21,7 @@ class Reviews extends Controller
             App::$app->loadError('permission');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             $data['sub_data']['products'] = $this->__model->getRawModel("select * from products order by name asc");
             $data['title'] = "Danh sách đánh giá";
             $data['content'] = 'admin/reviews/list';
@@ -34,7 +34,7 @@ class Reviews extends Controller
 
     public function update($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -50,7 +50,7 @@ class Reviews extends Controller
             Response::redirect('admin/reviews/');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại đánh giá!');
                 Response::redirect('admin/reviews/');
@@ -116,7 +116,7 @@ class Reviews extends Controller
 
     public function delete($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -132,7 +132,7 @@ class Reviews extends Controller
             Response::redirect('admin/reviews/');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (!empty($id)) {
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại đánh giá!');
@@ -158,7 +158,7 @@ class Reviews extends Controller
 
     public function change_status($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
