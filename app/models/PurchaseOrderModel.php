@@ -47,6 +47,16 @@ class PurchaseOrderModel extends Model
             ];
             $result = $this->updateData($dataUpdate,"bill.id = $idHD and bill.user_id = $idUser");
             if($result){
+                
+                $sql = "SELECT bill_detail.product_id as idSp,bill_detail.size_id as idSize, bill_detail.quantity as slg FROM `bill_detail` WHERE bill_detail.bill_id = $idHD";
+                $dsdh = $this->getRawModel($sql);
+                foreach($dsdh as $hd){
+                    $slg  = $hd["slg"];
+                    $idSp = $hd["idSp"];
+                    $idSize = $hd["idSize"];
+                    $sql = "UPDATE `products_size` SET `quantity`=(products_size.quantity + $slg) WHERE id_product = $idSp and id_size = $idSize ";
+                    $this->getFirstRaw($sql);   
+                }
                 return true;
             }
             return false;

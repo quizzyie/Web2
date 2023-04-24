@@ -201,9 +201,9 @@ function filter(vtt) {
         }
       }
       let showSlg = document.getElementById("showslg");
-      showSlg.innerHTML = `<p id="showslg">Showing ${vtt + 1} – ${trang} of ${
-        data.tongsp
-      } results</p>`;
+      showSlg.innerHTML = `<p id="showslg">Showing ${
+        Number(vtt) + 1
+      } – ${trang} of ${data.tongsp} results</p>`;
       // console.log(data);
       // console.log(htmlTrang);
       console.log(data.dsStar[1]);

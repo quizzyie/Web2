@@ -14,6 +14,12 @@ class index extends Controller
         $this->data["sub_data"]["dsNewArrival"] = $this->__model->newArrivals();
         $this->data["sub_data"]['dsBSale'] = $this->__model->bestSales();
         $this->data["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"],true) ;
+        $this->data["sub_data"]["advertises"] = $this->__model->getAdvertise();
+        $this->data["sub_data"]["delivery"] = $this->__model->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_delivery'");
+        $this->data["sub_data"]["facebook"] = $this->__model->getFacebook();
+        $this->data["sub_data"]["twitter"] = $this->__model->getTwitter();
+        $this->data["sub_data"]["instagram"] = $this->__model->getInstagram();
+        $this->data["sub_data"]["youtube"] = $this->__model->getYoutube();
         if(isLogin()){
             $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
         }
