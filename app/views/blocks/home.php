@@ -55,6 +55,7 @@
               <?php  } ?>
 
               <div class="product__item">
+                <a href="detail?idsp=<?php echo $sp['id'] ?>" data-product-id="<?php echo $sp['id'] ?>">
                   <div class="product__item__pic set-bg"
                       data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"]  ?>">
  <?php if($sp["type"]!="normal"){  ?>
@@ -62,6 +63,7 @@
 
                       <?php }  ?>
                   </div>
+                   </a>
                   <div class="product__item__text">
                       <h6><?php echo $sp["name"]  ?></h6>
                       <a href="detail?idsp=<?php echo $sp['id'] ?>" data-product-id="<?php echo $sp['id'] ?>">+ SEE
