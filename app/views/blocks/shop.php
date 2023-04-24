@@ -28,7 +28,7 @@
                                     <div class="card-body">
                                         <div id="CategoryList" class="shop__sidebar__categories">
 
-                                            <?php foreach($dsCategories as $l): ?>
+                                            <?php foreach ($dsCategories as $l) : ?>
 
                                             <input type="checkbox" name="categories" value="<?php echo $l['id'] ?>">
                                             <label><?php echo $l['name'] ?></label>
@@ -46,7 +46,7 @@
                                 <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="BrandList" class="shop__sidebar__brand">
-                                            <?php foreach($dsBrands as $th): ?>
+                                            <?php foreach ($dsBrands as $th) : ?>
                                             <input type="checkbox" name="brands" value="<?php echo $th['id'] ?>">
                                             <label><?php echo $th['name'] ?></label>
                                             <br>
@@ -92,7 +92,7 @@
                                 <div id="collapseFour" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="SizeList" class="shop__sidebar__size">
-                                            <?php foreach($dsSizes as $s): ?>
+                                            <?php foreach ($dsSizes as $s) : ?>
                                             <label class="lblSize"><?php echo $s['name'] ?>
                                                 <input type="checkbox" name="sizes" value="<?php echo $s['id'] ?>">
                                             </label>
@@ -129,10 +129,10 @@
                     </div>
                 </div>
                 <div id="dsProducts" class="row">
-                    <?php 
-                        $i = 0;
-                        foreach($dsProducts as $sp): 
-                        $linkImage = HOST_ROOT .'/uploads/'.$sp['img'];
+                    <?php
+                    $i = 0;
+                    foreach ($dsProducts as $sp) :
+                        $linkImage = HOST_ROOT . '/uploads/' . $sp['img'];
                     ?>
 
                     <div class="col-lg-4 col-md-6 col-sm-6">
@@ -140,19 +140,10 @@
                             <a href="detail?idsp=<?php echo $sp['id'] ?>" data-product-id="<?php echo $sp['id'] ?>">
                                 <div class="product__item__pic set-bg" data-setbg="<?php echo $linkImage ?>"
                                     style="background-image: url('<?php echo $linkImage ?>');">
-                                    <?php if($sp["type"]!="normal"){  ?>
+                                    <?php if ($sp["type"] != "normal") {  ?>
                                     <span class="label"><?php echo $sp["type"]  ?></span>
 
                                     <?php }  ?>
-                                    <ul class="product__hover">
-                                        <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/heart.png"
-                                                alt=""></li>
-                                        <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/compare.png"
-                                                alt=""> <span>Compare</span>
-                                        </li>
-                                        <li><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/search.png"
-                                                alt=""></li>
-                                    </ul>
 
                                 </div>
                             </a>
@@ -161,45 +152,47 @@
                                 <a href="detail?idsp=<?php echo $sp['id'] ?>"
                                     data-product-id="<?php echo $sp['id'] ?>">+ SEE DETAIL</a>
                                 <div class="rating">
-                                    <?php  for($j=1;$j<=5;$j++){ ?>
-                                    <?php if($j<=$dsStar[$i]){ ?>
+                                    <?php for ($j = 1; $j <= 5; $j++) { ?>
+                                    <?php if ($j <= $dsStar[$i]) { ?>
                                     <i class="fa fa-star" aria-hidden="true"></i>
-                                    <?php } else{?>
+                                    <?php } else { ?>
                                     <i class="fa fa-star-o"></i>
                                     <?php } ?>
                                     <?php }  ?>
                                     <?php $i++ ?>
 
                                 </div>
-                                <?php if($sp['sale']<$sp['price']){  ?>
-                                <del><?php echo $sp['price'] ?></del>
+                                <div class="product-price">
+                                    <?php if ($sp['sale'] < $sp['price']) {  ?>
+                                    <del class="del-product"><?php echo $sp['price'] ?></del>
 
-                                <span>
-                                    <h5> <?php echo $sp['sale'] ?></h5>
-                                </span>
-                                <?php }else{   ?>
-                                <h5>$<?php echo $sp['sale'] ?></h5>
-                                <?php } ?>
+                                    <span>
+                                        <h5> <?php echo $sp['sale'] ?></h5>
+                                    </span>
+                                    <?php } else {   ?>
+                                    <h5>$<?php echo $sp['sale'] ?></h5>
+                                    <?php } ?>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <?php endforeach?>
+                    <?php endforeach ?>
 
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="soTrang" class="product__pagination">
-                            <?php for($i=1;$i<=$soTrang;$i++):
-                                $vt = $i-1;?>
-                            <?php if($vt==0):?>
+                            <?php for ($i = 1; $i <= $soTrang; $i++) :
+                                $vt = $i - 1; ?>
+                            <?php if ($vt == 0) : ?>
                             <a onclick="filter( <?php echo $vt ?>)" class="active">
                                 <?php echo $i ?> </a>
                             <?php endif ?>
-                            <?php if($vt!=0):?>
+                            <?php if ($vt != 0) : ?>
                             <a onclick="filter(<?php echo $vt ?>)"> <?php echo $i ?>
                             </a>
-                            <?php endif?>
+                            <?php endif ?>
                             <?php endfor ?>
                         </div>
                     </div>

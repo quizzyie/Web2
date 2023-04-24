@@ -118,14 +118,7 @@
               <div class="product__item">
                   <div class="product__item__pic set-bg"
                       data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"]  ?>">
-                      <ul class="product__hover">
-                          <li><a href="#"><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/heart.png"
-                                      alt=""></a></li>
-                          <li><a href="#"><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/compare.png"
-                                      alt=""> <span>Compare</span></a></li>
-                          <li><a href="#"><img src="<?php echo HOST_ROOT ?>/public/assets/client/img/icon/search.png"
-                                      alt=""></a></li>
-                      </ul>
+
                   </div>
                   <div class="product__item__text">
                       <h6><?php echo $sp["name"]  ?></h6>
@@ -142,7 +135,7 @@
                       <h5>$<?php echo $sp["price"]  ?></h5>
                       <?php   }else{ ?>
                       <div style="display: flex;">
-                          <del>$<?php echo $sp["price"]  ?></del>
+                          <del class="del-product">$<?php echo $sp["price"]  ?></del>
                           <h5>$<?php echo $sp["sale"]  ?></h5>
                       </div>
 

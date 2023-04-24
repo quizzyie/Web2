@@ -12,7 +12,7 @@ class Options extends Controller
 
     public function index()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -43,7 +43,7 @@ class Options extends Controller
 
     public function footer()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -71,7 +71,7 @@ class Options extends Controller
     }
 
     public function partner(){
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -99,7 +99,7 @@ class Options extends Controller
     }
 
     public function our_team(){
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
