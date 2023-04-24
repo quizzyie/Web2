@@ -16,6 +16,31 @@ class HomeModel extends Model {
         return "*";
     }
     
+    public function getAdvertise(){
+        $sql = "SELECT * FROM `advertise` WHERE 1";
+        return $this->getRawModel($sql);
+    }
+    
+    public function getGeneralDelivery(){
+        return $this->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_delivery'");
+    }
+    
+    public function getFacebook(){
+        return $this->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_facebook'");
+    }
+    
+    public function getTwitter(){
+        return $this->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_twitter'");
+    }
+    
+    public function getYoutube(){
+        return $this->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_youtube'");
+    }
+    
+    public function getInstagram(){
+        return $this->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_instagram'");
+    }
+    
     public function bestSeller(){
         $sql = "SELECT products.*,SUM(bill_detail.quantity) as slm 
         FROM `bill_detail` 

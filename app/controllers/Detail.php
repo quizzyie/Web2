@@ -8,7 +8,8 @@ class Detail extends Controller
     {
         $this->__model = $this->model("DetailModel");
         $this->__request = new Request();
-        
+        $this->data["sub_data"]["delivery"] = $this->__model->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_delivery'");
+
         $this->data["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"],true) ;
         if(isLogin()){
             $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
@@ -77,7 +78,7 @@ class Detail extends Controller
         return $dsImg;
     }
     public function sanPhamLienQuan($idsp,$idLoai,$idThuongHieu){
-        $sql = "SELECT * FROM `products` WHERE ( id_category = $idLoai OR id_brand = $idThuongHieu) and id != $idsp  group BY id";
+        $sql = "SELECT * FROM `products` WHERE ( id_category = $idLoai OR id_brand = $idThuongHieu) and id != $idsp  group BY id limit 0,4";
         $dssp = $this->__model->getRawModel($sql);
         return $dssp;
     }
