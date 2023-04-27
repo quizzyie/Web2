@@ -28,11 +28,15 @@ class Detail extends Controller
                 Response::redirect(HOST_ROOT.'/shop');
             }
         }
+        if (!is_numeric($idsp)) {
+        //     $this->data['sub_data']['error'] ="ID SẢN PHẨM KHÔNG THỂ LÀ CHUỖI";
+            Response::redirect(HOST_ROOT.'/shop');
+        }
         
         $sql = "SELECT sizes.name as name,sizes.id as id,products_size.quantity as quantity  FROM `products`
-         INNER JOIN products_size on products_size.id_product = products.id
-          INNER JOIN sizes on sizes.id = products_size.id_size
-           where products.id = ".$idsp;
+        INNER JOIN products_size on products_size.id_product = products.id
+        INNER JOIN sizes on sizes.id = products_size.id_size
+        where products.id = ".$idsp;
         if(!empty($this->__model->getRawModel($sql))){
             $this->data['sub_data']['dsSizes'] = $this->__model->getRawModel($sql);
             $this->data['sub_data']['sp'] = $this->showDetail($idsp);
@@ -55,6 +59,9 @@ class Detail extends Controller
         }
         
         
+        
+        
+        
         // echo "<pre>";
         // print_r($this->data["sub_data"]["soSao"]);
         // echo "</pre>";
@@ -68,7 +75,10 @@ class Detail extends Controller
         if (!is_numeric($idsp)) {
             die('Invalid parameter');
         }
-        $ctsp = $this->__model->getFirstRaw("select * from products where products.id = ".$idsp); 
+        else{
+            $ctsp = $this->__model->getFirstRaw("select * from products where products.id = ".$idsp); 
+        }
+        
         
         return $ctsp;
     }

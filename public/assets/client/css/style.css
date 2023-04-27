@@ -3851,10 +3851,11 @@ a:not([href]):not([tabindex]):hover {
   }
   .hero__slider.owl-carousel .owl-nav button {
     left: 15px;
-    top: 80%;
+    top: 300px;
   }
   .hero__slider.owl-carousel .owl-nav button.owl-next {
-    left: 75px;
+    /* left: 75px; */
+    top: 300px;
     right: 0;
   }
   .banner__item.banner__item--middle {
