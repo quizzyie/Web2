@@ -13,7 +13,7 @@ class Auth extends Controller{
     }
 
     public function login(){
-        if(isLogin()){
+        if(isLoginAdmin()){
             Response::redirect('admin/dashboard');
         }else{
             $data['content'] = 'admin/auth/login';
@@ -103,7 +103,7 @@ class Auth extends Controller{
     }
 
     public  function logout(){
-        if(isLogin()){
+        if(isLoginAdmin()){
             $token = Session::getSession('login_token');
             Session::removeSession('login_token');
             $this->__model->deleteTableData('login_token',"token = '$token'");
@@ -112,7 +112,7 @@ class Auth extends Controller{
     }
 
     public function forgot(){
-        if(isLogin()){
+        if(isLoginAdmin()){
             Response::redirect('admin/dashboard');
         }else{
             $data['content'] = 'admin/auth/forgot';

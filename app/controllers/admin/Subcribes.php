@@ -12,7 +12,7 @@ class Subcribes extends Controller
 
     public function index()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -21,7 +21,7 @@ class Subcribes extends Controller
             App::$app->loadError('permission');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             $data['title'] = "Danh sách theo dõi";
             $data['content'] = 'admin/subcribes/list';
 
@@ -33,7 +33,7 @@ class Subcribes extends Controller
 
     public function update($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -49,7 +49,7 @@ class Subcribes extends Controller
             Response::redirect('admin/subcribes/');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại theo dõi!');
                 Response::redirect('admin/subcribes/');
@@ -115,7 +115,7 @@ class Subcribes extends Controller
 
     public function delete($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -124,7 +124,7 @@ class Subcribes extends Controller
             App::$app->loadError('permission');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (!empty($id)) {
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại theo dõi!');

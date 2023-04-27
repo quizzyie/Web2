@@ -9,7 +9,7 @@ class Categories extends Controller {
     }
 
     public function index(){
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -25,7 +25,7 @@ class Categories extends Controller {
     }
 
     public function add(){
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -86,7 +86,7 @@ class Categories extends Controller {
     }
 
     public function update($id = ""){
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -164,7 +164,7 @@ class Categories extends Controller {
     }
 
     public function delete($id = ""){
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }

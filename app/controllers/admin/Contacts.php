@@ -12,7 +12,7 @@ class Contacts extends Controller
 
     public function index()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -21,7 +21,7 @@ class Contacts extends Controller
             App::$app->loadError('permission');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             $data['title'] = "Danh sách liên hệ";
             $data['content'] = 'admin/contacts/list';
 
@@ -34,7 +34,7 @@ class Contacts extends Controller
     public function update($id = "")
     {
         
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -50,7 +50,7 @@ class Contacts extends Controller
             Response::redirect('admin/contacts/');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại liên hệ!');
                 Response::redirect('admin/contacts/');
@@ -116,7 +116,7 @@ class Contacts extends Controller
 
     public function delete($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -125,7 +125,7 @@ class Contacts extends Controller
             App::$app->loadError('permission');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (!empty($id)) {
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại liên hệ!');

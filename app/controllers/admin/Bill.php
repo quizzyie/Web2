@@ -12,7 +12,7 @@ class Bill extends Controller
 
     public function index()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -21,7 +21,7 @@ class Bill extends Controller
             App::$app->loadError('permission');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             $data['sub_data']['order_status'] = $this->__model->getRawModel("select * from order_status");
             $data['title'] = "Danh sách hóa đơn";
             $data['content'] = 'admin/bill/list';
@@ -34,7 +34,7 @@ class Bill extends Controller
 
     public function update($id="")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -50,7 +50,7 @@ class Bill extends Controller
             Response::redirect('admin/bill/');
             return;
         }
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại trạng thái!');
                 Response::redirect('admin/bill/');
@@ -144,7 +144,7 @@ class Bill extends Controller
 
     public function detail($id = "")
     {
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             if (!empty($id)) {
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại đơn hàng!');

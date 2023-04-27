@@ -12,7 +12,7 @@ class Users extends Controller
 
     public function index()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -31,7 +31,7 @@ class Users extends Controller
 
     public function add()
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -118,7 +118,7 @@ class Users extends Controller
 
     public function update($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -233,7 +233,7 @@ class Users extends Controller
 
     public function delete($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -269,7 +269,7 @@ class Users extends Controller
 
     public function change_status($id = "")
     {
-        if (!isLogin()) {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
             return;
         }
@@ -305,7 +305,7 @@ class Users extends Controller
 
     public function change_password()
     {
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             $data['title'] = "Thay đổi mật khẩu";
             $data['content'] = 'admin/users/change_password';
             $this->renderView('admin/layouts/admin_layout', $data);
@@ -318,7 +318,7 @@ class Users extends Controller
     {
         if ($this->__request->isPost()) {
             $data = $this->__request->getFields();
-            $data['id'] = isLogin()['user_id'];
+            $data['id'] = isLoginAdmin()['user_id'];
 
             $this->__request->rules([
                 'new_password' => 'required|min:6|max:30',
@@ -358,7 +358,7 @@ class Users extends Controller
                     'password' => password_hash($data['new_password'], PASSWORD_DEFAULT),
                     'update_at' => date('Y-m-d H:i:s')
                 ];
-                $status = $this->__model->updateData($dataUpdate, "id = " . isLogin()['user_id']);
+                $status = $this->__model->updateData($dataUpdate, "id = " . isLoginAdmin()['user_id']);
                 if ($status) {
                     Session::setFlashData('msg', 'Thay đổi mật khẩu thành công!');
                     Session::setFlashData('msg_type', 'success');
@@ -377,11 +377,11 @@ class Users extends Controller
 
     public function user_info()
     {
-        if (isLogin()) {
+        if (isLoginAdmin()) {
             $data['title'] = "Thông tin cá nhân";
             $data['content'] = 'admin/users/user_info';
             $data['sub_data']['group_list'] = $this->__model->getRawModel("select * from groups");
-            $data['sub_data']['dataForm'] = $this->__model->getFirstRaw("select * from users where id = " . isLogin()['user_id']);
+            $data['sub_data']['dataForm'] = $this->__model->getFirstRaw("select * from users where id = " . isLoginAdmin()['user_id']);
             $this->renderView('admin/layouts/admin_layout', $data);
         } else {
             Response::redirect('admin/auth/login');
@@ -392,7 +392,7 @@ class Users extends Controller
     {
         if ($this->__request->isPost()) {
             $data = $this->__request->getFields();
-            $data['id'] = isLogin()['user_id'];
+            $data['id'] = isLoginAdmin()['user_id'];
 
             $this->__request->rules([
                 'fullname' => 'required|min:5|max:30',
@@ -527,7 +527,7 @@ class Users extends Controller
                 $data .= "<td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>";
             }
 
-            if (isLogin()['user_id'] != $id and isPermission('users', 'delete') and $this->__model->getRowsModel("select * from bill where user_id = $id") == 0) {
+            if (isLoginAdmin()['user_id'] != $id and isPermission('users', 'delete') and $this->__model->getRowsModel("select * from bill where user_id = $id") == 0) {
                 $data .= "<td><a href='$linkDelete' onclick=\"return confirm('Bạn có thật sự muốn xóa!') \" class=\"btn btn-danger
                 btn-sm\"><i class=\"fa fa-trash\"></i>
                 Xóa</a></td>";
