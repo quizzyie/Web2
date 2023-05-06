@@ -650,6 +650,80 @@ if (ourteamGroup) {
   handleBtnDelete(ourteamGroup, "delete-ourteam", "ourteam");
 }
 
+let advertiseItem = `<div class="advertise">
+<br>
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <label for="">Tiêu đề nhỏ</label>
+            <input type="text" name="title[]" placeholder="Tiêu đề nhỏ ..." class="form-control" value="">
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label for="">Tiêu để lớn</label>
+            <input type="text" name="header[]" placeholder="Tiêu để lớn ..." class="form-control" value="">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <label for="">Hình ảnh</label>
+            <div class="row ckfinder-group">
+                <div class="col-10">
+                    <input type="text" name="image[]" placeholder="Hỉnh ảnh..."
+                        class="form-control image-render" value="">
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-success btn-block choose-image"><i
+                            class="fas fa-upload"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label for="">Mô tả quảng cáo</label>
+    <textarea name="description[]" placeholder="Mô tả sản phẩm" class="editor" cols="30"
+        rows="10"></textarea>
+</div>
+<div class="col-1">
+    <button class="btn btn-danger delete-advertise"><i class="fas fa-trash"></i></button>
+</div>
+
+<hr>
+</div>`;
+
+let advertiseGroup = document.querySelector(".group-advertise");
+if (advertiseGroup) {
+  let btnAddadvertise = document.querySelector(".btn-add-advertise");
+  if (btnAddadvertise) {
+    btnAddadvertise.onclick = (e) => {
+      e.preventDefault();
+      let advertiseItemNode = new DOMParser()
+        .parseFromString(advertiseItem, "text/html")
+        .querySelector(".advertise");
+      advertiseGroup.appendChild(advertiseItemNode);
+      let chooseImages = document.querySelectorAll(".choose-image");
+      if (chooseImages) {
+        chooseImages.forEach((item) => (item.onclick = () => openPopup(item)));
+      }
+      let editors = document.querySelectorAll(".editor");
+      if (editors) {
+        editors.forEach((item, index) => {
+          item.id = `editor_${index + 1}`;
+          let editor = CKEDITOR.replace(item.id);
+          CKFinder.setupCKEditor(editor);
+        });
+      }
+      handleBtnDelete(advertiseGroup, "delete-advertise", "advertise");
+    };
+  }
+  handleBtnDelete(advertiseGroup, "delete-advertise", "advertise");
+}
+
 
 // xử lý phân trang
 let groupBtnPage;

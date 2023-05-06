@@ -25,9 +25,6 @@
 
                                     }
                                 }
-
-
-
                                 ?>
                                 <?php   ?>
                                 <?php   ?>
@@ -61,7 +58,7 @@
                 <?php } ?>
 
                 <ul class="star_rating">
-
+                    <li><i class="fas fa-star-half-alt"></i></li>
                     <?php
                     for ($i = 1; $i <= 5; $i++) {
                         if ($i > $soSao) { ?>

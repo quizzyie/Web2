@@ -125,4 +125,32 @@ class Options extends Controller
             Response::redirect('admin/options/partner');
         }
     }
+
+    public function advertise(){
+        if (!isLoginAdmin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        $data['title'] = "Thiết lập quảng cáo";
+        $data['content'] = 'admin/options/advertise';
+        $dataForm = $this->__model->getFirstData("opt_key = 'general_advertise'")['opt_value'];
+        $data['sub_data']['dataForm'] = json_decode($dataForm,true);
+
+        $this->renderView('admin/layouts/admin_layout', $data);
+    }
+
+    public function post_advertise(){
+        if ($this->__request->isPost()) {
+            $data = $this->__request->getFields();
+            $this->__model->updateData(['opt_value' => json_encode($data)], "opt_key = 'general_advertise'");
+            Session::setFlashData('msg', "Thiết lập thành công!");
+            Session::setFlashData('msg_type', "success");
+            Response::redirect('admin/options/advertise');
+        } else {
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/options/advertise');
+        }
+    }
 }
