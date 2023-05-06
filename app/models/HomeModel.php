@@ -17,8 +17,8 @@ class HomeModel extends Model {
     }
     
     public function getAdvertise(){
-        $sql = "SELECT * FROM `advertise` WHERE 1";
-        return $this->getRawModel($sql);
+        $sql = "SELECT opt_value FROM `options` WHERE opt_key = 'general_advertise'";
+        return json_decode($this->getFirstRaw($sql)['opt_value'],1) ;
     }
     
     public function getGeneralDelivery(){

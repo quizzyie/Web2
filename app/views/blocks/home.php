@@ -1,16 +1,16 @@
   <!-- Hero Section Begin -->
   <section class="hero">
       <div class="hero__slider owl-carousel">
-          <?php  foreach ($advertises as $ad): ?>
-          <div class="hero__items set-bg" data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $ad["image"] ?>">
+          <?php for($i = 0;$i<count($advertises["title"]);$i++){  ?>
+          <div class="hero__items set-bg"
+              data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $advertises["image"][$i] ?>">
               <div class="container">
                   <div class="row">
                       <div class="col-xl-5 col-lg-7 col-md-8">
                           <div class="hero__text">
-                              <h6>Summer Collection</h6>
-                              <h2>Fall - Winter Collections 2030</h2>
-                              <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                  commitment to exceptional quality.</p>
+                              <h6><?php echo $advertises["title"][$i]  ?></h6>
+                              <h2><?php echo $advertises["header"][$i]  ?></h2>
+                              <p><?php  echo $advertises["description"][$i] ?></p>
                               <a href="shop" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                               <div class="hero__social">
                                   <a href="<?php echo $facebook["opt_value"] ?>"><i class="fa fa-facebook"></i></a>
@@ -23,7 +23,7 @@
                   </div>
               </div>
           </div>
-          <?php  endforeach ?>
+          <?php  } ?>
       </div>
   </section>
   <!-- Hero Section End -->

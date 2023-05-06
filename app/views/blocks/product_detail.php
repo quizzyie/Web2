@@ -277,18 +277,17 @@
             <?php foreach ($dssplq as $sp) :  ?>
             <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
                 <div class="product__item">
-                <a href="detail?idsp=<?php echo $sp['id'] ?>" data-product-id="<?php echo $sp['id'] ?>">
-                    <div class="product__item__pic set-bg"
-                        data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"] ?>">
+                    <a href="detail?idsp=<?php echo $sp['id'] ?>" data-product-id="<?php echo $sp['id'] ?>">
+                        <div class="product__item__pic set-bg"
+                            data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"] ?>">
 
-                        <?php if ($sp["type"] != "normal") {  ?>
-                        <span class="label"><?php echo $sp["type"]  ?></span>
+                            <?php if ($sp["type"] != "normal") {  ?>
+                            <span class="label"><?php echo $sp["type"]  ?></span>
 
-                        <?php }  ?>
+                            <?php }  ?>
 
 
-                        
-                    </div>
+                        </div>
                     </a>
                     <div class="product__item__text">
                         <h6><?php echo $sp['name'] ?></h6>
@@ -301,14 +300,12 @@
                             <i class="fa fa-star-o"></i>
                         </div>
                         <h5>$67.24</h5>
-                       
                     </div>
                 </div>
-            </div>
-            <?php endforeach ?>
+                <?php endforeach ?>
 
+            </div>
         </div>
-    </div>
 </section>
 <!-- Related Section End -->
 

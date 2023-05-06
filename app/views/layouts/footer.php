@@ -13,31 +13,43 @@
             </div>
             <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
                 <div class="footer__widget">
+                    <?php if(!empty($footer["title_2"])){  ?>
                     <h6><?php echo $footer["title_2"]  ?></h6>
+                    <?php  } ?>
+                    <?php  if(!empty($footer["name_quicklink"])){ ?>
                     <ul>
                         <?php for($i=0;$i<count($footer["name_quicklink"]);$i++){  ?>
                         <li><a href="<?php echo $footer["link_quicklink"][$i]  ?>">
                                 <?php echo $footer["name_quicklink"][$i]  ?></a></li>
                         <?php  } ?>
                     </ul>
+                    <?php  } ?>
                 </div>
             </div>
             <div class="col-lg-2 col-md-3 col-sm-6">
                 <div class="footer__widget">
+                    <?php  if(!empty($footer["title_3"])){ ?>
                     <h6><?php echo $footer["title_3"]  ?></h6>
+                    <?php } ?>
+                    <?php if(!empty($footer["name_quicklink2"])){  ?>
                     <ul>
                         <?php for($i=0;$i<count($footer["name_quicklink2"]);$i++){  ?>
                         <li><a href="<?php echo $footer["link_quicklink2"][$i]  ?>">
                                 <?php echo $footer["name_quicklink2"][$i]  ?></a></li>
                         <?php  } ?>
                     </ul>
+                    <?php  } ?>
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
                 <div class="footer__widget">
+                    <?php if(!empty($footer["title_4"])){  ?>
                     <h6><?php echo $footer["title_4"]  ?></h6>
+                    <?php  } ?>
                     <div class="footer__newslatter">
+                        <?php if(!empty($footer["des_4"])){  ?>
                         <p><?php echo $footer["des_4"]  ?></p>
+                        <?php  } ?>
                         <form>
                             <input class="subcribe" type="text" spellcheck="false" placeholder="Your email"
                                 style="color: white;">
@@ -50,6 +62,7 @@
                 </div>
             </div>
         </div>
+        <?php  if(!empty($footer["copy_right"])){ ?>
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="footer__copyright__text">
@@ -60,6 +73,7 @@
                 </div>
             </div>
         </div>
+        <?php  } ?>
     </div>
 </footer>
 <!-- Footer Section End -->
