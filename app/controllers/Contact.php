@@ -21,6 +21,9 @@ class Contact extends Controller
     }
 
     public function index(){
+        if(isLoginAdmin()){
+            Response::redirect(_WEB_HOST_ROOT_ADMIN);
+        }
         $this->data['title'] = "Liên hệ";
         $this->data['content'] = 'blocks/contact';
         $this->renderView('layouts/client_layout',$this->data);

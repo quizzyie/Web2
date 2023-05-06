@@ -133,6 +133,12 @@ class Users extends Controller
             Response::redirect('admin/users/');
             return;
         }
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/users/');
+            return;
+        }
         if (empty($this->__model->getFirstData("id = $id"))) {
             Session::setFlashData('msg', 'Không tồn tại người dùng!');
             Response::redirect('admin/users/');
@@ -243,6 +249,12 @@ class Users extends Controller
             return;
         }
         if (!empty($id)) {
+            if(!is_numeric($id)){
+                Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                Session::setFlashData('msg_type', 'danger');
+                Response::redirect('admin/users/');
+                return;
+            }
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại người dùng!');
                 Session::setFlashData('msg_type', 'danger');
@@ -279,6 +291,12 @@ class Users extends Controller
             return;
         }
         if (!empty($id)) {
+            if(!is_numeric($id)){
+                Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                Session::setFlashData('msg_type', 'danger');
+                Response::redirect('admin/users/');
+                return;
+            }
             $data = $this->__model->getFirstData("id = $id");
             if (empty($data)) {
                 Session::setFlashData('msg', 'Không tồn tại người dùng!');
@@ -456,6 +474,10 @@ class Users extends Controller
 
     public function phan_trang()
     {
+        if(!isPost()){
+            Response::redirect('admin/users');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $status = $_POST['status'];
@@ -549,6 +571,10 @@ class Users extends Controller
 
     public function pagination()
     {
+        if(!isPost()){
+            Response::redirect('admin/users');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $status = $_POST['status'];

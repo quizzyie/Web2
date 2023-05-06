@@ -157,16 +157,26 @@ async function checkLogin() {
         console.log(jsonData);
         if (jsonData['check']) {
             offForm();
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Đăng nhập thành công!',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            setTimeout(() => {
-                location.reload();
-            }, 1500);
+            if (jsonData['check_admin']) {
+                sweetConfirm('Chuyển sang trang đăng nhập Admin?', jsonData['msg'], async function (confirmed) {
+                    if (confirmed) {
+                        let host_root = document.querySelector('.url_hoot_root').value;
+                        await location.assign(host_root + '/admin');
+                        // location.reload();
+                    }
+                });
+            } else {
+                await Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Đăng nhập thành công!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setTimeout(() => {
+                    location.reload();
+                }, 0);
+            }
         } else {
             showErr.textContent = jsonData['msg'];
             showErr.classList.remove('hidden');

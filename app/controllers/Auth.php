@@ -18,6 +18,7 @@ class Auth extends Controller
             $password = $_POST['password'];
             $check = false;
             $msg = "";
+            $check_admin = false;
 
             $userQuery = $this->__model->getFirstData("email = '$email' and status = 1");
 
@@ -36,18 +37,25 @@ class Auth extends Controller
                         'create_at' => date('Y-m-d H:i:s')
                     ];
 
-                    $this->__model->deleteTableData("login_token", "user_id = $user_id");
-                    $insertTokenStatus = $this->__model->addTableData('login_token', $dataToken);
-                    if ($insertTokenStatus) {
-                        //Insert token thành công
-
-                        //Lưu login_token vào session
-                        Session::setSession('login_token', $tokenLogin);
+                    
+                    if($this->__model->getFirstRaw("select * from users where id = $user_id")['type']=='member'){
                         $check = true;
-                        $msg = "Đăng nhập thành công";
-                    } else {
-                        $check = false;
-                        $msg = "Lỗi hệ thống, bạn không thể đăng nhập vào lúc này";
+                        $check_admin = true;
+                        $msg = "Không phải tài khoản người dùng! Bạn có muốn chuyển sang trang đăng nhập của Admin?";
+                    }else{
+                        $this->__model->deleteTableData("login_token", "user_id = $user_id");
+                        $insertTokenStatus = $this->__model->addTableData('login_token', $dataToken);
+                        if ($insertTokenStatus) {
+                            //Insert token thành công
+
+                            //Lưu login_token vào session
+                            Session::setSession('login_token', $tokenLogin);
+                            $check = true;
+                            $msg = "Đăng nhập thành công";
+                        } else {
+                            $check = false;
+                            $msg = "Lỗi hệ thống, bạn không thể đăng nhập vào lúc này";
+                        }
                     }
                 } else {
                     $check = false;
@@ -60,6 +68,7 @@ class Auth extends Controller
 
             echo json_encode([
                 'check' => $check,
+                'check_admin' => $check_admin,
                 'msg' => $msg,
             ]);
         } else {

@@ -12,26 +12,37 @@ class Sizes extends Controller
 
     public function index()
     {
-        if (isLoginAdmin()) {
-            $data['title'] = "Danh sách size";
-            $data['content'] = 'admin/sizes/list';
-
-            $this->renderView('admin/layouts/admin_layout', $data);
-        } else {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
+            return;
         }
+        if(!isPermission('products','add')&&!isPermission('products','update')&&!isPermission('products','delete')){
+            App::$app->loadError('permission');
+            return;
+        }
+
+        $data['title'] = "Danh sách size";
+        $data['content'] = 'admin/sizes/list';
+
+        $this->renderView('admin/layouts/admin_layout', $data);
     }
 
     public function add()
     {
-        if (isLoginAdmin()) {
-            $data['title'] = "Thêm size";
-            $data['content'] = 'admin/sizes/add';
-
-            $this->renderView('admin/layouts/admin_layout', $data);
-        } else {
+        if (!isLoginAdmin()) {
             Response::redirect('admin/auth/login');
+            return;
         }
+
+        if(!isPermission('products','add')){
+            App::$app->loadError('permission');
+            return;
+        }
+        
+        $data['title'] = "Thêm size";
+        $data['content'] = 'admin/sizes/add';
+
+        $this->renderView('admin/layouts/admin_layout', $data);
     }
 
     public function post_add()
@@ -82,25 +93,37 @@ class Sizes extends Controller
 
     public function update($id = "")
     {
+        if (!isLoginAdmin()) {
+            Response::redirect('admin/auth/login');
+            return;
+        }
+
+        if(!isPermission('products','update')){
+            App::$app->loadError('permission');
+            return;
+        }
+
         if(empty($id)){
             Session::setFlashData('msg', 'Truy cập không hợp lệ!');
             Session::setFlashData('msg_type', 'danger');
             Response::redirect('admin/sizes/');
             return;
         }
-        if (isLoginAdmin()) {
-            if (empty($this->__model->getFirstData("id = $id"))) {
-                Session::setFlashData('msg', 'Không tồn tại size!');
-                Response::redirect('admin/sizes/');
-            } else {
-                $data['title'] = "Cập nhập size";
-                $data['content'] = 'admin/sizes/update';
-                $data['sub_data']['dataForm'] = $this->__model->getFirstData("id = $id");
-                $this->renderView('admin/layouts/admin_layout', $data);
-                Session::setSession('brand_update_id', $id);
-            }
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/sizes/');
+            return;
+        }
+        if (empty($this->__model->getFirstData("id = $id"))) {
+            Session::setFlashData('msg', 'Không tồn tại size!');
+            Response::redirect('admin/sizes/');
         } else {
-            Response::redirect('admin/auth/login');
+            $data['title'] = "Cập nhập size";
+            $data['content'] = 'admin/sizes/update';
+            $data['sub_data']['dataForm'] = $this->__model->getFirstData("id = $id");
+            $this->renderView('admin/layouts/admin_layout', $data);
+            Session::setSession('brand_update_id', $id);
         }
     }
 
@@ -182,6 +205,10 @@ class Sizes extends Controller
 
     public function phan_trang()
     {
+        if(!isPost()){
+            Response::redirect('admin/sizes');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $per_page = _PER_PAGE_ADMIN;
@@ -237,6 +264,10 @@ class Sizes extends Controller
 
     public function pagination()
     {
+        if(!isPost()){
+            Response::redirect('admin/sizes');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $condition = "";

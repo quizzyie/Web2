@@ -14,6 +14,9 @@ class Purchase_Order extends Controller{
         }
     }
     public function index(){
+        if(isLoginAdmin()){
+            Response::redirect(_WEB_HOST_ROOT_ADMIN);
+        }
         if(isLogin()){
             $user_id = isLogin()['user_id'];
             $this->data["sub_data"]['title'] = "Xem lai hoa don";

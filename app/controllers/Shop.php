@@ -30,6 +30,9 @@ class Shop extends Controller
     }
 
     public function index($vtt = 0){
+        if(isLoginAdmin()){
+            Response::redirect(_WEB_HOST_ROOT_ADMIN);
+        }
         $this->data['sub_data']['title'] = "Cửa hàng";
         $this->data['content'] = 'blocks/shop';
         
@@ -105,6 +108,9 @@ class Shop extends Controller
         return (int)($soSp%$this->slgSPMT==0?$soSp/$this->slgSPMT:($soSp/$this->slgSPMT)+1);
     }
     public function detail($id){
+        if(isLoginAdmin()){
+            Response::redirect(_WEB_HOST_ROOT_ADMIN);
+        }
         $data['title'] = "Chi tiết sản phẩm";
         $data['content'] = 'blocks/product_detail';
         $this->renderView('layouts/client_layout',$data);

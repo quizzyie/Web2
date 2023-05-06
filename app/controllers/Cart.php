@@ -14,6 +14,9 @@
             }        
         }
         public function index(){
+            if(isLoginAdmin()){
+                Response::redirect(_WEB_HOST_ROOT_ADMIN);
+            }
             $this->data['title'] = "Gio Hang";
             $this->data['content'] = 'blocks/cart';
             if(isLogin()){

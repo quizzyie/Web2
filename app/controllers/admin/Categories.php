@@ -19,9 +19,9 @@ class Categories extends Controller {
             return;
         }
         $data['title'] = "Danh sách danh mục sản phẩm";
-            $data['content'] = 'admin/categories/list';
-    
-            $this->renderView('admin/layouts/admin_layout',$data);    
+        $data['content'] = 'admin/categories/list';
+
+        $this->renderView('admin/layouts/admin_layout',$data);    
     }
 
     public function add(){
@@ -102,6 +102,12 @@ class Categories extends Controller {
             Response::redirect('admin/categories/');
             return;
         }
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/categories/');
+            return;
+        }
         if(empty($this->__model->getFirstData("id = $id"))){
             Session::setFlashData('msg','Không tồn tại danh mục sản phẩm!');
             Response::redirect('admin/categories/');
@@ -174,6 +180,12 @@ class Categories extends Controller {
             return;
         }
         if(!empty($id)){
+            if(!is_numeric($id)){
+                Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                Session::setFlashData('msg_type', 'danger');
+                Response::redirect('admin/categories/');
+                return;
+            }
             if(empty($this->__model->getFirstData("id = $id"))){
                 Session::setFlashData('msg','Không tồn tại danh mục sản phẩm!');
                 Session::setFlashData('msg_type','danger');
@@ -199,7 +211,11 @@ class Categories extends Controller {
         Response::redirect('admin/categories/');
     }
 
-    public function phan_trang(){        
+    public function phan_trang(){     
+        if(!isPost()){
+            Response::redirect('admin/categories');
+            return;
+        }   
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $per_page = _PER_PAGE_ADMIN;
@@ -257,6 +273,10 @@ echo json_encode($data);
 }
 
 public function pagination(){
+    if(!isPost()){
+        Response::redirect('admin/categories');
+        return;
+    }
     $page = $_POST['page'];
     $keyword = $_POST['keyword'];
     $condition = "";

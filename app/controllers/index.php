@@ -27,6 +27,9 @@ class index extends Controller
     }
 
     public function index(){
+        if(isLoginAdmin()){
+            Response::redirect(_WEB_HOST_ROOT_ADMIN);
+        }
         $this->data['sub_data']['title'] = "Trang chủ";
         $this->data['content'] = 'blocks/home';
         $this->renderView('layouts/client_layout',$this->data);
