@@ -57,7 +57,7 @@
               <div class="product__item">
                   <div class="product__item__pic set-bg"
                       data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"]  ?>">
- <?php if($sp["type"]!="normal"){  ?>
+                      <?php if($sp["type"]!="normal"){  ?>
                       <span class="label"><?php echo $sp["type"]  ?></span>
 
                       <?php }  ?>
