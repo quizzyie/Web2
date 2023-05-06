@@ -4,7 +4,7 @@ class DetailModel extends Model {
     public $brand = null;
     protected $_table = 'products';
     private $soReviewMT = 3;
-
+    
     function __construct()
     {
         parent::__construct();
