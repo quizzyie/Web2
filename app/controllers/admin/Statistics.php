@@ -12,6 +12,10 @@ class Statistics extends Controller
 
 
     public function fetchData(){
+        if(!isPost()){
+            Response::redirect('admin/');
+            return;
+        }
         $category_id = $_POST['category_id'];
         $fromDate = $_POST['fromDate'];
         $toDate = $_POST['toDate'];
@@ -77,6 +81,10 @@ class Statistics extends Controller
     }
 
     public function fetchDataChartBar(){
+        if(!isPost()){
+            Response::redirect('admin/');
+            return;
+        }
         $category_id = $_POST['category_id'];
         $fromDate = $_POST['fromDate'];
         $toDate = $_POST['toDate'];
@@ -200,6 +208,10 @@ class Statistics extends Controller
     }
 
     public function fetchSmallBoxs(){
+        if(!isPost()){
+            Response::redirect('admin/');
+            return;
+        }
         $category_id = $_POST['category_id'];
         $fromDate = $_POST['fromDate'];
         $toDate = $_POST['toDate'];
@@ -260,6 +272,10 @@ class Statistics extends Controller
 
     public function phan_trang()
     {
+        if(!isPost()){
+            Response::redirect('admin/');
+            return;
+        }
         $page = $_POST['page'];
         $category_id = $_POST['category_id'];
         $fromDate = $_POST['fromDate'];
@@ -367,6 +383,10 @@ class Statistics extends Controller
 
     public function pagination()
     {
+        if(!isPost()){
+            Response::redirect('admin/');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $status = $_POST['status'];

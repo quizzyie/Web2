@@ -107,6 +107,13 @@ class Groups extends Controller
             Response::redirect('admin/groups/');
             return;
         }
+
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/groups/');
+            return;
+        }
         if (empty($this->__model->getFirstData("id = $id"))) {
             Session::setFlashData('msg', 'Không tồn tại nhóm!');
             Response::redirect('admin/groups/');
@@ -176,6 +183,12 @@ class Groups extends Controller
             return;
         }
         if (!empty($id)) {
+            if(!is_numeric($id)){
+                Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                Session::setFlashData('msg_type', 'danger');
+                Response::redirect('admin/groups/');
+                return;
+            }
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại nhóm!');
             } else {
@@ -207,6 +220,12 @@ class Groups extends Controller
             return;
         }
         if (!empty($id)) {
+            if(!is_numeric($id)){
+                Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                Session::setFlashData('msg_type', 'danger');
+                Response::redirect('admin/groups/');
+                return;
+            }
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại nhóm!');
             } else {
@@ -249,6 +268,10 @@ class Groups extends Controller
 
     public function phan_trang()
     {
+        if(!isPost()){
+            Response::redirect('admin/groups');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $per_page = _PER_PAGE_ADMIN;
@@ -304,6 +327,10 @@ class Groups extends Controller
 
     public function pagination()
     {
+        if(!isPost()){
+            Response::redirect('admin/groups');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $condition = "";

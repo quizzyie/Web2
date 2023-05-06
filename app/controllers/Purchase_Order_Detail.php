@@ -13,6 +13,9 @@ class Purchase_Order_Detail extends Controller{
         }
     }
     public function index($idHD = null){
+        if(isLoginAdmin()){
+            Response::redirect(_WEB_HOST_ROOT_ADMIN);
+        }
         if(isLogin()){
             if(empty($idHD)){
                 if(!empty($_GET["idhd"])){

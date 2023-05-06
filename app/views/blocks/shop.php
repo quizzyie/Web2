@@ -15,11 +15,11 @@
                         <div style="position:relative;">
                             <input id="search" type="text" placeholder="Search..." style="width: 100%;
     font-size: 15px;
-    color: #b7b7b7;
+    color: black;
     padding-left: 20px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid black;
     height: 42px;">
-                            <button onclick="filter(event)" type="button" style="color: #b7b7b7;
+                            <button onclick="filter(event)" type="button" style="color: black;
     font-size: 15px;
     border: none;
     background: transparent;
