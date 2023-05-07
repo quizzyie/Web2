@@ -23,7 +23,7 @@ class ShopModel extends Model {
     public function getStars($dssp){
         $dsReview = array();
         foreach($dssp as $sp){
-            $sql = "SELECT SUM(star)/COUNT(id) as sao FROM `reviews` WHERE product_id = ". $sp["id"];
+            $sql = "SELECT ROUND(IFNULL(AVG(star), 0), 0) as sao FROM `reviews` WHERE product_id = ". $sp["id"];
             $star = intval($this->getFirstRaw($sql)["sao"]) ;
             if(empty($star)){
                 $star = 0;
@@ -31,5 +31,20 @@ class ShopModel extends Model {
             array_push($dsReview, $star);
         }
         return $dsReview;
+    }
+    public function getSlgBan($dssp){
+        $dsSlgBan = array();
+        foreach($dssp as $sp){
+            $sql="SELECT SUM(quantity) as slgBan
+            FROM `bill_detail` 
+            INNER JOIN products on products.id = product_id 
+            WHERE products.status = 1 and product_id =  ".$sp["id"];
+            $slg = $this->getFirstRaw($sql)["slgBan"];
+            if(empty($slg)){
+                $slg = 0;
+            }
+            array_push($dsSlgBan,$slg);
+        }
+        return $dsSlgBan;
     }
 }
