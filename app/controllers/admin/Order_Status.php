@@ -116,6 +116,12 @@ class Order_Status extends Controller
             Response::redirect('admin/order_status/');
             return;
         }
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/order_status/');
+            return;
+        }
         if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại trạng thái!');
@@ -186,6 +192,12 @@ class Order_Status extends Controller
     // {
     //     if (isLoginAdmin()) {
     //         if (!empty($id)) {
+        // if(!is_numeric($id)){
+        //     Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+        //     Session::setFlashData('msg_type', 'danger');
+        //     Response::redirect('admin/order_status/');
+        //     return;
+        // }
     //             if (empty($this->__model->getFirstData("id = $id"))) {
     //                 Session::setFlashData('msg', 'Không tồn tại trạng thái!');
     //                 Session::setFlashData('msg_type', 'danger');
@@ -210,6 +222,10 @@ class Order_Status extends Controller
 
     public function phan_trang()
     {
+        if(!isPost()){
+            Response::redirect('admin/order_status');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $per_page = _PER_PAGE_ADMIN;
@@ -258,6 +274,10 @@ class Order_Status extends Controller
 
     public function pagination()
     {
+        if(!isPost()){
+            Response::redirect('admin/order_status');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $condition = "";

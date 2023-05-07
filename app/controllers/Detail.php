@@ -16,6 +16,9 @@ class Detail extends Controller
         } 
     }
     public function index($idsp = null){
+        if(isLoginAdmin()){
+            Response::redirect(_WEB_HOST_ROOT_ADMIN);
+        }
         $this->data["sub_data"]['title'] = "Chi tiet san pham";
         $this->data['content'] = 'blocks/product_detail';
         

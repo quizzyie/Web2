@@ -50,6 +50,12 @@ class Bill extends Controller
             Response::redirect('admin/bill/');
             return;
         }
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/bill/');
+            return;
+        }
         if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại trạng thái!');
@@ -146,6 +152,12 @@ class Bill extends Controller
     {
         if (isLoginAdmin()) {
             if (!empty($id)) {
+                if(!is_numeric($id)){
+                    Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                    Session::setFlashData('msg_type', 'danger');
+                    Response::redirect('admin/bill/');
+                    return;
+                }
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại đơn hàng!');
                     Session::setFlashData('msg_type', 'danger');
@@ -173,6 +185,10 @@ class Bill extends Controller
 
     public function phan_trang()
     {
+        if(!isPost()){
+            Response::redirect('admin/bill');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $phone = $_POST['phone'];
@@ -275,6 +291,10 @@ class Bill extends Controller
 
     public function pagination()
     {
+        if(!isPost()){
+            Response::redirect('admin/bill');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $status = $_POST['status'];

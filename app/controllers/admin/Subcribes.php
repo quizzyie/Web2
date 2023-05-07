@@ -49,6 +49,13 @@ class Subcribes extends Controller
             Response::redirect('admin/subcribes/');
             return;
         }
+
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/subcribes/');
+            return;
+        }
         if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại theo dõi!');
@@ -126,6 +133,12 @@ class Subcribes extends Controller
         }
         if (isLoginAdmin()) {
             if (!empty($id)) {
+                if(!is_numeric($id)){
+                    Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                    Session::setFlashData('msg_type', 'danger');
+                    Response::redirect('admin/subcribes/');
+                    return;
+                }
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại theo dõi!');
                     Session::setFlashData('msg_type', 'danger');
@@ -150,6 +163,9 @@ class Subcribes extends Controller
 
     public function phan_trang()
     {
+        if(!isPost()){
+            Response::redirect('admin/subcribes');
+        }
         $page = $_POST['page'];
         $email = $_POST['email'];
         $status = $_POST['status'];
@@ -191,11 +207,11 @@ class Subcribes extends Controller
 
             $btnStatus = "";
             if($status==1){
-                $btnStatus = "<a href='' class='btn btn-danger btn-sm'>Chưa xử lý</a>";
+                $btnStatus = "<a href='#' class='btn btn-danger btn-sm'>Chưa xử lý</a>";
             }else if($status ==2){
-                $btnStatus = "<a href='' class='btn btn-warning btn-sm'>Đang xử lý</a>";
+                $btnStatus = "<a href='#' class='btn btn-warning btn-sm'>Đang xử lý</a>";
             }else if($status == 3){
-                $btnStatus = "<a href='' class='btn btn-primary btn-sm'>Đã xử lý</a>";
+                $btnStatus = "<a href='#' class='btn btn-primary btn-sm'>Đã xử lý</a>";
             }
             $data .= "<tr>
           <td>$i</td>
@@ -235,6 +251,10 @@ class Subcribes extends Controller
 
     public function pagination()
     {
+        if(!isPost()){
+            Response::redirect('admin/subcribes');
+            return;
+        }
         $page = $_POST['page'];
         $email = $_POST['email'];
         $status = $_POST['status'];

@@ -197,6 +197,18 @@ class Products extends Controller
             App::$app->loadError('permission');
             return;
         }
+        if(empty($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/products/');
+            return;
+        }
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/products/');
+            return;
+        }
         if (empty($this->__model->getFirstData("id = $id"))) {
             Session::setFlashData('msg', 'Không tồn tại sản phẩm!');
             Response::redirect('admin/products/');
@@ -379,6 +391,12 @@ class Products extends Controller
     // {
     //     if (isLoginAdmin()) {
     //         if (!empty($id)) {
+        // if(!is_numeric($id)){
+        //     Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+        //     Session::setFlashData('msg_type', 'danger');
+        //     Response::redirect('admin/order_status/');
+        //     return;
+        // }
     //             if (empty($this->__model->getFirstData("id = $id"))) {
     //                 Session::setFlashData('msg', 'Không tồn tại sản phẩm!');
     //                 Session::setFlashData('msg_type', 'danger');
@@ -410,7 +428,7 @@ class Products extends Controller
             return;
         }
 
-        if (!isPermission('products', 'add') && !isPermission('products', 'update')) {
+        if (!isPermission('products', 'add') && !isPermission('products', 'update')&& !isPermission('products', 'delete')) {
             App::$app->loadError('permission');
             return;
         }
@@ -418,6 +436,12 @@ class Products extends Controller
 
         if (isLoginAdmin()) {
             if (!empty($id)) {
+                if(!is_numeric($id)){
+                    Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                    Session::setFlashData('msg_type', 'danger');
+                    Response::redirect('admin/products/');
+                    return;
+                }
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại sản phẩm!');
                     Session::setFlashData('msg_type', 'danger');
@@ -481,6 +505,12 @@ class Products extends Controller
         
 
         if (!empty($id)) {
+            if(!is_numeric($id)){
+                Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                Session::setFlashData('msg_type', 'danger');
+                Response::redirect('admin/products/');
+                return;
+            }
             $product = $this->__model->getFirstRaw("select * from products where id = " . $id);
             if (empty($product)) {
                 Session::setFlashData('msg', 'Không tồn tại sản phẩm!');
@@ -509,6 +539,10 @@ class Products extends Controller
 
     public function phan_trang()
     {
+        if(!isPost()){
+            Response::redirect('admin/products');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $status = $_POST['status'];
@@ -677,6 +711,10 @@ class Products extends Controller
 
     public function pagination()
     {
+        if(!isPost()){
+            Response::redirect('admin/products');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $status = $_POST['status'];
