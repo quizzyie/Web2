@@ -173,7 +173,8 @@ class Detail extends Controller
         }
 
         if (empty($data)) {
-            $data = "<div class='alert alert-danger btn-block'>Chưa có bình luận nào!</div>";
+            $linkImg = HOST_ROOT.'/uploads/khongcodanhgia.png';
+            $data = "<div class='product-ratings-comments-view__no-data'><div class='product-ratings-comments-view__no-data__icon'><img style='border:0' src='$linkImg' alt='empty-icon'></div><div class='product-ratings-comments-view__no-data__text'>Chưa có đánh giá</div></div>";
         }
 
         echo json_encode($data);

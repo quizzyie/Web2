@@ -319,6 +319,13 @@ class Auth extends Controller
         if (isLogin()) {
             $data['title'] = "Thay đổi mật khẩu";
             $data['content'] = 'admin/users/change_password_client';
+            $data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+            $data["sub_data"]["delivery"] = $this->__model->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_delivery'");
+        
+            $data["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"],true) ;
+            if(isLogin()){
+            $data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+            }
             $this->renderView('layouts/client_layout', $data);
         } else {
             Response::redirect();
@@ -393,6 +400,15 @@ class Auth extends Controller
             $data['content'] = 'admin/users/user_info_client';
             $data['sub_data']['group_list'] = $this->__model->getRawModel("select * from groups");
             $data['sub_data']['dataForm'] = $this->__model->getFirstRaw("select * from users where id = ".isLogin()['user_id']);
+            
+            $data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+            $data["sub_data"]["delivery"] = $this->__model->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_delivery'");
+        
+            $data["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"],true) ;
+            if(isLogin()){
+            $data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+            }
+            
             $this->renderView('layouts/client_layout', $data);
         } else {
             Response::redirect();

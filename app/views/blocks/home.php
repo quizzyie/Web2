@@ -11,13 +11,17 @@
                         <div class="hero__text">
                             <h6><?php echo $advertises["title"][$i]  ?></h6>
                             <h2><?php echo $advertises["header"][$i]  ?></h2>
-                            <p><?php  echo $advertises["description"][$i] ?></p>
+                            <p><?php  echo html_entity_decode($advertises["description"][$i]) ?></p>
                             <a href="shop" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                             <div class="hero__social">
-                                <a href="<?php echo $facebook["opt_value"] ?>"><i class="fa fa-facebook"></i></a>
-                                <a href="<?php echo $twitter["opt_value"] ?>"><i class="fa fa-twitter"></i></a>
-                                <a href="<?php echo $youtube["opt_value"] ?>"><i class="fa fa-youtube"></i></a>
-                                <a href="<?php echo $instagram["opt_value"] ?>"><i class="fa fa-instagram"></i></a>
+                                <a target="_blank" href="<?php echo $facebook["opt_value"] ?>"><i
+                                        class="fa fa-facebook"></i></a>
+                                <a target="_blank" href="<?php echo $twitter["opt_value"] ?>"><i
+                                        class="fa fa-twitter"></i></a>
+                                <a target="_blank" href="<?php echo $youtube["opt_value"] ?>"><i
+                                        class="fa fa-youtube"></i></a>
+                                <a target="_blank" href="<?php echo $instagram["opt_value"] ?>"><i
+                                        class="fa fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>

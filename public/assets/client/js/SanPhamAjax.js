@@ -79,29 +79,28 @@ function giaoDienSanPham(products, dsStar, dsSlgBan) {
   var html = "";
   let k = 0;
   if (products.length == 0) {
-    html += "Khong co San PHam Naof Ca";
+    let img = HOST_ROOT + "/uploads/khongcosanpham.png";
+    html += "<div class='shopee-search-empty-result-section'> <img src='" + img + "' class='shopee-search-empty-result-section__icon'><div class='shopee-search-empty-result-section__title'>Không tìm thấy kết quả nào</div><div class='shopee-search-empty-result-section__hint'>Hãy thử sử dụng các từ khóa chung chung hơn</div></div>";
   } else {
     products.forEach(function (product) {
       html +=
         `<div class="col-lg-4 col-md-6 col-sm-6">
       <div class="product__item">
         <a href="detail?idsp=${product.id}" data-product-id="${product.id}">
-          <div class="product__item__pic set-bg" style="background-image: url('${HOST_ROOT}/uploads/${
-          product.img
+          <div class="product__item__pic set-bg" style="background-image: url('${HOST_ROOT}/uploads/${product.img
         }');"  >
           
-          ${
-            product.type !== "normal"
-              ? '<span class="label">' + product.type + "</span>"
-              : ""
-            // Hien thi type
-          } 
+          ${product.type !== "normal"
+          ? '<span class="label">' + product.type + "</span>"
+          : ""
+        // Hien thi type
+        } 
           
           </div>
         </a>
         
         <div class="product__item__text">
-          <h6>
+<h6>
             ${product.name} <br>
             So Luong Da Ban: ` +
         dsSlgBan[k] +
@@ -114,7 +113,7 @@ function giaoDienSanPham(products, dsStar, dsSlgBan) {
           </div>
           <div class="product-price">
           ${
-            // Xử lý giá sale và price
+// Xử lý giá sale và price
             product.sale < product.price
               ? `
             <div style="display: flex;">
@@ -127,7 +126,6 @@ function giaoDienSanPham(products, dsStar, dsSlgBan) {
           `
           }
         </div>
-
           
           
         </div>
@@ -212,9 +210,8 @@ function filter(vtt) {
         }
       }
       let showSlg = document.getElementById("showslg");
-      showSlg.innerHTML = `<p id="showslg">Showing ${
-        Number(vtt) + 1
-      } – ${trang} of ${data.tongsp} results</p>`;
+      showSlg.innerHTML = `<p id="showslg">Showing ${Number(vtt) + 1
+        } – ${trang} of ${data.tongsp} results</p>`;
       // console.log(data);
       // console.log(htmlTrang);
       console.log(data.dsStar[1]);
@@ -390,9 +387,8 @@ function giaoDienGioHang(dsgh) {
             <span onclick="giamSlgMua(event)" class="fa fa-angle-left giam qtybtn"></span>
               <input  class="slg"  type="text" value="${sp.slm}">
               <input class="giaSp" type="hidden" value="${sp.giaSp}">
-            <span onclick="tangSlgMua(event, ${
-              sp.slgSp
-            })" class="fa fa-angle-right tang qtybtn"></span>
+            <span onclick="tangSlgMua(event, ${sp.slgSp
+      })" class="fa fa-angle-right tang qtybtn"></span>
             </div>
             <input class="idsp" type="hidden" value="${sp.idsp}">
             <input class="idsize" type="hidden" value="${sp.idSize}">
@@ -439,13 +435,13 @@ function updateCart() {
 
         console.log(
           "Lan " +
-            i +
-            " co idsp la: " +
-            idsp +
-            " va tsl la: " +
-            tsl +
-            "  va size la " +
-            size
+          i +
+          " co idsp la: " +
+          idsp +
+          " va tsl la: " +
+          tsl +
+          "  va size la " +
+          size
         );
         idspArray.push(idsp);
         tslArray.push(tsl);
@@ -562,4 +558,4 @@ function sendSlgSp() {
     });
 }
 
-function phanTrangReview(vtt) {}
+function phanTrangReview(vtt) { }
