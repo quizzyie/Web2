@@ -145,7 +145,6 @@
                 </div>
                 <div id="dsProducts" class="row">
                     <?php 
-                    
                         $i = 0;
                         foreach($dsProducts as $sp): 
                         $linkImage = HOST_ROOT .'/uploads/'.$sp['img'];
@@ -194,6 +193,10 @@
                     </div>
 
                     <?php endforeach ?>
+
+
+
+
                 </div>
                 <div class="row">
                     <div class="col-lg-12">

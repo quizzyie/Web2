@@ -173,7 +173,17 @@ class Detail extends Controller
         }
 
         if (empty($data)) {
-            $data = "<div class='alert alert-danger btn-block'>Chưa có bình luận nào!</div>";
+            // $data = "<div class='alert alert-danger btn-block'>Chưa có bình luận nào!</div>";
+            $data = "<div class='product-ratings-comments-view__no-data' style='height: 20rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;'><div class='product-ratings-comments-view__no-data__icon' style='width: 6.25rem;
+            height: 5.625rem;
+            background-size: contain;
+            background-repeat: no-repeat;'><img border='0' src='https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/eac95a8ac896158642c2761a9e9cd52e.png' alt='empty-icon'></div><div class='product-ratings-comments-view__no-data__text' style='margin-top: 1.25rem;
+            font-size: 1rem;
+            color: rgba(0,0,0,.8);'>Chưa có đánh giá</div></div>";
         }
 
         echo json_encode($data);

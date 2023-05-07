@@ -258,6 +258,12 @@
                                 <p>Thiết lập Partner</p>
                             </a>
                         </li>
+                        <li class="nav-item ">
+                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/options/advertise' ?>" class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thiết lập quảng cáo</p>
+                            </a>
+                        </li>
 
                     </ul>
                 </li>
