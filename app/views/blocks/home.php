@@ -60,12 +60,6 @@
                         data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"]  ?>">
                         <?php if($sp["type"]!="normal"){  ?>
                         <span class="label"><?php echo $sp["type"]  ?></span>
-              <div class="product__item">
-                  <a href="detail?idsp=<?php echo $sp['id'] ?>" data-product-id="<?php echo $sp['id'] ?>">
-                      <div class="product__item__pic set-bg"
-                          data-setbg="<?php echo HOST_ROOT ?>/uploads/<?php echo $sp["img"]  ?>">
-                          <?php if($sp["type"]!="normal"){  ?>
-                          <span class="label"><?php echo $sp["type"]  ?></span>
 
                         <?php }  ?>
                     </div>
@@ -75,11 +69,14 @@
                     <a href="detail?idsp=<?php echo $sp['id'] ?>" data-product-id="<?php echo $sp['id'] ?>">+ SEE
                         DETAIL</a>
                     <div class="rating">
+                        <?php 
+                            for ($j = 1; $j <= 5; $j++) { ?>
+                        <?php if ($j <= $sp['sao']) { ?>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <?php } else { ?>
                         <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
+                        <?php } ?>
+                        <?php }  ?>
                     </div>
                     <?php if( $sp["price"] -  $sp["sale"] == 0 ){?>
                     <h5>$<?php echo $sp["price"]  ?></h5>
@@ -88,30 +85,6 @@
                         <del class="del-product">$<?php echo $sp["price"]  ?></del>
                         <h5>$<?php echo $sp["sale"]  ?></h5>
                     </div>
-                          <?php }  ?>
-                      </div>
-                  </a>
-                  <div class="product__item__text">
-                      <h6><?php echo $sp["name"]  ?></h6>
-                      <a href="detail?idsp=<?php echo $sp['id'] ?>" data-product-id="<?php echo $sp['id'] ?>">+ SEE
-                          DETAIL</a>
-                      <div class="rating">
-                          <?php 
-                            for ($j = 1; $j <= 5; $j++) { ?>
-                          <?php if ($j <= $sp['sao']) { ?>
-                          <i class="fa fa-star" aria-hidden="true"></i>
-                          <?php } else { ?>
-                          <i class="fa fa-star-o"></i>
-                          <?php } ?>
-                          <?php }  ?>
-                      </div>
-                      <?php if( $sp["price"] -  $sp["sale"] == 0 ){?>
-                      <h5>$<?php echo $sp["price"]  ?></h5>
-                      <?php   }else{ ?>
-                      <div style="display: flex;">
-                          <del class="del-product">$<?php echo $sp["price"]  ?></del>
-                          <h5>$<?php echo $sp["sale"]  ?></h5>
-                      </div>
 
                     <?php   } ?>
 
