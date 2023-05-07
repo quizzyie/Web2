@@ -20,6 +20,8 @@ class index extends Controller
         $this->data["sub_data"]["twitter"] = $this->__model->getTwitter();
         $this->data["sub_data"]["instagram"] = $this->__model->getInstagram();
         $this->data["sub_data"]["youtube"] = $this->__model->getYoutube();
+        
+        $this->data["sub_data"]['dsSao'] = $this->__model->getDsStar();
         if(isLogin()){
             $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
         }
@@ -27,6 +29,9 @@ class index extends Controller
     }
 
     public function index(){
+        if(isLoginAdmin()){
+            Response::redirect(_WEB_HOST_ROOT_ADMIN);
+        }
         $this->data['sub_data']['title'] = "Trang chủ";
         $this->data['content'] = 'blocks/home';
         $this->renderView('layouts/client_layout',$this->data);

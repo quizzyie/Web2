@@ -18,6 +18,9 @@ class About extends Controller
     }
 
     public function index(){
+        if(isLoginAdmin()){
+            Response::redirect(_WEB_HOST_ROOT_ADMIN);
+        }
         $this->data['title'] = "Thông tin";
         $this->data['content'] = 'blocks/about';
         

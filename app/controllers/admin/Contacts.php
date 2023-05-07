@@ -50,6 +50,12 @@ class Contacts extends Controller
             Response::redirect('admin/contacts/');
             return;
         }
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/contacts/');
+            return;
+        }
         if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại liên hệ!');
@@ -127,6 +133,12 @@ class Contacts extends Controller
         }
         if (isLoginAdmin()) {
             if (!empty($id)) {
+                if(!is_numeric($id)){
+                    Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                    Session::setFlashData('msg_type', 'danger');
+                    Response::redirect('admin/contacts/');
+                    return;
+                }
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại liên hệ!');
                     Session::setFlashData('msg_type', 'danger');
@@ -151,6 +163,10 @@ class Contacts extends Controller
 
     public function phan_trang()
     {
+        if(!isPost()){
+            Response::redirect('admin/contacts');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $email = $_POST['email'];
@@ -245,6 +261,10 @@ class Contacts extends Controller
 
     public function pagination()
     {
+        if(!isPost()){
+            Response::redirect('admin/contacts');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $email = $_POST['email'];

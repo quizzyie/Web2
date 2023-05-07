@@ -50,6 +50,12 @@ class Reviews extends Controller
             Response::redirect('admin/reviews/');
             return;
         }
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/reviews/');
+            return;
+        }
         if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại đánh giá!');
@@ -132,6 +138,12 @@ class Reviews extends Controller
             Response::redirect('admin/reviews/');
             return;
         }
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/reviews/');
+            return;
+        }
         if (isLoginAdmin()) {
             if (!empty($id)) {
                 if (empty($this->__model->getFirstData("id = $id"))) {
@@ -174,6 +186,13 @@ class Reviews extends Controller
             Response::redirect('admin/reviews/');
             return;
         }
+
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/reviews/');
+            return;
+        }
         
         $review = $this->__model->getFirstData("id = $id");
         if (empty($review)) {
@@ -197,6 +216,10 @@ class Reviews extends Controller
 
     public function phan_trang()
     {
+        if(!isPost()){
+            Response::redirect('admin/reviews');
+            return;
+        }
         $page = $_POST['page'];
         $email = $_POST['email'];
         $status = $_POST['status'];
@@ -303,6 +326,10 @@ class Reviews extends Controller
 
     public function pagination()
     {
+        if(!isPost()){
+            Response::redirect('admin/reviews');
+            return;
+        }
         $page = $_POST['page'];
         $email = $_POST['email'];
         $status = $_POST['status'];

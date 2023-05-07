@@ -112,6 +112,12 @@ class Brands extends Controller
             Response::redirect('admin/brands/');
             return;
         }
+        if(!is_numeric($id)){
+            Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+            Session::setFlashData('msg_type', 'danger');
+            Response::redirect('admin/brands/');
+            return;
+        }
         if (isLoginAdmin()) {
             if (empty($this->__model->getFirstData("id = $id"))) {
                 Session::setFlashData('msg', 'Không tồn tại thương hiệu!');
@@ -191,6 +197,12 @@ class Brands extends Controller
         }
         if (isLoginAdmin()) {
             if (!empty($id)) {
+                if(!is_numeric($id)){
+                    Session::setFlashData('msg', 'Truy cập không hợp lệ!');
+                    Session::setFlashData('msg_type', 'danger');
+                    Response::redirect('admin/brands/');
+                    return;
+                }
                 if (empty($this->__model->getFirstData("id = $id"))) {
                     Session::setFlashData('msg', 'Không tồn tại thương hiệu!');
                     Session::setFlashData('msg_type', 'danger');
@@ -220,6 +232,10 @@ class Brands extends Controller
 
     public function phan_trang()
     {
+        if(!isPost()){
+            Response::redirect('admin/brands');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $per_page = _PER_PAGE_ADMIN;
@@ -277,6 +293,10 @@ class Brands extends Controller
 
     public function pagination()
     {
+        if(!isPost()){
+            Response::redirect('admin/brands');
+            return;
+        }
         $page = $_POST['page'];
         $keyword = $_POST['keyword'];
         $condition = "";

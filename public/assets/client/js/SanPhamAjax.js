@@ -78,55 +78,55 @@ function printRadioSize(dsSizes) {
 function giaoDienSanPham(products, dsStar) {
   var html = "";
   let k = 0;
-  products.forEach(function (product) {
-    html +=
-      `<div class="col-lg-4 col-md-6 col-sm-6">
-    <div class="product__item">
-      <a class="link-product" href="${HOST_ROOT}/chi-tiet">
-        <div class="product__item__pic set-bg" style="background-image: url('${HOST_ROOT}/uploads/${
-        product.img
-      }');"  >
-        
-        ${
-          product.type !== "normal"
-            ? '<span class="label">' + product.type + "</span>"
-            : ""
-          // Hien thi type
-        } 
-        
-          <ul class="product__hover">
-            <li><a href="#"><img src="${HOST_ROOT}/public/assets/client/img/icon/heart.png" alt=""></a></li>
-            <li><a href="#"><img src="${HOST_ROOT}/public/assets/client/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-            <li><a href="#"><img src="${HOST_ROOT}/public/assets/client/img/icon/search.png" alt=""></a></li>
-          </ul>
+  if (products.length == 0) {
+    html += "Khong co San PHam Naof Ca";
+  } else {
+    products.forEach(function (product) {
+      html +=
+        `<div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="product__item">
+        <a href="detail?idsp=${product.id}" data-product-id="${product.id}">
+          <div class="product__item__pic set-bg" style="background-image: url('${HOST_ROOT}/uploads/${
+          product.img
+        }');"  >
+          
+          ${
+            product.type !== "normal"
+              ? '<span class="label">' + product.type + "</span>"
+              : ""
+            // Hien thi type
+          } 
+          
+          </div>
+        </a>
+        <div class="product__item__text">
+          <h6>${product.name}</h6>
+          <a href="detail?idsp=${
+            product.id
+          } " class="add-cart" data-product-id=${product.id}>+ SEE DETAIL</a>
+          <div class="rating">` +
+        dsStar[k++] +
+        `
+          </div>
+          ${
+            // Xử lý giá sale và price
+            product.sale < product.price
+              ? `
+          <del>${product.price}</del>
+          <h5>${product.sale}</h5>
+        `
+              : `
+          <h5>${product.price}</h5>
+        `
+          }
+          
+          
         </div>
-      </a>
-      <div class="product__item__text">
-        <h6>${product.name}</h6>
-        <a href="detail?idsp=${product.id} " class="add-cart" data-product-id=${
-        product.id
-      }>+ SEE DETAIL</a>
-        <div class="rating">` +
-      dsStar[k++] +
-      `
-        </div>
-        ${
-          // Xử lý giá sale và price
-          product.sale < product.price
-            ? `
-        <del>${product.price}</del>
-        <h5>${product.sale}</h5>
-      `
-            : `
-        <h5>${product.price}</h5>
-      `
-        }
-        
-        
       </div>
-    </div>
-  </div>`;
-  });
+    </div>`;
+    });
+  }
+
   gdsp.innerHTML = html;
 }
 
@@ -252,7 +252,12 @@ function addToCart(idsp) {
   });
   console.log(selectedSize);
   if (selectedSize == 0) {
-    alert("Can chon size truoc khi dat hang");
+    Swal.fire({
+      position: "top",
+      icon: "error",
+      title: "CẦN CHỌN SIZE TRƯỚC KHI ĐẶT HÀNG",
+      showConfirmButton: true,
+    });
   } else {
     // Get the selected quantity
     let selectedQuantity =
@@ -279,12 +284,22 @@ function addToCart(idsp) {
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          alert(data.error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: data.error,
+          });
         } else if (data.login) {
           onLogin();
         } else {
           document.getElementById("checkout_items").innerHTML = data.soSpTGh;
-          Swal.fire("ADD TO CART!", "ADD TO CART SUCCESS!", "success");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "THÊM SẢN PHẨM THÀNH CÔNG",
+            showConfirmButton: false,
+            timer: 1000,
+          });
         }
       })
       .catch((error) => {
@@ -347,11 +362,13 @@ function giaoDienGioHang(dsgh) {
         <div class="product__cart__item__pic">
             <img src="${HOST_ROOT}/uploads/${sp.image}" alt="">
         </div>
+        <a href="detail?idsp=${sp.idsp}">
         <div class="product__cart__item__text">
             <h6>${sp.tenSp}` +
       " - " +
       sp.tenSize +
       `</h6>
+      </a>
             <h5>${sp.giaSp}</h5>
         </div>
     </td>

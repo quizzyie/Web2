@@ -26,7 +26,7 @@ class ShopModel extends Model {
             $sql = "SELECT SUM(star)/COUNT(id) as sao FROM `reviews` WHERE product_id = ". $sp["id"];
             $star = intval($this->getFirstRaw($sql)["sao"]) ;
             if(empty($star)){
-                $star = 5;
+                $star = 0;
             }
             array_push($dsReview, $star);
         }

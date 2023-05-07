@@ -1,9 +1,12 @@
-<div class="container" style="min-height:80vh; margin:0 auto; min-width:1300px">
+<?php if(!empty($errorPOD)){
+    echo $errorPOD;
+}  ?>
+<div class="container" style="min-height:80vh; margin:0 auto;">
     <h1 style="text-align: center;
     margin: 20px;
 ">Purchase Order</h1>
     <div class="scrolltable">
-        <table class="table align-middle mb-0 bg-white" style="min-height:60vh; width: 100%;">
+        <table class="table align-middle mb-0 bg-white" style=" width: 100%;">
             <thead class="bg-light">
                 <tr>
                     <th class="w-20">Name</th>

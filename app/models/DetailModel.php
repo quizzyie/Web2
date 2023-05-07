@@ -4,7 +4,7 @@ class DetailModel extends Model {
     public $brand = null;
     protected $_table = 'products';
     private $soReviewMT = 3;
-
+    
     function __construct()
     {
         parent::__construct();
@@ -52,7 +52,7 @@ class DetailModel extends Model {
     public function getSoSao($dsReview){
         $tong = 0;
         if(empty($dsReview)){
-            return 5;
+            return 0;
         }
         else{
             for($i=0;$i<count($dsReview);$i++){

@@ -257,12 +257,12 @@
                     ?>
                 </li>
 
-                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/">home</a></li>
-                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/shop">shop</a></li>
-                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/purchase_order">purchase order</a></li>
-                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/">pages</a></li>
-                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/blog">blog</a></li>
-                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/contact">contact</a></li>
+                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/">HOME</a></li>
+                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/shop">SHOP</a></li>
+                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/about">ABOUT</a></li>
+                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/purchase_order">PURCHASE ORDER</a></li>
+
+                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/contact">CONTACT</a></li>
             </ul>
         </div>
     </div>

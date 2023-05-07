@@ -16,6 +16,9 @@ class Detail extends Controller
         } 
     }
     public function index($idsp = null){
+        if(isLoginAdmin()){
+            Response::redirect(_WEB_HOST_ROOT_ADMIN);
+        }
         $this->data["sub_data"]['title'] = "Chi tiet san pham";
         $this->data['content'] = 'blocks/product_detail';
         
@@ -25,14 +28,19 @@ class Detail extends Controller
                 $idsp = $_GET['idsp'];
             }
             else{
+                Session::setSession('errorDetail', 'ID San Pham KHONG TON TAI!');
                 Response::redirect(HOST_ROOT.'/shop');
             }
         }
+        if (!is_numeric($idsp)) {
+            Session::setSession('errorDetail', 'ID SẢN PHẨM KHÔNG THỂ LÀ CHUỖI');
+            Response::redirect(HOST_ROOT.'/shop');
+        }
         
         $sql = "SELECT sizes.name as name,sizes.id as id,products_size.quantity as quantity  FROM `products`
-         INNER JOIN products_size on products_size.id_product = products.id
-          INNER JOIN sizes on sizes.id = products_size.id_size
-           where products.id = ".$idsp;
+        INNER JOIN products_size on products_size.id_product = products.id
+        INNER JOIN sizes on sizes.id = products_size.id_size
+        where products.id = ".$idsp;
         if(!empty($this->__model->getRawModel($sql))){
             $this->data['sub_data']['dsSizes'] = $this->__model->getRawModel($sql);
             $this->data['sub_data']['sp'] = $this->showDetail($idsp);
@@ -51,16 +59,10 @@ class Detail extends Controller
             Session::setSession("user_id_detail",$idsp);
         }
         else{
+            Session::setSession('errorDetail', 'ID San Pham KHONG TON TAI!');
             Response::redirect(HOST_ROOT.'/shop');
         }
         
-        
-        // echo "<pre>";
-        // print_r($this->data["sub_data"]["soSao"]);
-        // echo "</pre>";
-
-        
-  
         
         
     }
@@ -68,7 +70,10 @@ class Detail extends Controller
         if (!is_numeric($idsp)) {
             die('Invalid parameter');
         }
-        $ctsp = $this->__model->getFirstRaw("select * from products where products.id = ".$idsp); 
+        else{
+            $ctsp = $this->__model->getFirstRaw("select * from products where products.id = ".$idsp); 
+        }
+        
         
         return $ctsp;
     }
@@ -78,7 +83,15 @@ class Detail extends Controller
         return $dsImg;
     }
     public function sanPhamLienQuan($idsp,$idLoai,$idThuongHieu){
-        $sql = "SELECT * FROM `products` WHERE ( id_category = $idLoai OR id_brand = $idThuongHieu) and id != $idsp  group BY id limit 0,4";
+        $sql = "SELECT products.*, ROUND(IFNULL(SUM(reviews.star)/COUNT(reviews.product_id), 0), 0) as sao
+        FROM `products`
+        LEFT JOIN reviews ON reviews.product_id = products.id
+        WHERE (products.id_category = 1 OR products.id_brand = 1) 
+        AND products.id != 2
+        AND products.status = 1  
+        GROUP BY products.id 
+        ORDER BY products.create_at DESC
+        LIMIT 0,4";
         $dssp = $this->__model->getRawModel($sql);
         return $dssp;
     }

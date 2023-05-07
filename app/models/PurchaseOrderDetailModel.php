@@ -25,6 +25,16 @@ class PurchaseOrderDetailModel extends Model{
         $dsCtdh = $this->getRawModel($sql);
         return $dsCtdh;
     }
+    function ktCTHD($idUser,$idHD){
+        $sql = "SELECT * FROM `bill_detail` INNER JOIN bill on bill.id=bill_detail.bill_id WHERE bill.user_id = $idUser and bill.id = $idHD";
+        $kt = $this->getRawModel($sql);
+        if(!empty($kt)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
 
 
