@@ -174,9 +174,14 @@ alert(<?php echo $error  ?>)
                                     <?php }  ?>
 
                                 </div>
+
                             </a>
+
                             <div class="product__item__text">
-                                <h6><?php echo $sp['name'] ?></h6>
+                                <h6>
+                                    <?php echo $sp['name'] ?><br>
+                                    <?php echo "So Luong Da Ban: ".$dsSlgBan[$i] ?>
+                                </h6>
                                 <a href="detail?idsp=<?php echo $sp['id'] ?>"
                                     data-product-id="<?php echo $sp['id'] ?>">+ SEE DETAIL</a>
                                 <div class="rating">
@@ -190,16 +195,17 @@ alert(<?php echo $error  ?>)
                                     <?php $i++ ?>
 
                                 </div>
-                                <div class="product-price">
-                                    <?php if ($sp['sale'] < $sp['price']) {  ?>
-                                    <del class="del-product"><?php echo $sp['price'] ?></del>
 
-                                    <span>
-                                        <h5> <?php echo $sp['sale'] ?></h5>
-                                    </span>
-                                    <?php } else {   ?>
-                                    <h5>$<?php echo $sp['sale'] ?></h5>
-                                    <?php } ?>
+                                <div class="product-price">
+                                    <?php if( $sp["price"] -  $sp["sale"] == 0 ){?>
+                                    <h5>$<?php echo $sp["price"]  ?></h5>
+                                    <?php   }else{ ?>
+                                    <div style="display: flex;">
+                                        <del class="del-product">$<?php echo $sp["price"]  ?></del>
+                                        <h5>$<?php echo $sp["sale"]  ?></h5>
+                                    </div>
+
+                                    <?php   } ?>
                                 </div>
                             </div>
                         </div>

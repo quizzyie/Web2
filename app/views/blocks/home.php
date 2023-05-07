@@ -1,4 +1,5 @@
 <!-- Hero Section Begin -->
+<?php  if(!empty($advertises)){?>
 <section class="hero">
     <div class="hero__slider owl-carousel">
         <?php for($i = 0;$i<count($advertises["title"]);$i++){  ?>
@@ -26,6 +27,8 @@
         <?php  } ?>
     </div>
 </section>
+<?php }  ?>
+
 <!-- Hero Section End -->
 
 

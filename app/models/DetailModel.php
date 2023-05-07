@@ -49,18 +49,13 @@ class DetailModel extends Model {
         $thuongHieu = $this->getFirstRaw($sql);
         return $thuongHieu;
     }
-    public function getSoSao($dsReview){
-        $tong = 0;
-        if(empty($dsReview)){
-            return 0;
+    public function getSoSao($idsp){
+        $sql = "SELECT ROUND(IFNULL(AVG(star), 0), 0) as sao FROM `reviews` WHERE product_id = $idsp";
+        $star = intval($this->getFirstRaw($sql)["sao"]) ;
+        if(empty($star)){
+            $star = 0;
         }
-        else{
-            for($i=0;$i<count($dsReview);$i++){
-                $tong += $dsReview[$i]["star"];
-            }
-            return intval($tong/count($dsReview)) ;
-        }
-        
+        return $star;
     }
     public function getSoLuong($idsp,$idSize = null){
         if(empty($idSize)){

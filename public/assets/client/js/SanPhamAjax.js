@@ -75,7 +75,7 @@ function printRadioSize(dsSizes) {
   return html;
 }
 
-function giaoDienSanPham(products, dsStar) {
+function giaoDienSanPham(products, dsStar, dsSlgBan) {
   var html = "";
   let k = 0;
   if (products.length == 0) {
@@ -99,29 +99,40 @@ function giaoDienSanPham(products, dsStar) {
           
           </div>
         </a>
+        
         <div class="product__item__text">
-          <h6>${product.name}</h6>
-          <a href="detail?idsp=${
-            product.id
-          } " class="add-cart" data-product-id=${product.id}>+ SEE DETAIL</a>
+          <h6>
+            ${product.name} <br>
+            So Luong Da Ban: ` +
+        dsSlgBan[k] +
+        `
+          </h6>
+          <a href="detail?idsp=${product.id} " class="add-cart" data-product-id=${product.id}>+ SEE DETAIL</a>
           <div class="rating">` +
         dsStar[k++] +
         `
           </div>
+          <div class="product-price">
           ${
             // Xử lý giá sale và price
             product.sale < product.price
               ? `
-          <del>${product.price}</del>
-          <h5>${product.sale}</h5>
-        `
+            <div style="display: flex;">
+              <del class="del-product">$${product.price}</del>
+              <h5>$${product.sale}</h5>
+            </div>
+          `
               : `
-          <h5>${product.price}</h5>
-        `
+            <h5>$${product.price}</h5>
+          `
           }
+        </div>
+
           
           
         </div>
+        
+        
       </div>
     </div>`;
     });
@@ -187,10 +198,10 @@ function filter(vtt) {
     .then((response) => response.json())
     .then((data) => {
       var products = data.ds;
-
+      var dsSlgBan = data.dsSlgBan;
       let htmlSao = gdSao(data.dsStar);
 
-      giaoDienSanPham(products, htmlSao); //In ra giao dien San Pham
+      giaoDienSanPham(products, htmlSao, dsSlgBan); //In ra giao dien San Pham
       var trang = data.soTrang;
       var htmlTrang = "";
       for (let i = 1; i <= trang; i++) {
