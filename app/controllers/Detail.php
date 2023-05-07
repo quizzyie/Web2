@@ -53,7 +53,7 @@ class Detail extends Controller
             $this->data["sub_data"]["dsReview"] = $this->__model->getReviews($idsp);
             $this->data["sub_data"]["dsImage"] = $this->__model->getImages($idsp);
             $this->data["sub_data"]["soReview"] = $this->__model->soReviews($idsp)['soReview'];
-            $this->data["sub_data"]["soSao"] = $this->__model->getSoSao($this->data["sub_data"]["dsReview"]);
+            $this->data["sub_data"]["soSao"] = $this->__model->getSoSao($idsp);
             $this->data["sub_data"]["slg"] = $this->__model->getSoLuong($idsp)['slg'];
             $this->renderView('layouts/client_layout',$this->data);
             Session::setSession("user_id_detail",$idsp);
@@ -86,8 +86,8 @@ class Detail extends Controller
         $sql = "SELECT products.*, ROUND(IFNULL(SUM(reviews.star)/COUNT(reviews.product_id), 0), 0) as sao
         FROM `products`
         LEFT JOIN reviews ON reviews.product_id = products.id
-        WHERE (products.id_category = 1 OR products.id_brand = 1) 
-        AND products.id != 2
+        WHERE (products.id_category = $idLoai OR products.id_brand = $idThuongHieu) 
+        AND products.id != $idsp
         AND products.status = 1  
         GROUP BY products.id 
         ORDER BY products.create_at DESC
