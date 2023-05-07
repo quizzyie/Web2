@@ -149,7 +149,7 @@
                             </div>
                             <div class="tab_text_block">
                                 <h2><?php echo $sp["name"] ?></h2>
-                                <p><?php echo $sp["description"] ?></p>
+                                <p><?php echo html_entity_decode($sp["description"]) ?></p>
                             </div>
                         </div>
                         <div class="col-lg-5 offset-lg-2 desc_col">

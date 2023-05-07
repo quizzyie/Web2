@@ -178,7 +178,7 @@
                         </div>
                         <nav class="navbar">
                             <ul class="navbar_menu">
-                                <li><a href="<?php echo HOST_ROOT ?>/">home page</a></li>
+                                <li><a href="<?php echo HOST_ROOT ?>/">home</a></li>
                                 <li><a href="<?php echo HOST_ROOT ?>/shop">shop</a></li>
                                 <li><a href="<?php echo HOST_ROOT ?>/about">about</a></li>
                                 <li><a href="<?php echo HOST_ROOT ?>/purchase_order">purchase order</a></li>

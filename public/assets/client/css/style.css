@@ -1,3 +1,73 @@
+/* Them thong bao khong tim thay san pham */
+.shopee-search-empty-result-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 6.25rem 0 7.5rem;
+  width: 100%;
+}
+
+.shopee-search-empty-result-section__icon {
+  width: 8.375rem;
+}
+
+.shopee-search-empty-result-section__title {
+  margin: 0.9375rem 0 0.625rem;
+  color: rgba(0,0,0,.87);
+  font-size: 1.125rem;
+}
+
+.shopee-search-empty-result-section__hint {
+  font-size: 1.125rem;
+  color: rgba(0,0,0,.54);
+}
+
+/* Thong báo khong co danh gia */
+.product-ratings-comments-view__no-data {
+  height: 25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.product-ratings-comments-view__no-data__icon {
+  width: 6.25rem;
+  height: 5.625rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.product-ratings-comments-view__no-data__text {
+  margin-top: 1.25rem;
+  font-size: 1rem;
+  color: rgba(0,0,0,.8);
+}
+
+/* search shop */
+#search{
+  width: 100%;
+    font-size: 15px;
+    color: black;
+    padding-left: 20px;
+    border: 1px solid black;
+    height: 42px;
+}
+
+#btn-search-shop {
+  color: black;
+    font-size: 15px;
+    border: none;
+    background: transparent;
+    position: absolute;
+    right: 0;
+    padding: 0 15px;
+    top: 0;
+    height: 100%;
+} 
+
+
 .scrolltable {
   max-height: 60vh;
   overflow-y: auto;
@@ -2609,7 +2679,7 @@ ol {
 a:not([href]):not([tabindex]):focus,
 a:not([href]):not([tabindex]):hover {
   cursor: pointer;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 .continue__btn a {
   color: #111111;
@@ -2620,6 +2690,10 @@ a:not([href]):not([tabindex]):hover {
   border: 1px solid #e1e1e1;
   padding: 14px 35px;
   display: inline-block;
+}
+
+.continue__btn a:hover{
+  background-color: #ccc;
 }
 
 .cart__discount {

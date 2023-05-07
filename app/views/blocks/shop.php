@@ -22,21 +22,9 @@ alert(<?php echo $error  ?>)
                     <div class="shop__sidebar__search">
 
                         <div style="position:relative;">
-                            <input id="search" type="text" placeholder="Search..." style="width: 100%;
-    font-size: 15px;
-    color: black;
-    padding-left: 20px;
-    border: 1px solid black;
-    height: 42px;">
-                            <button onclick="filter(event)" type="button" style="color: black;
-    font-size: 15px;
-    border: none;
-    background: transparent;
-    position: absolute;
-    right: 0;
-    padding: 0 15px;
-    top: 0;
-    height: 100%;"><span class="icon_search"></span></button>
+                            <input id="search" type="text" placeholder="Search...">
+                            <button id="btn-search-shop" onclick="filter(event)" type="button"><span
+                                    class="icon_search"></span></button>
                         </div>
 
                     </div>
@@ -53,9 +41,9 @@ alert(<?php echo $error  ?>)
                                             <?php foreach ($dsCategories as $l) : ?>
 
                                             <input id="loai<?php echo $l['id'] ?>" type="checkbox" name="categories"
-                                                value="<?php echo $l['id'] ?>">
+                                                value="<?php echo $l['id'] ?>" />
                                             <label for="loai<?php echo $l['id'] ?>"><?php echo $l['name'] ?></label>
-                                            <br>
+                                            <br />
                                             <?php endforeach ?>
 
                                         </div>
@@ -71,9 +59,9 @@ alert(<?php echo $error  ?>)
                                         <div id="BrandList" class="shop__sidebar__brand">
                                             <?php foreach($dsBrands as $th): ?>
                                             <input id="brand<?php  echo $th['id'] ?>" type="checkbox" name="brands"
-                                                value="<?php echo $th['id'] ?>">
+                                                value="<?php echo $th['id'] ?>" />
                                             <label for="brand<?php echo $th['id'] ?>"><?php echo $th['name'] ?></label>
-                                            <br>
+                                            <br />
                                             <?php endforeach ?>
                                         </div>
                                     </div>
@@ -91,11 +79,11 @@ alert(<?php echo $error  ?>)
 
                                             <div class="field">
 
-                                                <input type="number" class="input-min" value="0">
+                                                <input type="number" class="input-min" value="0" />
                                             </div>
                                             <div class="separator"></div>
                                             <div class="field">
-                                                <input type="number" class="input-max" value="10000">
+                                                <input type="number" class="input-max" value="10000" />
                                             </div>
                                         </div>
                                     </div>
@@ -103,9 +91,10 @@ alert(<?php echo $error  ?>)
                                         <div class="progress"></div>
                                     </div>
                                     <div class="range-input">
-                                        <input type="range" class="range-min" min="0" max="10000" value="0" step="100">
+                                        <input type="range" class="range-min" min="0" max="10000" value="0"
+                                            step="100" />
                                         <input type="range" class="range-max" min="0" max="10000" value="10000"
-                                            step="100">
+                                            step="100" />
                                     </div>
                                 </div>
                             </div>
@@ -118,7 +107,7 @@ alert(<?php echo $error  ?>)
                                         <div id="SizeList" class="shop__sidebar__size">
                                             <?php foreach ($dsSizes as $s) : ?>
                                             <label class="lblSize"><?php echo $s['name'] ?>
-                                                <input type="checkbox" name="sizes" value="<?php echo $s['id'] ?>">
+                                                <input type="checkbox" name="sizes" value="<?php echo $s['id'] ?>" />
                                             </label>
                                             <?php endforeach ?>
                                         </div>
@@ -231,8 +220,6 @@ alert(<?php echo $error  ?>)
         </div>
     </div>
 </section>
-<!-- Shop Section End -->
-<!-- Shop Section End -->
 <script>
 
 </script>

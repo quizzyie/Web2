@@ -18,7 +18,7 @@
             </tr>
             <tr>
                 <td><b>Mô tả : </b></td>
-                <td><?php echo $product_detail['description'] ?></td>
+                <td><?php echo html_entity_decode($product_detail['description']) ?></td>
             </tr>
             <tr>
                 <td><b>Giá : </b></td>
