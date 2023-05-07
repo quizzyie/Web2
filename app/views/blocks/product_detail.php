@@ -302,7 +302,15 @@
                             <?php } ?>
                             <?php }  ?>
                         </div>
-                        <h5>$67.24</h5>
+                        <?php if( $sp["price"] -  $sp["sale"] == 0 ){?>
+                        <h5>$<?php echo $sp["price"]  ?></h5>
+                        <?php   }else{ ?>
+                        <div style="display: flex;">
+                            <del class="del-product">$<?php echo $sp["price"]  ?></del>
+                            <h5>$<?php echo $sp["sale"]  ?></h5>
+                        </div>
+
+                        <?php   } ?>
                     </div>
                 </div>
 

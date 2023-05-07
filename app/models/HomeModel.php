@@ -44,37 +44,52 @@ class HomeModel extends Model {
     public function bestSeller(){
         $sql = "SELECT products.*, 
         SUM(bill_detail.quantity) AS slm, 
-        ROUND(IFNULL(SUM(reviews.star)/COUNT(reviews.product_id), 0), 0) as sao
-      FROM `bill_detail`
-      INNER JOIN products ON products.id = bill_detail.product_id
-      LEFT JOIN reviews ON reviews.product_id = products.id
-      WHERE products.status = 1
-      GROUP BY bill_detail.product_id
-      ORDER BY slm DESC
-      LIMIT 0, 8";
+        ROUND(IFNULL(sao_tb, 0), 0) AS sao
+        FROM `bill_detail`
+        INNER JOIN products ON products.id = bill_detail.product_id
+        LEFT JOIN (
+        SELECT product_id, AVG(star) AS sao_tb 
+        FROM reviews 
+        GROUP BY product_id
+        ) AS rv ON rv.product_id = products.id
+        WHERE products.status = 1
+        GROUP BY bill_detail.product_id
+        ORDER BY slm DESC
+        LIMIT 0, 8
+        ";
         return $this->getRawModel($sql);
     }
     public function newArrivals(){
-        $sql = "SELECT products.*,SUM(bill_detail.quantity) as slm, Round(SUM(star)/COUNT(reviews.product_id),0) as sao
-        FROM `bill_detail` 
-        INNER JOIN products on products.id = bill_detail.product_id 
-        LEFT JOIN reviews on reviews.product_id = products.id
-        WHERE products.status = 1 
+        $sql = "SELECT products.*, SUM(bill_detail.quantity) AS slm, ROUND(IFNULL(sao_tb, 0), 0) AS sao
+        FROM `bill_detail`
+        INNER JOIN products ON products.id = bill_detail.product_id
+        LEFT JOIN (
+          SELECT product_id, AVG(star) AS sao_tb 
+          FROM reviews 
+          GROUP BY product_id
+        ) AS rv ON rv.product_id = products.id
+        WHERE products.status = 1
         GROUP BY bill_detail.product_id 
-        ORDER BY products.create_at DESC,slm DESC 
-        limit 0,4";
+        ORDER BY products.create_at DESC, slm DESC
+        LIMIT 0, 4
+        ";
         return $this->getRawModel($sql);
     }
     
     public function bestSales(){
-        $sql = "SELECT products.*,SUM(bill_detail.quantity) as slm,(products.price - products.sale) as gg, Round(SUM(star)/COUNT(reviews.product_id),0) as sao
-        FROM `bill_detail` 
-        INNER JOIN products on products.id = bill_detail.product_id 
-        LEFT JOIN reviews on reviews.product_id = products.id
-        WHERE products.status = 1 
+        $sql = "SELECT products.*, SUM(bill_detail.quantity) AS slm, (products.price - products.sale) AS gg, ROUND(IFNULL(sao_tb, 0), 0) AS sao
+        FROM `bill_detail`
+        INNER JOIN products ON products.id = bill_detail.product_id
+        LEFT JOIN (
+          SELECT product_id, AVG(star) AS sao_tb 
+          FROM reviews 
+          GROUP BY product_id
+        ) AS rv ON rv.product_id = products.id
+        WHERE products.status = 1
         GROUP BY bill_detail.product_id 
-        ORDER BY gg DESC,slm DESC 
-        limit 0,4";
+        ORDER BY gg DESC, slm DESC
+        LIMIT 0, 4
+        ";
         return $this->getRawModel($sql);
     }
     

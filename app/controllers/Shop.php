@@ -22,7 +22,7 @@ class Shop extends Controller
         $this->data['sub_data']['dsBrands'] = $this->__model->getRawModel("select * from brands");
         $this->data['sub_data']['dsSizes'] = $this->__model->getRawModel("select * from sizes");
         $this->data["sub_data"]["delivery"] = $this->__model->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_delivery'");
-
+        
         $this->data["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"],true) ;
         if(isLogin()){
             $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
@@ -44,8 +44,9 @@ class Shop extends Controller
         $this->data['sub_data']['dsProducts'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where status = 1 and quantity > 0 and products.name like '%%' GROUP BY products.id ORDER BY sale ASC limit $vtt,".$this->slgSPMT);
         $this->data['sub_data']['dsProductsFull'] = $this->__model->getRawModel("select * from products inner join products_size on  id = id_product where status = 1 and quantity > 0 and products.name like '%%' GROUP BY products.id ");
         $this->data['sub_data']['soTrang'] = $this->tongSoTrang($this->data['sub_data']['dsProductsFull']);
-        $this->data['sub_data']['dsStar'] = $this->__model->getStars    ($this->data['sub_data']['dsProducts']);
+        $this->data['sub_data']['dsStar'] = $this->__model->getStars($this->data['sub_data']['dsProducts']);
         $this->data['sub_data']['tongSp'] = count($this->data['sub_data']['dsProductsFull']);
+        $this->data["sub_data"]["dsSlgBan"] = $this->__model->getSlgBan($this->data['sub_data']['dsProducts']);
         // echo "<pre>";
         // print_r($this->data['sub_data']['dsProductsFull']);
         // echo "</pre>";
@@ -94,6 +95,7 @@ class Shop extends Controller
             $ds = $this->__model->getRawModel($this->sql."limit $viTri,".$this->slgSPMT);
             $soTrang = $this->tongSoTrang($dsspFull);//Lay So Trang
             $dsStar = $this->__model->getStars($ds);
+            $dsSlgBan = $this->__model->getSlgBan($ds);
             $data = array(
                 'ds' => $ds,
                 'soTrang' => $soTrang,
@@ -101,6 +103,7 @@ class Shop extends Controller
                 'dsSize'=>$this->data['sub_data']['dsSizes'],
                 'tongsp'=>count($dsspFull),
                 'dsStar'=>$dsStar,
+                'dsSlgBan'=>$dsSlgBan,
             );
             $data = json_encode($data);
             echo $data;
@@ -119,6 +122,5 @@ class Shop extends Controller
         $data['content'] = 'blocks/product_detail';
         $this->renderView('layouts/client_layout',$data);
     }
-    
     
 }
