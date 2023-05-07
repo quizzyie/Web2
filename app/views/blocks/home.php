@@ -69,11 +69,14 @@
                     <a href="detail?idsp=<?php echo $sp['id'] ?>" data-product-id="<?php echo $sp['id'] ?>">+ SEE
                         DETAIL</a>
                     <div class="rating">
+                        <?php 
+                            for ($j = 1; $j <= 5; $j++) { ?>
+                        <?php if ($j <= $sp['sao']) { ?>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <?php } else { ?>
                         <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
+                        <?php } ?>
+                        <?php }  ?>
                     </div>
                     <?php if( $sp["price"] -  $sp["sale"] == 0 ){?>
                     <h5>$<?php echo $sp["price"]  ?></h5>

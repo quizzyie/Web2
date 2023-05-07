@@ -31,11 +31,14 @@
                             foreach($dsgh as $sp): ?>
                             <tr class="ghsp">
                                 <td class="product__cart__item">
+
                                     <div class="product__cart__item__pic">
                                         <img src="<?php echo HOST_ROOT ?>/uploads/<?php  echo $sp['image'] ?>" alt="">
                                     </div>
                                     <div class="product__cart__item__text">
-                                        <h6><?php echo $sp['tenSp']." - ".$sp['tenSize'] ?></h6>
+                                        <a href="detail?idsp=<?php echo $sp['idsp'] ?>">
+                                            <h6><?php echo $sp['tenSp']." - ".$sp['tenSize'] ?></h6>
+                                        </a>
                                         <h5>$<?php echo $sp['giaSp'] ?></h5>
                                     </div>
                                 </td>
@@ -44,7 +47,8 @@
                                         <div class="pro-qty-2">
                                             <span onclick="giamSlgMua(event)"
                                                 class="fa fa-angle-left giam qtybtn "></span>
-                                            <input class="slg" disabled="disabled" type="text" value="<?php echo $sp['slm'] ?>">
+                                            <input class="slg" disabled="disabled" type="text"
+                                                value="<?php echo $sp['slm'] ?>">
                                             <input class="giaSp" type="hidden" value="<?php echo $sp['giaSp'] ?>">
                                             <span onclick="tangSlgMua(event, <?php echo $sp['slgSp'] ?>)"
                                                 class="fa fa-angle-right tang qtybtn"></span>

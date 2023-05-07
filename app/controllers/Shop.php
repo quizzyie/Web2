@@ -33,6 +33,10 @@ class Shop extends Controller
         if(isLoginAdmin()){
             Response::redirect(_WEB_HOST_ROOT_ADMIN);
         }
+        if(Session::getSession("errorDetail")){
+            $this->data['sub_data']['error'] = Session::getSession("errorDetail");
+            Session::removeSession("errorDetail");
+        }
         $this->data['sub_data']['title'] = "Cửa hàng";
         $this->data['content'] = 'blocks/shop';
         
