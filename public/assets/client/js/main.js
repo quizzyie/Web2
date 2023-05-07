@@ -64,11 +64,17 @@ rangeInput.forEach((input) => {
     filter(0);
   });
 });
+const navbar = document.querySelectorAll(".navbar_menu li a");
 
-// sizeCustom.addEventListener("click", function () {
-//   alert("123");
-//   sizeCustom.classList.add("active");
-// });
+navbar.forEach((item) => {
+  item.addEventListener("click", (event) => {
+    navbar.forEach((item) => {
+      item.classList.remove("active");
+    });
+    item.classList.add("active");
+  });
+});
+
 ("use strict");
 
 (function ($) {

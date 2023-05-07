@@ -1165,18 +1165,17 @@ ol {
   font-weight: 700;
   font-size: 22px;
 }
-.product__item__text .price
-{
+.product__item__text .price {
   display: flex;
   align-items: baseline;
 }
 
 .product__item__text .del-product {
   margin-right: 10px;
-    font-size: 1.1rem;
-    text-decoration: line-through;
-    color: #929292;
-    margin-right: 10px;
+  font-size: 1.1rem;
+  text-decoration: line-through;
+  color: #929292;
+  margin-right: 10px;
 }
 
 .product__item__text .product__color__select {
@@ -1944,6 +1943,9 @@ ol {
   margin-right: 20px;
 }
 .navbar_menu li a:hover {
+  color: #fe4c50;
+}
+.navbar_menu li a.active {
   color: #fe4c50;
 }
 
