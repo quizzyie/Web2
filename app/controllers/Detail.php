@@ -25,11 +25,12 @@ class Detail extends Controller
                 $idsp = $_GET['idsp'];
             }
             else{
+                Session::setSession('errorDetail', 'ID San Pham KHONG TON TAI!');
                 Response::redirect(HOST_ROOT.'/shop');
             }
         }
         if (!is_numeric($idsp)) {
-        //     $this->data['sub_data']['error'] ="ID SẢN PHẨM KHÔNG THỂ LÀ CHUỖI";
+            Session::setSession('errorDetail', 'ID SẢN PHẨM KHÔNG THỂ LÀ CHUỖI');
             Response::redirect(HOST_ROOT.'/shop');
         }
         
@@ -55,19 +56,10 @@ class Detail extends Controller
             Session::setSession("user_id_detail",$idsp);
         }
         else{
+            Session::setSession('errorDetail', 'ID San Pham KHONG TON TAI!');
             Response::redirect(HOST_ROOT.'/shop');
         }
         
-        
-        
-        
-        
-        // echo "<pre>";
-        // print_r($this->data["sub_data"]["soSao"]);
-        // echo "</pre>";
-
-        
-  
         
         
     }
@@ -88,7 +80,15 @@ class Detail extends Controller
         return $dsImg;
     }
     public function sanPhamLienQuan($idsp,$idLoai,$idThuongHieu){
-        $sql = "SELECT * FROM `products` WHERE ( id_category = $idLoai OR id_brand = $idThuongHieu) and id != $idsp  group BY id limit 0,4";
+        $sql = "SELECT products.*, ROUND(IFNULL(SUM(reviews.star)/COUNT(reviews.product_id), 0), 0) as sao
+        FROM `products`
+        LEFT JOIN reviews ON reviews.product_id = products.id
+        WHERE (products.id_category = 1 OR products.id_brand = 1) 
+        AND products.id != 2
+        AND products.status = 1  
+        GROUP BY products.id 
+        ORDER BY products.create_at DESC
+        LIMIT 0,4";
         $dssp = $this->__model->getRawModel($sql);
         return $dssp;
     }

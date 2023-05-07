@@ -19,11 +19,15 @@ class Purchase_Order_Detail extends Controller{
                     $idHD = $_GET['idhd'];
                 }
                 else{
+                    Session::setSession('errorPOD', 'ID HÓA ĐƠN KHÔNG THỂ RỖNG');
+
                     Response::redirect(HOST_ROOT.'/purchase_order');
                 }
             }
             
             if(!is_numeric($idHD)){
+                Session::setSession('errorPOD', 'ID HD KHÔNG THỂ LÀ CHUỖI');
+
                 Response::redirect(HOST_ROOT.'/purchase_order');
             }
             
@@ -35,11 +39,14 @@ class Purchase_Order_Detail extends Controller{
                 $this->renderView('layouts/client_layout',$this->data);
             }
             else{
+                Session::setSession('errorPOD', 'ID HD NÀY KHÔNG PHẢI CỦA BẠN');
                 Response::redirect(HOST_ROOT.'/purchase_order');
             }
             
         }
         else{
+            Session::setSession('errorDetail', 'CẦN ĐĂNG NHẬP ĐỂ XEM CHI TIẾT HÓA ĐƠN');
+
             Response::redirect(HOST_ROOT.'/shop');
         }
     }

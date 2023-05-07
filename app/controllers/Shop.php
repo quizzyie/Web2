@@ -30,6 +30,10 @@ class Shop extends Controller
     }
 
     public function index($vtt = 0){
+        if(Session::getSession("errorDetail")){
+            $this->data['sub_data']['error'] = Session::getSession("errorDetail");
+            Session::removeSession("errorDetail");
+        }
         $this->data['sub_data']['title'] = "Cửa hàng";
         $this->data['content'] = 'blocks/shop';
         

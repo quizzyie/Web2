@@ -12,6 +12,10 @@ class Purchase_Order extends Controller{
         if(isLogin()){
             $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
         }
+        if(Session::getSession("errorPOD")){
+            $this->data['sub_data']['errorPOD'] = Session::getSession("errorPOD");
+            Session::removeSession("errorPOD");
+        }
     }
     public function index(){
         if(isLogin()){
@@ -22,6 +26,8 @@ class Purchase_Order extends Controller{
             $this->renderView('layouts/client_layout',$this->data);
         }
         else{
+            Session::setSession('errorDetail', 'CẦN ĐĂNG NHẬP ĐỂ XEM DANH SÁCH HÓA ĐƠN');
+
             Response::redirect(HOST_ROOT.'/shop');
         }
     }

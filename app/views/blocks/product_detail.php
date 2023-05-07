@@ -293,19 +293,25 @@
                         <h6><?php echo $sp['name'] ?></h6>
                         <a href="detail?idsp=<?php echo $sp['id'] ?>" class="add-cart">SEE DETAIL</a>
                         <div class="rating">
+                            <?php 
+                            for ($j = 1; $j <= 5; $j++) { ?>
+                            <?php if ($j <= $sp['sao']) { ?>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <?php } else { ?>
                             <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
+                            <?php } ?>
+                            <?php }  ?>
                         </div>
                         <h5>$67.24</h5>
                     </div>
                 </div>
-                <?php endforeach ?>
+
 
             </div>
+            <?php endforeach ?>
         </div>
+    </div>
+
 </section>
 <!-- Related Section End -->
 

@@ -1,3 +1,6 @@
+<?php if(!empty($errorPOD)){
+    echo $errorPOD;
+}  ?>
 <div class="container" style="min-height:80vh; margin:0 auto;">
     <h1 style="text-align: center;
     margin: 20px;

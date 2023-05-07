@@ -5,6 +5,15 @@
 <!-- Breadcrumb Section End -->
 
 <!-- Shop Section Begin -->
+<?php 
+    if(!empty($error)){
+        echo $error;?>
+<script>
+alert(<?php echo $error  ?>)
+</script>
+<?php  }?>
+
+
 <section class="shop spad">
     <div class="container">
         <div class="row">
@@ -147,6 +156,9 @@
                     <?php 
                     
                         $i = 0;
+                        if(count($dsProducts)==0){
+                            echo "Khong Co San Pham Nao Ca";
+                        }
                         foreach($dsProducts as $sp): 
                         $linkImage = HOST_ROOT .'/uploads/'.$sp['img'];
                     ?>
