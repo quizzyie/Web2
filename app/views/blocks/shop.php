@@ -7,14 +7,14 @@
 <!-- Shop Section Begin -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  <?php if (!empty($error)) { ?>
+    <?php if (!empty($error)) { ?>
     Swal.fire({
-      position: "top",
-      icon: "error",
-      title: "<?php echo $error; ?>",
-      showConfirmButton: true,
+        position: "center",
+        icon: "error",
+        title: "<?php echo $error; ?>",
+        showConfirmButton: true,
     });
-  <?php } ?>
+    <?php } ?>
 });
 </script>
 
