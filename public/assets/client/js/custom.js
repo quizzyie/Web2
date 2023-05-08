@@ -528,7 +528,7 @@ const sendMessage = async (event) => {
             showErr.classList.remove('hidden');
             Swal.fire({
                 position: 'center',
-                icon: "error",
+                icon: "success",
                 title: jsonData['msg'],
                 showConfirmButton: false,
                 timer: 1500

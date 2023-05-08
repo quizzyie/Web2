@@ -56,20 +56,16 @@ class Bill extends Controller
             Response::redirect('admin/bill/');
             return;
         }
-        if (isLoginAdmin()) {
-            if (empty($this->__model->getFirstData("id = $id"))) {
-                Session::setFlashData('msg', 'Không tồn tại trạng thái!');
-                Response::redirect('admin/bill/');
-            } else {
-                $data['sub_data']['order_status'] = $this->__model->getRawModel("select * from order_status");
-                $data['title'] = "Cập nhập trạng thái";
-                $data['content'] = 'admin/bill/update';
-                $data['sub_data']['dataForm'] = $this->__model->getFirstData("id = $id");
-                $this->renderView('admin/layouts/admin_layout', $data);
-                Session::setSession('bill_update_id', $id);
-            }
+        if (empty($this->__model->getFirstData("id = $id"))) {
+            Session::setFlashData('msg', 'Không tồn tại hóa đơn!');
+            Response::redirect('admin/bill/');
         } else {
-            Response::redirect('admin/auth/login');
+            $data['sub_data']['order_status'] = $this->__model->getRawModel("select * from order_status");
+            $data['title'] = "Cập nhập trạng thái";
+            $data['content'] = 'admin/bill/update';
+            $data['sub_data']['dataForm'] = $this->__model->getFirstData("id = $id");
+            $this->renderView('admin/layouts/admin_layout', $data);
+            Session::setSession('bill_update_id', $id);
         }
     }
 
@@ -110,7 +106,7 @@ class Bill extends Controller
                 $order_status = $this->__model->getFirstRaw("select * from bill where id = " . $data['id'])['id_order_status'];
                 $cart = $this->__model->getRawModel("select * from bill_detail where 
                 bill_id = " . $data['id']);
-                if ($data['id_order_status'] == 4 and $order_status != 4) {
+                if (($data['id_order_status'] == 4 and $order_status != 4)||($data['id_order_status'] != 4 and $order_status == 4)) {
                     foreach ($cart as $key => $value) {
                         if (!empty($value)) {
                             $product_id = $value['product_id'];
@@ -118,8 +114,12 @@ class Bill extends Controller
                             $product = $this->__model->getFirstRaw("select * from products_size where id_product = $product_id and id_size = $size_id");
                             $dataUpdateQuantity = [];
                             if (!empty($product['quantity']) && !empty($value['quantity'])) {
+                                $quantityUpdate = $product['quantity'] + $value['quantity'];
+                                if($data['id_order_status'] != 4 and $order_status == 4){
+                                    $quantityUpdate = $product['quantity'] - $value['quantity'];
+                                }
                                 $dataUpdateQuantity = [
-                                    'quantity' => $product['quantity'] + $value['quantity'],
+                                    'quantity' => $quantityUpdate,
                                     'update_at' => date('Y-m-d H:i:s')
                                 ];
                             }

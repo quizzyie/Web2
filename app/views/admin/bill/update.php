@@ -2,8 +2,14 @@
     <?php empty($msg) ? false : getMsg($msg, 'danger') ?>
     <form method="POST" action="<?php echo _WEB_HOST_ROOT_ADMIN . '/bill/post_update' ?>">
         <div class="form-group">
-            <label for="">Trạng thái</label>
-            <select class="form-control" name="id_order_status">
+            <?php 
+            if($dataForm['id_order_status'] != 6){
+                echo "<label for=''>Trạng thái</label>";
+            }
+            ?>
+
+            <select class="form-control" name="id_order_status"
+                style="display: <?php echo $dataForm['id_order_status'] == 6 ? 'none' : 'block' ?>;">
                 <option value="0">Chọn trạng thái</option>
                 <?php
                 foreach ($order_status as $key => $value) {

@@ -1642,6 +1642,8 @@ ol {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 4px;
+  border: 1px solid black;
 }
 
 .product__pagination a.active {
