@@ -25,7 +25,9 @@ class PurchaseOrderModel extends Model
         INNER JOIN bill_detail on bill.id = bill_detail.bill_id 
         INNER JOIN order_status ON bill.id_order_status = order_status.id 
         WHERE user_id = $idUser 
-        GROUP BY bill.id";
+        GROUP BY bill.id 
+        ORDER BY dateOrder DESC
+        ";
         
         $dsHD = $this->getRawModel($sql);
         return $dsHD;
