@@ -38,7 +38,8 @@ class ShopModel extends Model {
             $sql="SELECT SUM(quantity) as slgBan
             FROM `bill_detail` 
             INNER JOIN products on products.id = product_id 
-            WHERE products.status = 1 and product_id =  ".$sp["id"];
+            INNER JOIN bill on bill.id = bill_detail.bill_id 
+            WHERE products.status = 1 and product_id =  ".$sp["id"]." and bill.id_order_status != 4";
             $slg = $this->getFirstRaw($sql)["slgBan"];
             if(empty($slg)){
                 $slg = 0;

@@ -5,13 +5,19 @@
 <!-- Breadcrumb Section End -->
 
 <!-- Shop Section Begin -->
-<?php 
-    if(!empty($error)){
-        echo $error;?>
 <script>
-alert(<?php echo $error  ?>)
+document.addEventListener("DOMContentLoaded", function() {
+  <?php if (!empty($error)) { ?>
+    Swal.fire({
+      position: "top",
+      icon: "error",
+      title: "<?php echo $error; ?>",
+      showConfirmButton: true,
+    });
+  <?php } ?>
+});
 </script>
-<?php  }?>
+
 
 
 <section class="shop spad">

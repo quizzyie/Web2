@@ -256,7 +256,7 @@ function addToCart(idsp) {
       selectedSize = radio.value;
     }
   });
-  console.log(selectedSize);
+
   if (selectedSize == 0) {
     Swal.fire({
       position: "top",
