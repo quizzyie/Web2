@@ -25,6 +25,13 @@ class CheckOut extends Controller{
 
                 Response::redirect(HOST_ROOT.'/cart');
             }
+            $dscb = $this->__model->canhBaoQuaSlg($user_id);
+            if(!empty($dscb)){
+                Response::redirect(HOST_ROOT.'/cart');
+            }
+            // echo "<pre>";
+            // print_r($dscb);
+            // echo "</pre>";
             $this->data["sub_data"]['title'] = "Chi tiet san pham";
             $this->data['content'] = 'blocks/checkout';
             $this->data['sub_data']['user'] = $this->__model->getThongTin($user_id);
@@ -32,6 +39,7 @@ class CheckOut extends Controller{
             $this->renderView('layouts/client_layout',$this->data);
         }
         else{
+            Session::setSession('errorDetail', 'CẦN ĐĂNG NHẬP ĐỂ XEM TRANG THANH TOÁN');
             Response::redirect(HOST_ROOT.'/shop');
         }
         
@@ -45,6 +53,8 @@ class CheckOut extends Controller{
             $note = $_POST["note"];
             $id_order_status = 1;
             $currentDateTime = date('Y-m-d H:i:s');
+            
+            $dscb = $this->__model->canhBaoQuaSlg($user_id);
             
             $sqlBill = "INSERT INTO `bill`( `user_id`, `resipient_name`, `resipient_phonenumber`, `delivery_address`, `note`, `id_order_status`, `create_at`) 
             VALUES ($user_id,'$fullName','$phone','$address','$note',$id_order_status,'$currentDateTime')";

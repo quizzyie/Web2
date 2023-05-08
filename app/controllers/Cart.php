@@ -23,9 +23,14 @@
                 $idUser = isLogin()['user_id'];
                 $this->data['sub_data']['dsgh'] = $this->__model->xemGioHang($idUser);
                 $this->data['sub_data']['tongTien'] = $this->__model->tongTien($idUser);
+                $this->data['sub_data']['dscb'] = $this->__model->canhBaoSp($this->data['sub_data']['dsgh'] );
+                // echo "<pre>";
+                // print_r( $this->data['sub_data']['dscb']);
+                // echo "</pre>";
                 $this->renderView('layouts/client_layout',$this->data);
             }
             else{
+                Session::setSession('errorDetail', 'CẦN ĐĂNG NHẬP ĐỂ XEM TRANG GIỎ HÀNG');
                 Response::redirect(HOST_ROOT.'/shop');
             }
             
@@ -106,7 +111,7 @@
             if(Session::getSession('login_token')){
                 $user_id = isLogin()['user_id'];
                 $result = $this->__model->getRawModel("select products.name as tensp,sizes.name,products.sale,amount,sum(amount) as tsl,cart.product_id,sizes.id as idSize from cart inner join  products on cart.product_id = products.id INNER JOIN sizes on size_id=sizes.id where cart.user_id = ".$user_id." group by cart.product_id,size_id ");
-                
+                $result = $this->__model->xoaSanPhamQuaSLG($result);
                 return $result;
             }
             else {

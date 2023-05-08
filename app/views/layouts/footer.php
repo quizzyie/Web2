@@ -2,6 +2,7 @@
 <footer class="footer">
     <div class="container">
         <div class="row">
+            <?php if(!empty($footer["des_1"])){ ?>
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer__about">
                     <div class="footer__logo">
@@ -11,6 +12,8 @@
                     <p><?php echo $footer["des_1"] ?></p>
                 </div>
             </div>
+            <?php }  ?>
+            <?php  ?>
             <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
                 <div class="footer__widget">
                     <?php if(!empty($footer["title_2"])){  ?>
@@ -26,6 +29,8 @@
                     <?php  } ?>
                 </div>
             </div>
+            <?php  ?>
+            <?php  ?>
             <div class="col-lg-2 col-md-3 col-sm-6">
                 <div class="footer__widget">
                     <?php  if(!empty($footer["title_3"])){ ?>
@@ -41,6 +46,8 @@
                     <?php  } ?>
                 </div>
             </div>
+            <?php  ?>
+            <?php  ?>
             <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
                 <div class="footer__widget">
                     <?php if(!empty($footer["title_4"])){  ?>
@@ -61,15 +68,16 @@
                     </div>
                 </div>
             </div>
+            <?php  ?>
         </div>
         <?php  if(!empty($footer["copy_right"])){ ?>
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="footer__copyright__text">
-                 
+
                     <p><?php echo $footer["copy_right"]  ?>
                     </p>
-                  
+
                 </div>
             </div>
         </div>
