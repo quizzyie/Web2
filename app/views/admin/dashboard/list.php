@@ -37,7 +37,7 @@ if(isPermission('dashboard','view')){
             <!-- ./col -->
             <div class="col-lg-3 col-6">
                 <!-- small box -->
-                <div class="small-box bg-warning">
+                <div class="small-box bg-warning" style="color: white !important">
                     <div class="inner">
                         <h3 class="new_users">44</h3>
 

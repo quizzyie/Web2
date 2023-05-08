@@ -825,3 +825,9 @@ async function onCheckout(event) {
 }
 
 
+function clickCartLogout(event) {
+    event.preventDefault();
+    onFormLogin();
+}
+
+
