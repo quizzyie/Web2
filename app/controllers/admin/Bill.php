@@ -268,6 +268,9 @@ class Bill extends Controller
             <td>$total</td>
             <td>$status</td>
             <td>$create_at</td>
+            
+            <td>$fromDate</td>
+            <td>$toDate</td>
             <td><a href='$linkDetail' class=\"btn btn-primary btn-sm\">Chi tiết</a></td>
             <td><a href='$linkUpdate' class=\"btn btn-warning btn-sm\"><i class=\"fa fa-edit\"></i> Sửa</a></td>
             </tr>
