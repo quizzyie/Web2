@@ -40,7 +40,7 @@ class Detail extends Controller
         $sql = "SELECT sizes.name as name,sizes.id as id,products_size.quantity as quantity  FROM `products`
         INNER JOIN products_size on products_size.id_product = products.id
         INNER JOIN sizes on sizes.id = products_size.id_size
-        where products.id = ".$idsp;
+        where products.id = $idsp and status = 1";
         if(!empty($this->__model->getRawModel($sql))){
             $this->data['sub_data']['dsSizes'] = $this->__model->getRawModel($sql);
             $this->data['sub_data']['sp'] = $this->showDetail($idsp);
@@ -71,7 +71,7 @@ class Detail extends Controller
             die('Invalid parameter');
         }
         else{
-            $ctsp = $this->__model->getFirstRaw("select * from products where products.id = ".$idsp); 
+            $ctsp = $this->__model->getFirstRaw("select * from products where products.id = $idsp and status = 1"); 
         }
         
         

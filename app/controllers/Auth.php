@@ -370,6 +370,13 @@ class Auth extends Controller
                 Session::setFlashData('msg_type', "danger");
                 $this->__dataForm['content'] = 'admin/users/change_password_client';
                 $this->__dataForm['title'] = "Thay đổi mật khẩu";
+                $this->__dataForm['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+                $this->__dataForm["sub_data"]["delivery"] = $this->__model->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_delivery'");
+            
+                $this->__dataForm["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"],true) ;
+                if(isLogin()){
+                $this->__dataForm['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+                }
                 $this->renderView('layouts/client_layout', $this->__dataForm);
             } else {
                 $dataUpdate = [
@@ -387,9 +394,10 @@ class Auth extends Controller
                 Response::redirect('auth/change_password');
             }
         } else {
-            Response::redirect();
+            Response::redirect(HOST_ROOT.'/auth/change_password');
             Session::setFlashData('msg', 'Truy cập không hợp lệ!');
         }
+
     }
 
 
@@ -451,6 +459,15 @@ class Auth extends Controller
                 $this->__dataForm['sub_data']['group_list'] = $this->__model->getRawModel("select * from groups");
                 $this->__dataForm['content'] = 'admin/users/user_info_client';
                 $this->__dataForm['title'] = "Thông tin người dùng";
+
+                $this->__dataForm['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+                $this->__dataForm["sub_data"]["delivery"] = $this->__model->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_delivery'");
+            
+                $this->__dataForm["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"],true) ;
+                if(isLogin()){
+                $this->__dataForm['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+                }
+
                 $this->renderView('layouts/client_layout', $this->__dataForm);
             } else {
                 $dataUpdate = [
@@ -470,7 +487,7 @@ class Auth extends Controller
                 Response::redirect('auth/user_info');
             }
         } else {
-            Response::redirect();
+            Response::redirect(HOST_ROOT.'/auth/user_info');
             Session::setFlashData('msg', 'Truy cập không hợp lệ!');
         }
     }

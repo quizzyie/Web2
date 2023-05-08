@@ -185,15 +185,23 @@
                                 <li><a href="<?php echo HOST_ROOT ?>/contact">contact</a></li>
                             </ul>
                             <ul class="navbar_user">
-                                <li><a><i class="fa fa-search search-switch" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                <!-- <li><a><i class="fa fa-search search-switch" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li> -->
                                 <li class="checkout">
                                     <?php if(isLogin()){ ?>
                                     <a href="<?php echo HOST_ROOT ?>/cart">
                                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                         <span id="checkout_items" class="checkout_items"><?php echo $soSpGh  ?></span>
                                     </a>
-                                    <?php } ?>
+                                    <?php } 
+                                    else {
+                                        $link = HOST_ROOT.'/cart';
+                                        echo "<a class='cart-logout' onclick='clickCartLogout(event)' ><i class='fa fa-shopping-cart' aria-hidden='true'></i>
+                                        <span id='checkout_items' class='checkout_items'>0</span>
+                                        </a>";
+
+                                    }
+                                    ?>
                                 </li>
                             </ul>
                             <div class="hamburger_container">
@@ -260,7 +268,8 @@
                 <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/">HOME</a></li>
                 <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/shop">SHOP</a></li>
                 <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/about">ABOUT</a></li>
-                <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/purchase_order">PURCHASE ORDER</a></li>
+                <li class='menu_item'><a href='<?php echo HOST_ROOT ?>/purchase_order'>PURCHASE ORDER</a></li>
+
 
                 <li class="menu_item"><a href="<?php echo HOST_ROOT ?>/contact">CONTACT</a></li>
             </ul>

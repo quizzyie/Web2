@@ -82,6 +82,7 @@ class Contact extends Controller
 
             $status = $this->__model->addTableData('contacts',$dataInsert);
             if($status){
+                $check = true;
                 $msg = "Gửi lời nhắn thành công";
             }else{
                 $msg = "Hệ thống lỗi vui lòng thử lại";

@@ -100,32 +100,30 @@ function giaoDienSanPham(products, dsStar, dsSlgBan) {
         </a>
         
         <div class="product__item__text">
-<h6>
-            ${product.name} <br>
-            So Luong Da Ban: ` +
+        <h6>
+        ${product.name} <br>
+        So Luong Da Ban: ` +
         dsSlgBan[k] +
         `
-          </h6>
-          <a href="detail?idsp=${product.id} " class="add-cart" data-product-id=${product.id}>+ SEE DETAIL</a>
+      </h6>
+      <a href="detail?idsp=${product.id} " class="add-cart" data-product-id=${product.id}>+ SEE DETAIL</a>
           <div class="rating">` +
         dsStar[k++] +
         `
           </div>
           <div class="product-price">
-          ${
-// Xử lý giá sale và price
-            product.sale < product.price
-              ? `
-            <div style="display: flex;">
-              <del class="del-product">$${product.price}</del>
-              <h5>$${product.sale}</h5>
-            </div>
-          `
-              : `
-            <h5>$${product.price}</h5>
-          `
-          }
-        </div>
+          ${product.sale < product.price
+          ? `
+          <div style="display: flex;">
+            <del class="del-product">$${product.price}</del>
+            <h5>$${product.sale}</h5>
+          </div>
+        `
+          : `
+          <h5>$${product.price}</h5>
+        `
+        }
+      </div>
           
           
         </div>

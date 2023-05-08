@@ -631,6 +631,10 @@ class Products extends Controller
         if (!empty($condition)) {
             $condition = " having $condition";
         }
+        $sql = "SELECT * FROM products LEFT JOIN (SELECT id_product,SUM(quantity) AS con_hang FROM products_size GROUP BY id_product) AS temp 
+        ON products.id = temp.id_product LEFT JOIN (SELECT product_id,SUM(quantity) AS da_ban FROM bill_detail,bill where bill.id = bill_detail.bill_id $conditionBill
+        and bill.id_order_status <> 4 GROUP BY product_id) AS temp2
+        ON products.id = temp2.product_id $condition order by $sortBy create_at desc  limit $indexPage,$per_page";
 
         $products = $this->__model->getRawModel("SELECT * FROM products LEFT JOIN (SELECT id_product,SUM(quantity) AS con_hang FROM products_size GROUP BY id_product) AS temp 
         ON products.id = temp.id_product LEFT JOIN (SELECT product_id,SUM(quantity) AS da_ban FROM bill_detail,bill where bill.id = bill_detail.bill_id $conditionBill
@@ -679,6 +683,7 @@ class Products extends Controller
             <td>$da_ban</td>
             <td>$so_luong</td>
             <td>$create_at</td>
+            <td>$sql</td>
             <td>
             ";
             $i++;

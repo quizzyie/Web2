@@ -528,7 +528,7 @@ const sendMessage = async (event) => {
             showErr.classList.remove('hidden');
             Swal.fire({
                 position: 'center',
-                icon: "error",
+                icon: "success",
                 title: jsonData['msg'],
                 showConfirmButton: false,
                 timer: 1500
@@ -822,6 +822,12 @@ async function onCheckout(event) {
         showErr.classList.remove('hidden');
         showErr.textContent = "Vui lòng kiểm tra lại dữ liệu!";
     }
+}
+
+
+function clickCartLogout(event) {
+    event.preventDefault();
+    onFormLogin();
 }
 
 

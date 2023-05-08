@@ -46,7 +46,7 @@
                     <td>$<?php echo $hd["tongBill"] ?>
                     </td>
                     <td style="display:flex;">
-                        <?php if($hd["ttDH"]==1||$hd["ttDH"]==2){  ?>
+                        <?php if($hd["ttDH"]==1||$hd["ttDH"]==2||$hd["ttDH"]==3){  ?>
                         <button onclick="huyDonHang(event)" type="button" class="btn btn-primary"
                             style="margin-right:12px">Hủy đơn hàng</button>
                         <?php } ?>

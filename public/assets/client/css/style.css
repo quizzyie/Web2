@@ -1641,11 +1641,13 @@ ol {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 4px;
+  border: 1px solid black;
 }
 
 .product__pagination a.active {
   border-color: #111111;
-  background-color: #fe4c50;
+  background-color: blue;
   color: #fff;
   opacity: 0.7;
 }
