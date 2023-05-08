@@ -31,6 +31,7 @@ class CartModel extends Model{
                  WHERE user_id = $idUser  and cart.product_id=products_size.id_product and products_size.id_size = sizes.id
                  GROUP BY product_id,size_id;";
         $dssp = $this->getRawModel($sql);
+        // $result = $this->xoaSanPhamQuaSLG($dssp);
         return $dssp;
     }
     public function tongTien($idUser){
@@ -79,6 +80,41 @@ class CartModel extends Model{
         return true;//false laf update
     }
     
+    public function xoaSanPhamQuaSLG($dsSp){
+        foreach ($dsSp as $key => $sp) {
+            $sql = "SELECT quantity FROM `products_size` WHERE id_product = ".$sp['idsp']." and id_size = ".$sp['idSize'];
+            $slg = $this->getFirstRaw($sql)['quantity'];
+            if($slg < 1){
+                unset($dsSp[$key]);
+            }
+        }
+        return $dsSp;
+    }
+    
+    public function canhBaoSp($dsSp){
+        $dscb = array();
+        foreach ($dsSp as $key => $sp) {
+            if($sp['slm'] > $sp['slgSp']){
+                $dscb[] = $sp;
+            }
+        }
+        return $dscb;
+    }
+    
+    // public function xoaSanPham(){
+    //     $result = $this->__model->getRawModel("DELETE FROM `cart` WHERE product_id = ".$data['idsp']." AND size_id = ".$data["idSize"]." AND user_id = $user_id");
+    //             if ($result === false) {
+    //                 $error = $this->__model->getError();
+    //                 $return = [$error];
+    //                 // handle the error
+    //             } else {
+    //                 $dssp = $this->__model->xemGioHang($user_id);
+    //                 $tt = $this->__model->tongTien($user_id);
+    //                 $soSpTGh=count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
+
+    //                 $return = ["dsgh"=>$dssp,"tt"=>$tt,"soSpTGh"=>$soSpTGh];
+    //             }
+    // }
     
 }
 

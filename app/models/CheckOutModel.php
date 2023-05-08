@@ -64,4 +64,30 @@ class CheckOutModel extends Model {
         $this->getFirstRaw($sql);
     }
     
+    public function canhBaoQuaSlg($idUser){
+        $dssp = $this->xemGioHang($idUser);
+        $dscb = array();
+        foreach ($dssp as $key => $sp) {
+            $sql = "SELECT quantity FROM `products_size` WHERE id_product = ".$sp['idsp']." and id_size = ".$sp['idSize'];
+            $slg = $this->getFirstRaw($sql)['quantity'];
+            
+            if( $sp['slm'] > $sp['slgSp']){
+                $dscb[] = $key;
+            }
+        }
+        return $dscb;
+    }
+    function xemGioHang($idUser){
+        
+        $sql = "SELECT products_size.quantity as slgSp,sum(amount) as slm, products.name as tenSp, products.sale as giaSp,
+                 sizes.name as tenSize,cart.product_id as idsp,cart.size_id as idSize,products.img as image
+                  FROM `cart` INNER join products on cart.product_id=products.id INNER JOIN products_size on  
+                 products_size.id_size = cart.size_id INNER JOIN sizes on sizes.id=cart.size_id 
+                 WHERE user_id = $idUser  and cart.product_id=products_size.id_product and products_size.id_size = sizes.id
+                 GROUP BY product_id,size_id;";
+        $dssp = $this->getRawModel($sql);
+        // $result = $this->xoaSanPhamQuaSLG($dssp);
+        return $dssp;
+    }
+    
 }

@@ -1,5 +1,29 @@
 <!-- Shopping Cart Section Begin -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    <?php 
+    $error = "";
+    if (!empty($dscb)) {
+      foreach ($dscb as $key=>$cb ) {
+        $t = $cb['tenSp']." - ".$cb['idSize']." Khong Du Hang\n";
+        $t = str_replace("\n", "<br>", $t); // replace "\n" with "<br>"
+        $error .= $t;
+      }
+    }    
+    if (!empty($error)) { 
+  ?>
+    Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "<?php echo $error; ?>",
+        showConfirmButton: true,
+    });
+    <?php } ?>
+});
+</script>
+
 <section class="shopping-cart spad">
+
     <div class="container">
         <?php 
             if(!empty(Session::getSession('msg'))){
