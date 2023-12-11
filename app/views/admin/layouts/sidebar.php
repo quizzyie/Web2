@@ -305,36 +305,7 @@
                 ?>
 
 
-                <?php
-                if (isPermission('reviews', 'update') || isPermission('reviews', 'delete')) {
-                ?>
-                <li class="nav-item has-treeview <?php echo getActiveSidebar('reviews') ? 'menu-open' : false ?>">
-                    <a href="#" class="nav-link <?php echo getActiveSidebar('reviews') ? 'active' : false ?>">
-                        <i class="nav-icon fas fa-comments"></i>
-                        <p>
-                            <p>Quản lý chủng loại<span class="badge badge-danger"></span></p>
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/cato' ?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Thể loại </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?php echo _WEB_HOST_ROOT_ADMIN . '/cato' ?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Chủng loại</p>
-                            </a>
-                        </li>
-                    </ul>
 
-                </li>
-                <?php
-                }
-                ?>
 
 
 
