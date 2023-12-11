@@ -1,4 +1,5 @@
 # Đồ án Web 2
+# Trang web bán quần áo (Mô hình MVC)
 
 ## Ngôn ngữ và Kỹ năng
 
@@ -19,9 +20,7 @@ Dưới đây là một số ngôn ngữ lập trình và kỹ năng mà chúng 
 - **Công cụ và Kỹ năng khác:**
   - Git
   - Ckfinder/Ckeditor
-
-# Tên Dự Án
-  - Xây dựng trang web bán quần áo (Mô hình MVC)
+  - PHPMailer
 
 ## Tính Năng Chính
   - Quản lý tài khoản (Đăng nhập, đăng kí, quên mật khẩu)
@@ -32,5 +31,9 @@ Dưới đây là một số ngôn ngữ lập trình và kỹ năng mà chúng 
 ## Hướng Dẫn Cài Đặt
 1. Clone repository: `git clone https://github.com/tienhai488/Web2.git` 
 2. Khởi tạo database: do_an_web (import file database/do_an_web.sql)
+3. Thay đổi cấu hình database: configs/database.php
+4. Thay đổi cấu hình email trang web: configs/Functions.php (function sendMail)
+  - $mail->Username   = 'example@gmail.com';      
+  - $mail->Password   = 'password';  
 
 
