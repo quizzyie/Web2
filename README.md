@@ -2,7 +2,7 @@
 
 ## Ngôn ngữ và Kỹ năng
 
-Dưới đây là một số ngôn ngữ lập trình và kỹ năng mà tôi đã dùng để phát triển dự án:
+Dưới đây là một số ngôn ngữ lập trình và kỹ năng mà chúng tôi đã dùng để phát triển dự án:
 
 - **Front-end:**
   - HTML
@@ -21,7 +21,7 @@ Dưới đây là một số ngôn ngữ lập trình và kỹ năng mà tôi đ
   - Ckfinder/Ckeditor
 
 # Tên Dự Án
-  - Quản lý trang web bán quần áo  
+  - Xây dựng trang web bán quần áo (Mô hình MVC)
 
 ## Tính Năng Chính
   - Quản lý tài khoản (Đăng nhập, đăng kí, quên mật khẩu)
