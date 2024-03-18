@@ -3,45 +3,45 @@ class Detail extends Controller
 {
     public $__model, $__request, $__dataForm;
     private $data = [];
-    
+
     public function __construct()
     {
         $this->__model = $this->model("DetailModel");
         $this->__request = new Request();
         $this->data["sub_data"]["delivery"] = $this->__model->getFirstRaw("SELECT * FROM `options` WHERE opt_key = 'general_delivery'");
 
-        $this->data["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"],true) ;
-        if(isLogin()){
-            $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = ".isLogin()['user_id'] ." group by product_id,size_id"));
-        } 
+        $this->data["sub_data"]["footer"] = json_decode($this->__model->getFooter()["opt_value"], true);
+        if (isLogin()) {
+            $this->data['sub_data']['soSpGh'] = count($this->__model->getRawModel("select * from cart where user_id = " . isLogin()['user_id'] . " group by product_id,size_id"));
+        }
     }
-    public function index($idsp = null){
-        if(isLoginAdmin()){
+    public function index($idsp = null)
+    {
+        if (isLoginAdmin()) {
             Response::redirect(_WEB_HOST_ROOT_ADMIN);
         }
         $this->data["sub_data"]['title'] = "Chi tiet san pham";
         $this->data['content'] = 'blocks/product_detail';
-        
-        
-        if(empty($idsp)){
-            if(!empty($_GET["idsp"])){
+
+
+        if (empty($idsp)) {
+            if (!empty($_GET["idsp"])) {
                 $idsp = $_GET['idsp'];
-            }
-            else{
+            } else {
                 Session::setSession('errorDetail', 'ID San Pham KHONG TON TAI!');
-                Response::redirect(HOST_ROOT.'/shop');
+                Response::redirect(HOST_ROOT . '/shop');
             }
         }
         if (!is_numeric($idsp)) {
             Session::setSession('errorDetail', 'ID SẢN PHẨM KHÔNG THỂ LÀ CHUỖI');
-            Response::redirect(HOST_ROOT.'/shop');
+            Response::redirect(HOST_ROOT . '/shop');
         }
-        
+
         $sql = "SELECT sizes.name as name,sizes.id as id,products_size.quantity as quantity  FROM `products`
         INNER JOIN products_size on products_size.id_product = products.id
         INNER JOIN sizes on sizes.id = products_size.id_size
         where products.id = $idsp and status = 1";
-        if(!empty($this->__model->getRawModel($sql))){
+        if (!empty($this->__model->getRawModel($sql))) {
             $this->data['sub_data']['dsSizes'] = $this->__model->getRawModel($sql);
             $this->data['sub_data']['sp'] = $this->showDetail($idsp);
             $this->data['sub_data']['images'] = $this->showImg($idsp);
@@ -49,40 +49,38 @@ class Detail extends Controller
             $idBrand = $this->data['sub_data']['sp']['id_brand'];
             $this->data["sub_data"]["loai"] = $this->__model->getCategory($idCategory);
             $this->data["sub_data"]["thuongHieu"] = $this->__model->getBrand($idBrand);
-            $this->data["sub_data"]["dssplq"] = $this->sanPhamLienQuan($idsp,$idCategory,$idBrand);
+            $this->data["sub_data"]["dssplq"] = $this->sanPhamLienQuan($idsp, $idCategory, $idBrand);
             $this->data["sub_data"]["dsReview"] = $this->__model->getReviews($idsp);
             $this->data["sub_data"]["dsImage"] = $this->__model->getImages($idsp);
             $this->data["sub_data"]["soReview"] = $this->__model->soReviews($idsp)['soReview'];
             $this->data["sub_data"]["soSao"] = $this->__model->getSoSao($idsp);
             $this->data["sub_data"]["slg"] = $this->__model->getSoLuong($idsp)['slg'];
-            $this->renderView('layouts/client_layout',$this->data);
-            Session::setSession("user_id_detail",$idsp);
-        }
-        else{
+            $this->renderView('layouts/client_layout', $this->data);
+            Session::setSession("user_id_detail", $idsp);
+        } else {
             Session::setSession('errorDetail', 'ID San Pham KHONG TON TAI!');
-            Response::redirect(HOST_ROOT.'/shop');
+            Response::redirect(HOST_ROOT . '/shop');
         }
-        
-        
-        
     }
-    public function showDetail($idsp){
+    public function showDetail($idsp)
+    {
         if (!is_numeric($idsp)) {
             die('Invalid parameter');
+        } else {
+            $ctsp = $this->__model->getFirstRaw("select * from products where products.id = $idsp and status = 1");
         }
-        else{
-            $ctsp = $this->__model->getFirstRaw("select * from products where products.id = $idsp and status = 1"); 
-        }
-        
-        
+
+
         return $ctsp;
     }
-    public function showImg($idsp){
-        $dsImg = $this->__model->getRawModel("select * from images where id_product = ".$idsp); 
-        
+    public function showImg($idsp)
+    {
+        $dsImg = $this->__model->getRawModel("select * from images where id_product = " . $idsp);
+
         return $dsImg;
     }
-    public function sanPhamLienQuan($idsp,$idLoai,$idThuongHieu){
+    public function sanPhamLienQuan($idsp, $idLoai, $idThuongHieu)
+    {
         $sql = "SELECT products.*, ROUND(IFNULL(SUM(reviews.star)/COUNT(reviews.product_id), 0), 0) as sao
         FROM `products`
         LEFT JOIN reviews ON reviews.product_id = products.id
@@ -95,25 +93,27 @@ class Detail extends Controller
         $dssp = $this->__model->getRawModel($sql);
         return $dssp;
     }
-    public function getSoLuong(){
+    public function getSoLuong()
+    {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $data = json_decode(file_get_contents('php://input'), true);
             $idSize = $data["idSize"];
             $idsp = $data["idsp"];
-            $slg = $this->__model->getSoLuong($idsp,$idSize)["quantity"];
-            $return =["slg"=>$slg];
+            $slg = $this->__model->getSoLuong($idsp, $idSize)["quantity"];
+            $return = ["slg" => $slg];
             $return = json_encode($return);
             echo $return;
         }
     }
-    public function phanTrang($vtt = null,$idsp){
-        if(empty($vtt)){
+    public function phanTrang($vtt, $idsp)
+    {
+        if (empty($vtt)) {
             $vtt = 0;
         }
         $sql = "select * from reviews where product_id = $idsp";
     }
-    public function tongSoTrang($dsReview){
-        
+    public function tongSoTrang($dsReview)
+    {
     }
 
     public function phan_trang()
@@ -140,13 +140,13 @@ class Detail extends Controller
 
             $starList = "";
 
-            for ($j = 1; $j <= 5; $j++) { 
+            for ($j = 1; $j <= 5; $j++) {
                 if ($j <= $star) {
                     $starList .= '<li><i class="fa fa-star" aria-hidden="true"></i></li>';
-                }else{
+                } else {
                     $starList .= '<li><i class="fa fa-star-o" aria-hidden="true"></i></li>';
                 }
-             } 
+            }
 
             $data .= "<div class=\"user_review_container d-flex flex-column flex-sm-row\">
                 <div class=\"user\">
@@ -173,7 +173,7 @@ class Detail extends Controller
         }
 
         if (empty($data)) {
-            $linkImg = HOST_ROOT.'/uploads/khongcodanhgia.png';
+            $linkImg = HOST_ROOT . '/uploads/khongcodanhgia.png';
             $data = "<div class='product-ratings-comments-view__no-data'><div class='product-ratings-comments-view__no-data__icon'><img style='border:0' src='$linkImg' alt='empty-icon'></div><div class='product-ratings-comments-view__no-data__text'>Chưa có đánh giá</div></div>";
         }
 
@@ -185,7 +185,7 @@ class Detail extends Controller
         $page = $_POST['page'];
         $product_id = Session::getSession('user_id_detail');
 
-        $users = $this->__model->getTableData("reviews","status = 2 and product_id = $product_id");
+        $users = $this->__model->getTableData("reviews", "status = 2 and product_id = $product_id");
         $n = count($users);
         $maxpage = ceil($n / 3);
         $data = "";
@@ -199,7 +199,7 @@ class Detail extends Controller
             if ($end > $maxpage) {
                 $end = $maxpage;
             }
-                                    
+
             $data .= "<div id='soTrang' class='product__pagination'>";
             for ($i = $start; $i <= $end; $i++) {
                 $check = $page == $i ? "active" : "";
@@ -211,5 +211,3 @@ class Detail extends Controller
         echo json_encode($data);
     }
 }
-
-?>
