@@ -1,6 +1,29 @@
 <!-- Breadcrumb Section Begin -->
 <style>
+.coupon-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
 
+.coupon {
+    flex: 1 0 21%; /* Or whatever width you want */
+    margin: 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+.coupon img {
+    width: 70px; 
+    height: auto;
+    margin-right: 5px; 
+}
+
+.coupon-info {
+    flex-grow: 1;
+}
 </style>
 <!-- Breadcrumb Section End -->
 
@@ -17,11 +40,45 @@ document.addEventListener("DOMContentLoaded", function() {
     <?php } ?>
 });
 </script>
-
-
-
 <section class="shop spad">
     <div class="container">
+        <?php
+            $coupons = [
+                [
+                    'code' => 'BEFRE',
+                    'discount' => '20,000 đ',
+                    'image' => 'public\assets\client\img\shop-details\coupon.png',
+                ],
+                [
+                    'code' => 'BEFRE',
+                    'discount' => '20,000 đ',
+                    'image' => 'public\assets\client\img\shop-details\coupon.png',
+                ],
+                [
+                    'code' => 'BEFRE',
+                    'discount' => '20,000 đ',
+                    'image' => 'public\assets\client\img\shop-details\coupon.png',
+                ],
+                [
+                    'code' => 'BEFRE',
+                    'discount' => '20,000 đ',
+                    'image' => 'public\assets\client\img\shop-details\coupon.png',
+                ],
+                
+            ];
+
+            echo '<div class="coupon-container">';
+            foreach ($coupons as $coupon) {
+                echo '<div class="coupon">';
+                echo '<img src="' . $coupon['image'] . '" alt="Coupon Image">';
+                echo '<div class="coupon-code">NHẬP MÃ: ' . $coupon['code'] . '</div>';
+                echo '<div class="discount">Giảm giá ' . $coupon['discount'] . '</div>';
+                echo '<button class="copy">Sao chép</button>';
+                echo '<button class="terms">Điều kiện</button>';
+                echo '</div>';
+            }
+            echo '</div>';
+            ?>
         <div class="row">
             <div class="col-lg-3">
                 <div class="shop__sidebar">
@@ -38,9 +95,9 @@ document.addEventListener("DOMContentLoaded", function() {
                         <div class="accordion" id="accordionExample">
                             <div class="card">
                                 <div class="card-heading active">
-                                    <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
+                                    <a data-toggle="collapse" data-target="#collapseOne">Danh mục sản phẩm</a>
                                 </div>
-                                <div id="collapseOne" class="collapse" data-parent="#accordionExample">
+                                <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div id="CategoryList" class="shop__sidebar__categories">
 
@@ -58,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             </div>
                             <div class="card">
                                 <div class="card-heading active">
-                                    <a data-toggle="collapse" data-target="#collapseTwo">Branding</a>
+                                    <a data-toggle="collapse" data-target="#collapseTwo">Thương hiệu</a>
                                 </div>
                                 <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
@@ -75,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             </div>
                             <div class="card">
                                 <div class="card-heading active">
-                                    <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
+                                    <a data-toggle="collapse" data-target="#collapseThree">Dung lượng</a>
                                 </div>
                                 <div id="collapseThree" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">
@@ -106,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             </div>
                             <div class="card">
                                 <div class="card-heading active">
-                                    <a data-toggle="collapse" data-target="#collapseFour">Size</a>
+                                    <a data-toggle="collapse" data-target="#collapseFour">Màu sắc</a>
                                 </div>
                                 <div id="collapseFour" class="collapse" data-parent="#accordionExample">
                                     <div class="card-body">

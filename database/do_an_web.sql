@@ -22,7 +22,8 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-
+CREATE DATABASE IF NOT EXISTS do_an_web;
+USE do_an_web;
 --
 -- Table structure for table `bill`
 --
@@ -186,8 +187,8 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `image`, `create_at`, `update_at`) VALUES
-(1, 'Áo Thun', 'adidas-d2m-3s-gm2135-1.jpg', '2023-03-20 13:30:00', '2023-03-20 13:30:00'),
-(2, 'Áo Hoodie', 'images/sp3/ao-hoodie-lifestyle-nam-adidas-hl6925-1.jpg', '2023-03-20 13:30:00', '2023-03-27 14:59:53'),
+(1, 'Điện thoại', 'adidas-d2m-3s-gm2135-1.jpg', '2023-03-20 13:30:00', '2023-03-20 13:30:00'),
+(2, 'Máy tính bảng', 'images/sp3/ao-hoodie-lifestyle-nam-adidas-hl6925-1.jpg', '2023-03-20 13:30:00', '2023-03-27 14:59:53'),
 (3, 'Áo Sơ Mi', 'images/categories/ao-thun-lifestyle-nam-puma-classics-logo-metallic-534711-01-1.jpg', '2023-03-20 13:30:00', '2023-03-27 15:00:33'),
 (4, 'Áo Polo', 'images/categories/nike-dq1011-824-1.jpg', '2023-03-20 13:30:00', '2023-03-27 15:00:17'),
 (15, 'Áo khoác', 'images/categories/ao-hoodie-lifestyle-nam-adidas-hl6925-1.jpg', '2023-03-29 16:39:38', '2023-03-30 16:30:10');
